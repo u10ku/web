@@ -1,0 +1,785 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>モジュール・システム（SE Gold）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="6a02cace-9b8b-4970-a3ca-fc1d3bf73fd5" class="page sans"><header><h1 class="page-title">モジュール・システム（SE Gold）</h1></header><div class="page-body"><ul id="00ae8a12-6dd9-4292-8438-f9160a341db0" class="toggle"><li><details open=""><summary>モジュールとは</summary><p id="d0343d09-cfab-423a-95b5-e7b9b10837e5" class="">パッケージをグループ化するもの。</p><p id="53c704cc-fad5-4cb0-a442-450e7495cc2c" class="">モジュールシステムを導入することによって以下の効果がある。</p><table id="8c79e940-1043-4df5-8dc2-98e7177609ca" class="simple-table"><thead class="simple-table-header"><tr id="516110dc-1ec7-4ae1-ba3f-143181b94296"><th id="RMcb" class="simple-table-header-color simple-table-header" style="width:341px">概要</th><th id="lV`w" class="simple-table-header-color simple-table-header" style="width:362px">説明</th></tr></thead><tbody><tr id="bd46a4c3-59f7-4c02-a265-7960f9623fe5"><td id="RMcb" class="" style="width:341px">信用性の高い構成</td><td id="lV`w" class="" style="width:362px">コンパイル時と実行時の両方で依存性を認識できる</td></tr><tr id="e355dc8d-5494-4942-a007-3d877f6233a7"><td id="RMcb" class="" style="width:341px">強力なカプセル化</td><td id="lV`w" class="" style="width:362px">これにより攻撃者がアクセスできるクラスが少なくなるので、プラットフォームのセキュリティが向上する</td></tr><tr id="d7674310-4721-4b92-992e-023c09f52031"><td id="RMcb" class="" style="width:341px">スケーラブルなJavaプラットフォーム</td><td id="lV`w" class="" style="width:362px">特定のアプリケーションや対称デバイスに必要なモジュールのみで構成されたJava実行環境（JRE）を作ることが可能</td></tr><tr id="a93bd55c-4d43-4367-8bd1-5d8759e49165"><td id="RMcb" class="" style="width:341px">プラットフォームの整合性向上</td><td id="lV`w" class="" style="width:362px">内部APIが完全にカプセル化されており、必要ないものはアプリケーションに対して非公開にすることができる</td></tr><tr id="fd274f90-bc85-4e3d-9ba8-369fc04b5aae"><td id="RMcb" class="" style="width:341px">パフォーマンスの向上</td><td id="lV`w" class="" style="width:362px">JVMでは、様々な最適化手法を使ってアプリケーションのパフォーマンスを改善しているが、そういった手法は、必要なクラスが特定のモジュール内にしかないことでさらにパフォーマンスが向上する</td></tr></tbody></table><p id="e2d6265f-efa7-4502-b5ac-a1f9ab3180e4" class="">以下は主なモジュール</p><table id="6eb5382c-d418-458a-ae0b-9e3112619454" class="simple-table"><thead class="simple-table-header"><tr id="02a97904-d2b2-404e-a68b-522f41505d3d"><th id="px~E" class="simple-table-header-color simple-table-header">モジュール</th><th id="gZ:D" class="simple-table-header-color simple-table-header" style="width:280px">説明</th><th id="&gt;LmK" class="simple-table-header-color simple-table-header" style="width:261.453125px">含まれている主なパッケージ</th></tr></thead><tbody><tr id="eca8dc24-3126-486d-aa5a-e85bb0dd0a79"><td id="px~E" class="">java.base</td><td id="gZ:D" class="" style="width:280px">Java SE Platformの基盤となるAPIを定義</td><td id="&gt;LmK" class="" style="width:261.453125px">java.lang
+java.text
+java.util</td></tr><tr id="e00b44fc-31ff-40cc-865e-8c6b7f4a9d7c"><td id="px~E" class="">java.desktop</td><td id="gZ:D" class="" style="width:280px">AWTとSwingなどのGUI関連のAPIを定義</td><td id="&gt;LmK" class="" style="width:261.453125px">java.awt
+java.swing</td></tr><tr id="9f3d935f-5129-4d54-8f10-b520a6c34d6e"><td id="px~E" class="">java.spl</td><td id="gZ:D" class="" style="width:280px">JDBC APIを定義</td><td id="&gt;LmK" class="" style="width:261.453125px">java.sql
+javax.sql</td></tr></tbody></table></details></li></ul><p id="d59e6553-d8b9-431e-a296-c95e2eefd3a2" class="">
+</p><ul id="0944b9ed-c6ae-44fe-91b9-60ed620b88ae" class="toggle"><li><details open=""><summary>ディレクトリ構成の例</summary><pre id="61749b52-0600-40d6-aa7c-c7bb0c3940b5" class="code"><code>1-modules // JARファイルを配置するディレクトリ
+ -out // クラスファイルを配置するディレクトリ
+ -src // ソースファイルを配置するディレクトリ
+  -client
+   -app
+    -Mian.java
+   -module-info.java
+   -foo
+    -xlib
+     -Xtesst.java
+    -ylib
+     -YTest.java
+    -module-info.java</code></pre></details></li></ul><p id="dc017253-59cb-4f7b-8e58-8ab99ee0666e" class=""> </p><ul id="cbdfccc1-ddcf-419d-a1c6-e6fdcfdbdba4" class="toggle"><li><details open=""><summary>モジュールの宣言</summary><p id="261b6265-3b64-4d30-98ca-b5b18b24ad65" class="">モジュールの名前、モジュールの依存性などを指定するモジュール記述子と、関連するパッケージ、リソースの集まりがモジュール</p><pre id="93bd9858-f0d2-47fb-b800-ae2545f696d3" class="code"><code>// 構文
+module モジュール名{
+}
+
+// 例
+// module-info.java
+// foo モジュールの宣言
+module foo {
+ exports xlib;
+ requires java.base; // これは全てのモジュールに暗黙的に含まれているため、省略可能
+}</code></pre></details></li></ul><p id="efd861e6-fbd3-4819-b4bf-238f54ffa79e" class="">
+</p><ul id="f90065aa-08e6-477e-a7c5-f1ad4d77525a" class="toggle"><li><details open=""><summary>モジュールをコンパイルする</summary><p id="dd30d376-4bfa-4dce-b72a-e3fab2a0bda3" class="">コンパイルは、javacコマンドにmodule-info.javaを含める形で行う。コンパイルが成功すると、module-info.classファイルが生成される。
+ただしこのファイルはモジュールのルートディレクトリに配置する必要がある。</p><p id="014d52a6-9d0b-4382-9f68-aad9aed1dac9" class="">以下はjava/javacコマンドに関するオプション一覧</p><pre id="006fab3f-f163-4f67-90d0-a0591200d3c2" class="code"><code>\1&gt;javac -d out\foo src\foo\xlib\XTest.java
+\1&gt;javac -d out\foo src\foo\ylib\YTest.java
+\1&gt;javac -d out\foo src\foo\module-info.java // module-info.javaもコンパイルする</code></pre><table id="523362dc-416e-481d-ab53-ac5c750eb87f" class="simple-table"><thead class="simple-table-header"><tr id="d385c112-ea46-4c70-ba13-0cd3f4dc878c"><th id="JDkQ" class="simple-table-header-color simple-table-header" style="width:169px">オプション</th><th id="dARf" class="simple-table-header-color simple-table-header" style="width:376px">説明</th></tr></thead><tbody><tr id="48cf4d53-1720-41a4-a88f-3da9e365b7b8"><td id="JDkQ" class="" style="width:169px">- -module-path (-p)</td><td id="dARf" class="" style="width:376px">アプリケーション・モジュールを検索する位置を指定</td></tr><tr id="94d63488-17b3-4465-9aed-0b2542ab0ec8"><td id="JDkQ" class="" style="width:169px">- -module (-m)</td><td id="dARf" class="" style="width:376px">モジュール名とエントリ・ポイントとなるクラス（mainクラス）を指定</td></tr></tbody></table></details></li></ul><p id="a5a75a63-e687-4b21-ad78-d9210ed6a685" class="">
+</p><ul id="3b1ac16e-7e76-47e1-a038-ebbbb9aa4875" class="toggle"><li><details open=""><summary>モジュールを実行する（クラスファイルで実行）</summary><pre id="a63db9d7-60e9-4ce4-8974-45f7b48d0ed9" class="code"><code>// --module-pathオプションを使用して、モジュールが格納されている場所を指定
+// --moduleオプションを使用してモジュール名と、エントリ・ポイントとなるクラスの完全修飾名を指定する	
+\1&gt;java --module-path out\foo;out\client --module client/app.Main
+Module System!
+XTest::x</code></pre></details></li></ul><p id="f900fbd9-42e2-45bb-bbaa-69e7d2b04750" class="">
+</p><ul id="cbab54ca-043a-4550-9597-561621b9e3a2" class="toggle"><li><details open=""><summary>モジュールを実行する（JARファイルで実行）</summary><pre id="a5b12f9d-8766-4af5-a1b2-0e055715d9cc" class="code"><code>// JARファイルの作成
+// fooモジュールのJARファイル（foo.jar）を作成
+\1&gt;jar -cvf modules\foo.jar -C out\foo 
+マニフェストが追加されました
+module-infoが追加されました：module-info.class
+...(省略)
+
+// clientモジュールのJARファイル（client.jar）を作成
+\1&gt;jar -cvf modules\client.jar -C out\client
+マニフェストが追加されました
+module-infoが追加されました：module-info.class
+...(省略)
+
+// 1\moduleディレクトリ以下に各JARファイルがあることを確認
+\1&gt;cd modules
+\1\modules&gt;dir
+...
+2020/02/14 17:31　1,131 client.jar
+2020/02/14 17:30  1,580 foo.jar
+
+// JARファイルの実行
+\1&gt;java --module-path modules --module client/app.Main
+Module System!
+XTest::x
+\1&gt;java -p modules -m client/app.Main
+Module System!
+XTest::x</code></pre></details></li></ul><p id="86a1a928-0543-486e-9df0-89801fe20056" class="">
+</p><ul id="d23e8ee5-ccf9-481b-b231-e6e770a4d45d" class="toggle"><li><details open=""><summary>間接エクスポート</summary><p id="82d6a61c-f76c-4028-ae0b-9660f34fbe8d" class="">requireにtransitiveを付与すると、間接エクスポートが可能になる</p><pre id="4c2efd9b-f103-4d4b-8ed1-670c0dfd8a4a" class="code"><code>module foo {
+ exports clib;
+ // require xlib;
+ requires transitive bar;
+} </code></pre></details></li></ul><p id="cbfe66ab-c23e-4aa7-a111-c10674a26ed6" class="">
+</p><ul id="fc465911-4450-417d-87c3-069d27ce731b" class="toggle"><li><details open=""><summary>モジュールの種類</summary><ul id="052af8dc-5d30-4f9f-877e-63fab86523eb" class="bulleted-list"><li style="list-style-type:disc">無名モジュール<p id="49a90856-ba6e-4395-9837-6c6a3c76fec1" class="">クラスパス上に存在し、モジュール名を持たない（module-info.class）がないモジュールのこと</p><ul id="73490c01-6a0f-437e-aa11-7268f4285efd" class="bulleted-list"><li style="list-style-type:circle">全てのパッケージをexportsする</li></ul><ul id="a91ec33b-d649-4382-9895-30d67bd8f3f3" class="bulleted-list"><li style="list-style-type:circle">モジュールパス上の全てのモジュールをrequiresする</li></ul><ul id="c5484eb1-55cb-4289-b376-472b0e7a0725" class="bulleted-list"><li style="list-style-type:circle">名前付きモジュールから無名モジュールを参照することはできない</li></ul></li></ul><p id="02db5847-a1a2-413f-b2da-4cec812302ae" class="">
+</p><ul id="66c4971b-de87-4645-8afd-e91a4b57add1" class="bulleted-list"><li style="list-style-type:disc">自動モジュール<p id="082247f1-2cae-47e7-89ff-f13cdc49df4f" class="">モジュールパス上に存在し、モジュール名を持たないモジュールのこと</p><ul id="605c0924-5180-4cf4-8203-94295377b4b0" class="bulleted-list"><li style="list-style-type:circle">全てのパッケージをexportsする</li></ul><ul id="50d47ee5-225e-41a5-982a-a7200a1e9360" class="bulleted-list"><li style="list-style-type:circle">モジュールパス上の全てのモジュールをrequirsする</li></ul><ul id="02f10383-770e-453b-91df-e4977637f106" class="bulleted-list"><li style="list-style-type:circle">名前付きモジュールから自動モジュールの参照が可能</li></ul></li></ul></details></li></ul><p id="7b28ee30-fb65-4dc2-aef7-f70b968eed90" class="">
+</p><ul id="7c57fab8-d43e-42d3-899a-3c293b5df677" class="toggle"><li><details open=""><summary>モジュールの依存性の確認</summary><p id="97a1332b-4637-4162-a303-7ee41f1ef441" class="">javaコマンド使用時のモジュール関連のオプション</p><table id="5de7bd69-b564-47a4-bdea-13547bb20223" class="simple-table"><thead class="simple-table-header"><tr id="cc29eab4-17e8-4b26-bea5-a3b5fff55331"><th id="A&lt;H[" class="simple-table-header-color simple-table-header" style="width:237px">オプション</th><th id="]rpV" class="simple-table-header-color simple-table-header" style="width:462px">説明</th></tr></thead><tbody><tr id="21876833-3f28-450c-a1c4-37ba71e9a4b4"><td id="A&lt;H[" class="" style="width:237px">--describe-module (-d)</td><td id="]rpV" class="" style="width:462px">モジュール記述子の情報を出力</td></tr><tr id="3c80a445-23de-425b-ad3f-d34adec459ba"><td id="A&lt;H[" class="" style="width:237px">--show-module-resolution</td><td id="]rpV" class="" style="width:462px">モジュールの解決の様子を出力</td></tr></tbody></table><p id="704159c4-e300-4685-bde7-097e81f08b3d" class="">jdepsコマンドの主なオプション</p><table id="78ccbf3e-88fa-4fce-ab09-13dcc1031dd1" class="simple-table"><thead class="simple-table-header"><tr id="1b5f3dec-5dbb-48e7-a577-82b6fd38f2f7"><th id="{OHB" class="simple-table-header-color simple-table-header" style="width:239px">オプション</th><th id="?t}d" class="simple-table-header-color simple-table-header" style="width:453px">説明</th></tr></thead><tbody><tr id="24014daa-d840-4c43-a077-6191a0cfce18"><td id="{OHB" class="" style="width:239px">-summary</td><td id="?t}d" class="" style="width:453px">依存関係のサマリーのみを出力</td></tr><tr id="295a589b-1357-49d2-924d-8d62a8f3e20d"><td id="{OHB" class="" style="width:239px">-jdkinternals</td><td id="?t}d" class="" style="width:453px">JDKの内部APIでクラス・レベルの依存関係を検索</td></tr><tr id="5e298819-7275-4a8f-b7b9-c12388c68f48"><td id="{OHB" class="" style="width:239px">-dotoutput</td><td id="?t}d" class="" style="width:453px">DOTファイルの出力先ディレクトリを指定
+&lt;archive-file-name&gt;.dotという名前のファイルと、アーカイブ間の依存関係を一覧表示したsummary.dotという名前のサマリー・ファイルを生成</td></tr></tbody></table><p id="baea9af4-41d1-4b0d-a861-78ba32e95780" class="">DOTファイルは、プレーンテキストを用いてデータ構造を表現するファイルである</p></details></li></ul><p id="63633faf-e188-4488-a69b-233a031400e9" class="">
+</p><ul id="f6fa103f-19a7-4b9f-ad5b-d3ae21511022" class="toggle"><li><details open=""><summary>カスタムランタイム・イメージの作成</summary><p id="fbb9a109-a9c1-4d62-b923-b49e934adbde" class="">JDKには、JREのカスタマイズ・ツールであるjlinkコマンドが提供されている</p><table id="36f61410-93ac-47ac-b4c8-8ef06f765d8c" class="simple-table"><thead class="simple-table-header"><tr id="2065f950-584b-4e05-8bf9-548a2ab0bbbd"><th id="WrJx" class="simple-table-header-color simple-table-header" style="width:284px">オプション</th><th id="Wy|:" class="simple-table-header-color simple-table-header" style="width:404px">説明</th></tr></thead><tbody><tr id="bd909129-9d80-471d-995f-2f6c10e34aa7"><td id="WrJx" class="" style="width:284px">--add-modules</td><td id="Wy|:" class="" style="width:404px">イメージに追加するモジュールを指定</td></tr><tr id="78a1462a-3fa3-437c-a5c4-4996ddaeb7ff"><td id="WrJx" class="" style="width:284px">--module-path (-p)</td><td id="Wy|:" class="" style="width:404px">モジュール・パスを指定</td></tr><tr id="b7ae108b-0d14-41bf-97de-6cf33aceb406"><td id="WrJx" class="" style="width:284px">--compress (-c)</td><td id="Wy|:" class="" style="width:404px">リソースの圧縮を有効化
+0：圧縮無し
+1：定数文字列の共有
+2：ZIP</td></tr><tr id="81be0cde-dd08-4e41-bb2a-f599889c5783"><td id="WrJx" class="" style="width:284px">--launcher command=module
+(--launcher command=module/main)</td><td id="Wy|:" class="" style="width:404px">モジュールのランチャー・コマンド名、またはモジュール及びメイン・クラスのコマンド名</td></tr><tr id="dfe745be-743d-4316-af86-1d1207f68ba7"><td id="WrJx" class="" style="width:284px">--output</td><td id="Wy|:" class="" style="width:404px">出力ディレクトリ</td></tr></tbody></table></details></li></ul><p id="0a16c07b-3b16-40c2-bfe0-b99e9f38d984" class="">
+</p><ul id="83478050-7cd4-4be2-bffe-22ec2fdb00de" class="toggle"><li><details open=""><summary>ServiceLoaderとモジュール・システム</summary><p id="a0760e37-b929-410b-9b61-cff732a43748" class="">指定したインタフェースの実装クラスを動的にロードするための仕組み</p><p id="da153cd9-9c7f-4259-8866-bef3629e42ed" class="">従来は構成ファイルを使用していましたが、代わりにmodule-info.javaで定義する</p><pre id="a0cddc10-02ea-4b30-a331-4cd723e49041" class="code"><code>// サービス提供側のmodule-infoファイル
+module foo {
+ exports xlib;
+// provies ~ withコマンドを使用してサービスプロバイダを指定
+ provides xlib.MyInter with xlib.XTest,xlib.YTest;
+}
+
+// サービス利用側のmodule-infoファイル
+module client {
+ requires foo;
+ uses xlib.MyInter
+
+// サービスインタフェース
+package xlib;
+public interface MyInter {
+ String sayHello();
+}
+
+// サービスインタフェースの実装クラス1
+package xlib;
+public class XTest implements MyInter {
+ @Override
+ public String sayHello() {
+  return &quot;Hello&quot;;
+ }
+}
+
+// サービスインタフェースの実装クラス2
+package xlib;
+public class YTest implements MyInter {
+ @override
+ public String sayHello() {
+  return &quot;こんにちは&quot;;
+ }
+}</code></pre></details></li></ul><p id="d79ca543-9674-492d-8965-d14a7a795db4" class="">
+</p><ul id="d0246092-e1c8-4382-a592-4630e6d57745" class="toggle"><li><details open=""><summary>ボトムアップ移行とダウンアップ移行</summary><p id="2d0a422e-c1f9-40d8-a3d6-acf35e058895" class="">モジュール化されていないアプリケーションをモジュール化する手法</p><p id="a9e48eba-5127-4530-97dd-c3e2d85593db" class="">※詳しくは教科書512Pを参照</p></details></li></ul><p id="760b0f3c-ded6-428d-8168-632d599a39ec" class="">
+</p><p id="fd3a7215-1c3f-4aef-8228-9161b395d9d6" class="">
+</p><p id="fb87e83b-8f2c-438b-b9d3-78d3043a6cab" class="">
+</p></div></article></body></html>

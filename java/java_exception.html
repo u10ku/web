@@ -1,0 +1,818 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>例外処理（SE GOLD）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="6c53255e-3a60-40ad-a4c4-ca99a9d4c360" class="page sans"><header><h1 class="page-title">例外処理（SE GOLD）</h1></header><div class="page-body"><h2 id="375bc60d-c752-420d-a2e2-75749bd5a7cf" class="">例外と例外処理</h2><p id="b9239552-273d-44f4-a135-ef095f7ca812" class="">実行時に発生したエラーを例外と呼ぶ（例外がスローされる）</p><p id="d6081770-97a4-4236-8603-21d5799cb7ac" class="">例外は例外処理を記述しないと強制終了する</p><p id="7b6c2337-aa41-4e83-a3fe-ac9d7fe5fb8c" class="">
+</p><h2 id="f95443f7-070e-4468-9204-b6882c8fc511" class="">例外クラス</h2><ul id="afd69daa-fa97-430d-a45c-c5881488fe00" class="toggle"><li><details open=""><summary>checked例外と<mark class="highlight-red">unchecked例外（実行時例外）</mark></summary><p id="c752b673-bee1-4dc0-bb49-10125121fbd3" class="">checked例外はJava実行環境以外の環境が原因で発生する例外。例外処理が必須。</p><p id="1fc78e83-9fe9-40b5-afa8-96162d4e1cf1" class="">unchecked例外は、実行中のプログラムが原因で発生する例外。例外処理は任意。</p></details></li></ul><p id="5115ca6f-0ef8-4c09-ab3b-e16abb761397" class="">
+</p><ul id="6f92858d-2424-484a-9d8f-364611cf1c38" class="toggle"><li><details open=""><summary>主な例外クラス</summary><table id="822e39db-3bb0-4d5c-bcc9-1ca6b1c54884" class="simple-table"><thead class="simple-table-header"><tr id="765df9dd-e206-44eb-9fa8-6b993ed6332a"><th id="LOlh" class="simple-table-header-color simple-table-header" style="width:216px">カテゴリ</th><th id="?;Xj" class="simple-table-header-color simple-table-header" style="width:260px">クラス名</th><th id="TcvC" class="simple-table-header-color simple-table-header" style="width:447px">説明</th></tr></thead><tbody><tr id="03d63467-94c9-4918-b5a6-6323247b5bf2"><td id="LOlh" class="block-color-brown_background" style="width:216px">Errorのサブクラス
+(unchecked例外)</td><td id="?;Xj" class="block-color-brown_background" style="width:260px">AssertionError</td><td id="TcvC" class="block-color-brown_background" style="width:447px">assert文を使用している際にboolean式でfalseが返ると発生</td></tr><tr id="884c41e6-a62b-43e5-a5e1-7251939db971"><td id="LOlh" class="block-color-brown_background" style="width:216px"></td><td id="?;Xj" class="block-color-brown_background" style="width:260px">StackOverflowError</td><td id="TcvC" class="block-color-brown_background" style="width:447px">アプリケーションでの再帰の回数が多すぎる時に発生</td></tr><tr id="0a9ccbb6-466e-45dd-ad36-44dfe83f9b28"><td id="LOlh" class="block-color-brown_background" style="width:216px"></td><td id="?;Xj" class="block-color-brown_background" style="width:260px">NoClassDefFoundError</td><td id="TcvC" class="block-color-brown_background" style="width:447px">読み込もうとしたクラスファイルが存在しない時に発生</td></tr><tr id="c3ce7b80-0f5e-44fe-96ff-6ce5b44b06a7"><td id="LOlh" class="block-color-orange_background" style="width:216px">RuntimeExceptionのサブクラス
+(unchecked例外)</td><td id="?;Xj" class="block-color-orange_background" style="width:260px">ArrayIndexOutOfBounds</td><td id="TcvC" class="block-color-orange_background" style="width:447px">不正なインデックスで要素にアクセス使用とした時に発生</td></tr><tr id="ea5692a5-e56b-49fa-a6c4-46200c0bf6ff"><td id="LOlh" class="block-color-orange_background" style="width:216px"></td><td id="?;Xj" class="block-color-orange_background" style="width:260px">ArrayStoreException</td><td id="TcvC" class="block-color-orange_background" style="width:447px">不正な方のオブジェクトを配列に格納した時に発生</td></tr><tr id="264ede05-b9cf-49d7-a2b4-25a0a7874763"><td id="LOlh" class="block-color-orange_background" style="width:216px"></td><td id="?;Xj" class="block-color-orange_background" style="width:260px">ClassCastException</td><td id="TcvC" class="block-color-orange_background" style="width:447px">参照変数において間違ったキャストを行った際に発生</td></tr><tr id="a5114cda-0c3c-496b-9032-0f9e67d58401"><td id="LOlh" class="block-color-orange_background" style="width:216px"></td><td id="?;Xj" class="block-color-orange_background" style="width:260px">IllegalStateException</td><td id="TcvC" class="block-color-orange_background" style="width:447px">メソッドの呼び出しが正しくない状態で行われた時に発生</td></tr><tr id="03f05e05-f36b-4079-94e9-c7a4b3daa3e0"><td id="LOlh" class="block-color-orange_background" style="width:216px"></td><td id="?;Xj" class="block-color-orange_background" style="width:260px">DateTimeException</td><td id="TcvC" class="block-color-orange_background" style="width:447px">日付・時間の計算時に誤った処理を行った時に発生</td></tr><tr id="38a6833b-7a55-4dd7-8518-bed26bbf061e"><td id="LOlh" class="block-color-orange_background" style="width:216px"></td><td id="?;Xj" class="block-color-orange_background" style="width:260px">MissingResourceException</td><td id="TcvC" class="block-color-orange_background" style="width:447px">リソースが見つからない時に発生</td></tr><tr id="74fe2f06-72af-4c43-a421-be253df2ed23"><td id="LOlh" class="block-color-orange_background" style="width:216px"></td><td id="?;Xj" class="block-color-orange_background" style="width:260px">ArithmeticException</td><td id="TcvC" class="block-color-orange_background" style="width:447px">整数をゼロで除算した時に発生</td></tr><tr id="563ef27a-01cd-4d12-b94a-031135697c8d"><td id="LOlh" class="block-color-orange_background" style="width:216px"></td><td id="?;Xj" class="block-color-orange_background" style="width:260px">NullPointerException</td><td id="TcvC" class="block-color-orange_background" style="width:447px">nullが代入されている参照変数に対して、メソッド呼び出しを行った時に発生</td></tr><tr id="cd3730a3-cb07-4ad1-8edf-2df602227554"><td id="LOlh" class="block-color-orange_background" style="width:216px"></td><td id="?;Xj" class="block-color-orange_background" style="width:260px">NumberFormatException</td><td id="TcvC" class="block-color-orange_background" style="width:447px">整数を表さない文字列を整数に変換使用とした時に発生</td></tr><tr id="3eca553c-39cb-4d4c-a484-00123588027f"><td id="LOlh" class="block-color-teal_background" style="width:216px">RuntimeException<strong>以外</strong>のExceptionのサブクラス
+(checked例外)</td><td id="?;Xj" class="block-color-teal_background" style="width:260px">IOException</td><td id="TcvC" class="block-color-teal_background" style="width:447px">入出力を行う際に発生</td></tr><tr id="0ae5ca20-b05d-4f72-8011-eb709f89d167"><td id="LOlh" class="block-color-teal_background" style="width:216px"></td><td id="?;Xj" class="block-color-teal_background" style="width:260px">FileNotFoundException</td><td id="TcvC" class="block-color-teal_background" style="width:447px">ファイル入出力において、目的のファイルがなかった時に発生</td></tr><tr id="6af624f5-0552-42cc-8fae-d73f748e1531"><td id="LOlh" class="block-color-teal_background" style="width:216px"></td><td id="?;Xj" class="block-color-teal_background" style="width:260px">ParseException</td><td id="TcvC" class="block-color-teal_background" style="width:447px">解析中に予想外のエラーがあったときに発生</td></tr><tr id="0a893bf6-deab-4767-8f58-ff237e0b65e3"><td id="LOlh" class="block-color-teal_background" style="width:216px"></td><td id="?;Xj" class="block-color-teal_background" style="width:260px">SQLException</td><td id="TcvC" class="block-color-teal_background" style="width:447px">データベース・アクセス時にエラーがあった場合に発生</td></tr></tbody></table></details></li></ul><p id="ec98a712-6957-467e-b092-61c614473bea" class="">
+</p><ul id="d9a3fa39-6862-4c28-b59f-f31352e10dc8" class="toggle"><li><details open=""><summary>独自例外クラスの作成</summary><pre id="622d0e0a-65d8-4ddc-8e64-fc206343dbba" class="code"><code>// 構文
+[修飾子] class クラス名 extends Exception {}</code></pre><p id="e1c89531-0e38-43da-9e5f-f5ad9bd49bf0" class="">Exceptionクラスを継承することで、Exceptionクラス及びそのスーパークラスであるThrowableクラスが提供しているメソッドを引き継ぐことができる。</p><table id="5e3d95a4-e546-4b94-908d-cc2f46860756" class="simple-table"><thead class="simple-table-header"><tr id="131f903d-45aa-432f-82ad-9e1deaafbb71"><th id="lDyE" class="simple-table-header-color simple-table-header" style="width:192px">メソッド名</th><th id="jJbn" class="simple-table-header-color simple-table-header" style="width:359px">説明</th></tr></thead><tbody><tr id="f0872153-4f85-40df-8531-ecfd4c53b979"><th id="lDyE" class="simple-table-header-color simple-table-header" style="width:192px">void printStackTrace()</th><td id="jJbn" class="" style="width:359px">エラートレスを出力する</td></tr><tr id="dd9d3aa1-41dd-41a3-80fb-e5b9eae56c59"><th id="lDyE" class="simple-table-header-color simple-table-header" style="width:192px">String getMessage()</th><td id="jJbn" class="" style="width:359px">エラーメッセージを取得する</td></tr></tbody></table><p id="d157aba6-022c-44f8-828e-0501aa412149" class="">エラートレスとはエラーを追跡し発生箇所を特定するもの</p></details></li></ul><p id="68f8a26c-91b7-4644-b314-24493897954c" class="">
+</p><ul id="f684ef34-6813-4cc9-b43b-9b031e1c4892" class="toggle"><li><details open=""><summary>try-catch-finally</summary><table id="81bb567c-b744-442a-9403-48a932c1c267" class="simple-table"><thead class="simple-table-header"><tr id="4bb9a86e-dea8-47f1-bc65-ee93c3d74506"><th id="L:mg" class="simple-table-header-color simple-table-header">ブロック名</th><th id="^M=t" class="simple-table-header-color simple-table-header" style="width:465px">役割</th></tr></thead><tbody><tr id="7f76f100-5316-4dab-ac63-1cac5a12d78b"><td id="L:mg" class="">tryブロック</td><td id="^M=t" class="" style="width:465px">例外が発生しそうな箇所を囲む</td></tr><tr id="2fd2a905-af93-41bd-80aa-6ba4d51df646"><td id="L:mg" class="">catchブロック</td><td id="^M=t" class="" style="width:465px">例外が発生した時の処理を定義する</td></tr><tr id="343798eb-85a2-48f3-9c09-5636593c7a9e"><td id="L:mg" class="">finallyブロック</td><td id="^M=t" class="" style="width:465px">例外の発生の有無に関わらず実行する処理を定義</td></tr></tbody></table><p id="d3d70622-ea71-45f0-b6b9-436b683f7e8d" class="">例外処理はネストすることができる</p><p id="c16110cb-e750-4001-9a19-4d2f64c089f1" class="">また、try-catchやtry-finally、try-catch-finallyのような組み合わせが可能</p></details></li></ul><p id="e54f1dd7-3b45-46f9-b5e3-363319bb7625" class="">
+</p><ul id="d7dffee4-edbf-486b-91ff-9013e2ae8a70" class="toggle"><li><details open=""><summary>複数のcatchブロックの定義</summary><p id="d35bd2f4-d9fc-4915-a63c-6102bbaae9ab" class="">catchブロックは複数定義することが可能</p><pre id="8025dc58-b5c5-41c7-b937-ee8332abb017" class="code"><code>} catch(例外クラス名 変数名）{
+...
+} catch(例外クラス名 変数名) {}</code></pre><p id="99c7a78d-f162-4b07-a759-8bc26422b5f1" class="">ただし、<mark class="highlight-red">サブクラス側から記述する必要がある</mark></p></details></li></ul><p id="7636fc7f-596c-40f6-9876-a29002f2a23e" class="">
+</p><ul id="78b83b0f-9d0f-4919-9e7b-5844b940250a" class="toggle"><li><details open=""><summary>マルチキャッチ（Java SE 7以降）</summary><p id="3cca18bd-a149-4a1b-9fed-e4e6725a22f7" class="">複数の例外をまとめてキャッチする際は、各例外を縦棒で区切る。</p><p id="f08d6b9e-c123-4f0c-9227-30fa2e01f34c" class="">継承関係のある例外クラスは列記できない。</p><p id="73ee9f90-577d-4558-b9f7-b4262c2926d6" class="">キャッチした参照変数は暗黙的にfinalとなる</p><pre id="d056b457-6d22-448a-b352-63733b79be1b" class="code"><code>// 駄目な例1
+
+try {
+ FileReader rf = new FileReader(&quot;a.txt&quot;);
+ rf.read();
+ } catch(FileNotFoundExpception | IOException e) {
+  e.printStackTrace();
+ }
+
+// 実行結果
+
+Main.java:8 エラー: 複数catch文の代替をサブクラス化によって関連付けることはできません
+  } catch(FileNotFoundExpception | IOException e) {
+                                   ^
+代替FileNotFoundExceptionは代替IOExceptionのサブクラスです。
+エラー1個</code></pre><pre id="700b31ab-8585-4613-bb12-d23c6bc56d35" class="code"><code>// 駄目な例2
+
+try {
+ int a = 10/0;
+ FileReader rf = new FileReader(&quot;a.txt&quot;);
+ rf.read();
+} catch( ArithmeticException | FileNotFoundException e){
+ e =　null; // コンパイルエラー
+} catch( IOException e){
+ e = null;　// 問題無し
+}</code></pre></details></li></ul><p id="2dee6477-1841-4f52-8b81-4d58773de0ac" class="">
+</p><ul id="1194873b-80d8-4a6f-aa74-18f485aca083" class="toggle"><li><details open=""><summary>throws</summary><p id="ab34974f-c2ef-4237-96dc-b996f931f666" class="">例外処理のひとつ。</p><p id="71eaaab8-fd70-41d5-8ef2-8dd19f8f51a6" class="">throwsが指定された例外クラスのオブジェクトはメソッド内で発生した場合、その例外オブジェクトは、メソッドの呼び出し元に転送される。</p><p id="d7730729-75df-4a5e-942c-26ecaecb05a9" class=""><mark class="highlight-red">unchecked例外は例外処理をしなくても呼び出し元に転送される。</mark></p><p id="db219499-339c-4d99-b1ff-192e6da302ba" class="">checked例外は明示的に示す必要がある</p><pre id="6e92c013-7b3a-4e31-95bb-d3f1a8f83a95" class="code"><code>// 構文
+[修飾子] 方の戻り値 メソッド名 (引用リスト) throws 例外クラス名 {}</code></pre><pre id="d1a7fc93-c28f-4be9-924a-4a0c5d55343b" class="code"><code>// 例
+
+public static void main(String[] args) {
+ try {
+  methodA();
+  methodB();
+	} catch(ArrayStoreException | IOException e ) {
+   System.out.println(e);
+  }
+}
+
+static void methodA()  throws ArrayStoreException {
+ // static void methodA(){ // これでも良い
+   thow new ArrayStoreException();
+}
+
+static void methodB() throws IOExceptpiton {
+ // static void meththodB(){ // これはコンパイルエラー
+   thow new IOException();
+}</code></pre></details></li></ul><p id="015b29d0-ccba-47cf-b5ce-68a9bbf38af6" class="">
+</p><ul id="fa1c794e-c311-4a82-ba37-5bd652377741" class="toggle"><li><details open=""><summary>throw</summary><p id="947f8964-5218-4c36-a02d-e2f5206ec58d" class="">例外クラスは明示的にスローすることもできる。</p></details></li></ul><p id="e45f94b1-f47d-4287-8546-eae5dd9c590c" class="">
+</p><ul id="6dc3d43e-6dd4-44ec-a385-7dfe3d170ca8" class="toggle"><li><details open=""><summary>rethrow</summary><p id="19975ad9-84f8-44dd-bed5-b3d8998258ab" class="">スローされた例外をcatchブロックでいったん受け取り、その例外オブジェクトにエラーメッセージを追記したり、異なる例外クラスに変更した後、再度スローすること。</p><pre id="5750e8c6-8fee-48b2-8adf-e497286428cc" class="code"><code>class MyExceptionA extends Expction {
+ MyExceptionA() {super(&quot;MyExceptionA&quot;); }
+}
+
+class MyExceptionB extends Exception {
+ MyExceptionB() {super(&quot;MyExceptionB&quot;);}
+}
+
+public class Main {
+ public static void main(String[] args) {
+  try {
+   method();
+  } catch(MyExceptionA | MyExceptionB e) {
+   System.out.println(e.getMessage());
+  }
+}
+
+public void method() throws MyExceptionA,MyExceptionB {
+ int num = (int)(Math.random() * 10); 
+ try {
+  if(num &lt; 4) {
+   throw new MyExceptionA();
+  }else{
+   throw new MyExceptionB();
+ }
+} catch(Exception e) {
+ // 例外が起きた際の、method()側で行うべき処理を実装
+ // 処理が終わったら、例外をスローする
+ throw e;
+  }
+ }
+}    </code></pre></details></li></ul><p id="c1fdf952-96c1-42e0-adff-bcceef91b250" class="">
+</p><ul id="a80559ac-0220-4b17-a8ec-c7cdef1a4c56" class="toggle"><li><details open=""><summary>オーバーライドの注意点</summary><p id="20fa687b-a6e5-41a3-a39b-0cd918003ac8" class="">throwsキーワードが使用されているメソッドをオーバーライドして定義するメソッドには以下のルールが追加される</p><ul id="f2e15d51-8f20-4d76-abaa-16a67b8f1c4f" class="bulleted-list"><li style="list-style-type:disc">サブクラスのメソッドがスローする例外は、スーパークラスのメソッドがスローする例外と同じが、その例外クラスのサブクラスとする</li></ul><ul id="e86f4ff1-9f4d-4ce5-bcf5-c720bdccf207" class="bulleted-list"><li style="list-style-type:disc">RuntimeExceptionおよび、そのサブクラスの例外は、スーパークラスのメソッドに関係無くスロー可能</li></ul><ul id="04db07d0-ebfd-47cb-be6c-f2374ba79781" class="bulleted-list"><li style="list-style-type:disc">スーパークラスのメソッドにthrowsがあっても、サブクラス側でthrowsを記述しないことは可能</li></ul><p id="5a76f573-ae1f-4e65-a280-8985d58a0b15" class="">以下、オーバーライドのルール（復習）</p><ul id="d706f004-f244-4fd0-8b6e-589cc2568f7e" class="bulleted-list"><li style="list-style-type:disc">オーバーライドとは、メソッド名、引数リストが全く同じメソッドをサブクラスで定義すること</li></ul><ul id="d43a90d1-9004-4c5c-ad60-fcf0ad1ba922" class="bulleted-list"><li style="list-style-type:disc">戻り値は、スーパークラスで定義したメソッドが返す型と同じか、その方のサブクラス型とする</li></ul><ul id="9afa0265-ecbf-45be-a826-41dee6713707" class="bulleted-list"><li style="list-style-type:disc">アクセス修飾子は、スーパークラスと同じものか、それよりも公開範囲が広いものであれば使用可能</li></ul></details></li></ul><p id="d885308a-fcb0-4e26-9162-8bfe68dbb9f0" class="">
+</p><ul id="219b0991-1fb4-4e3b-a0b8-30a5e6250ee7" class="toggle"><li><details open=""><summary>try-with-resources</summary><p id="f6bc3298-cd94-4e04-bab3-28c91e5f056b" class="">tryブロックにリソースに関する実装を記述することで、tryブロックが終了する際に暗黙的にclose()メソッドが実行される</p><p id="0b1d8555-f746-4a6b-b3e1-4ab226907344" class="">この場合、<mark class="highlight-red">tryブロックのみの記述が可能</mark></p><p id="788d5df2-6f3e-4739-afaf-874a431921ad" class="">複数リソースがある場合はセミコロンで区切って記述する</p><p id="ea5ce919-e082-41e0-86f6-6b092eb92281" class="">以下、細かなルール</p><ul id="02503f18-720d-4952-bed5-7879b475a9a6" class="bulleted-list"><li style="list-style-type:disc">tryの()内でリソースのインスタンス化を行う他、既存の変数を指定することができる</li></ul><ul id="6d049c2e-ccf9-40f2-99ad-063d736a611f" class="bulleted-list"><li style="list-style-type:disc">リソースの変数宣言時にはvarを使用することができる</li></ul><ul id="a7834b7e-d29c-46fd-9091-9e68b59c4680" class="bulleted-list"><li style="list-style-type:disc">記述できるリソースはjava.lang.AutoClosealbe、もしくはjava.io.closeableインタフェースの実装クラスのみ</li></ul><ul id="3462fa8f-f489-43ea-89f1-655df741c2e9" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">catch文が実行される前にclose()メソッドが実行される</mark></li></ul><ul id="793d572c-5688-4999-a13a-a1b116b284bb" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">リソースの取得と解放の順番は逆</mark></li></ul><p id="f34e3f20-2cc5-4c06-99dc-9fd448ac4eb7" class="">また、上記のクラスを独自に実装する場合は、以下のメソッドをオーバーライドする必要がある</p><table id="9e00bf7d-2fa3-40eb-b57c-c17051382458" class="simple-table"><thead class="simple-table-header"><tr id="67e7ffbe-d6c9-4510-bf46-dfea78a368f4"><th id="vdso" class="simple-table-header-color simple-table-header" style="width:172px">インタフェース</th><th id="dTl`" class="simple-table-header-color simple-table-header" style="width:222px">メソッド名</th><th id=";mYu" class="simple-table-header-color simple-table-header" style="width:523px">説明</th></tr></thead><tbody><tr id="d19f2836-bcd2-48c7-996a-a4ecd4e7d2d5"><td id="vdso" class="" style="width:172px">java.lang.AutoCloseable</td><td id="dTl`" class="" style="width:222px">void close() throws Exception</td><td id=";mYu" class="" style="width:523px">このリソースを閉じ、ベースとなるリソースを全て開放する</td></tr><tr id="005cee88-4861-4696-9cc3-bf91b405ac80"><td id="vdso" class="" style="width:172px">java.io.Closeable</td><td id="dTl`" class="" style="width:222px">void close() throws IOException</td><td id=";mYu" class="" style="width:523px">このストリームを閉じて、それに関連する全てのシステムリソースを解放する</td></tr></tbody></table></details></li></ul><p id="117cc311-111d-4d27-be8d-6e38ef84ec45" class="">
+</p><ul id="58773ea2-442d-484e-af87-55b8809ac8c5" class="toggle"><li><details open=""><summary>throwableクラスの機能拡張</summary><p id="7a118209-9be0-4942-baf4-6908a6f2de28" class="">close()メソッドでスローされた例外を受け取るには、getSuppressed()メソッドを使用する</p><p id="137763ac-c355-4ed6-831d-1791a8f92540" class="">これにより、抑制されたすべての例外を配列で受け取ることができる</p><pre id="4b4d1a76-d218-4430-a609-c64e5b4d27b9" class="code"><code>
+import java.sql.*;
+class MyResource implements AutoCloseable {
+ private String msg;
+ public MyResource(String msg) { this.msg = msg; }
+
+ public void method() throws SQLException {
+  throw new SQLException(&quot;method()でのエラー&quot;);
+ }
+
+ public void close() throws SQLException {
+  System.out.println(&quot;close():&quot;+msg);
+  throw new SQLException(&quot;close()でのエラー&quot;+msg);
+ }
+}
+
+public class Main {
+ public void main(String[] args) {
+  try (MyResource obj1 = new MyResource(&quot;obj1&quot;);
+       MyResource obj2 = new MyResource(&quot;obj2&quot;)) {
+     obj.method();
+ } catch (SQLException e){
+  Sytetm.out.println(&quot;e.getMessage(): &quot;+e.getMessage()) {
+  System.out.println(&quot;e.getSuppressed()で取り出した情報&quot;);
+  Throwable[] errAry = e.getSuppressed();
+  System.out.println(&quot; 抑制例外数 :&quot; + errAry.length);
+  for(Throwable ex : errAry){
+   System.out.prontln(&quot; &quot; + ex.getMessage());
+   }
+  } finally {
+  System.out.println(&quot;finally ブロック&quot;);
+  }
+ }
+}</code></pre><pre id="7b360132-05e4-4e42-ae4f-f84c04cf8853" class="code"><code>// 実行結果
+close() : obj2
+close() : obj1
+e.getMessage() : method()でのエラー
+e.getSuppressed()で取り出した情報
+ 抑制例外数 : 2
+ close()でのエラー : obj2
+ close()でのエラー : obj1
+finally ブロック</code></pre><p id="a6807e45-6d48-4dfe-bea3-fc39381f5e96" class="">java SE 7以降ではthrowableクラスに以下のメソッドが追加されている</p><table id="850afb5d-b817-4f40-92a1-6486531b6dd3" class="simple-table"><thead class="simple-table-header"><tr id="e196188c-995c-4c5f-88db-60e01cb113d3"><th id="OnSR" class="simple-table-header-color simple-table-header" style="width:330px">メソッド名</th><th id="pQ^}" class="simple-table-header-color simple-table-header" style="width:500px">説明</th></tr></thead><tbody><tr id="1d7adbe7-8055-4dd8-8edb-7b2ce7ae25f3"><td id="OnSR" class="" style="width:330px">final void addSuppressed( Throwable exception)</td><td id="pQ^}" class="" style="width:500px">この例外を提供する目的で抑制された例外に、指定された例外を追加する</td></tr><tr id="f01e54cf-02ca-466a-8949-f1b43c5e5225"><td id="OnSR" class="" style="width:330px">final Throwable[] getSuppressed()</td><td id="pQ^}" class="" style="width:500px">try-with-resource文によって抑制された例外を全て含む配列を返す</td></tr></tbody></table></details></li></ul><p id="55b68514-cd85-4cd4-8bd6-7fef17d3142d" class="">
+</p><ul id="68df2189-c0a2-406a-9c0c-cdd6c35b561c" class="toggle"><li><details open=""><summary>アサーション</summary><p id="f321774f-eb9b-458a-988e-04830cfe9b8c" class="">プログラマが前提としている条件をチェックし、プログラムの正しい動作を保証するための機能</p><pre id="f03431a7-0434-4feb-b1b6-ce7491b0e188" class="code"><code>//　構文1
+assert boolean 式;
+
+// 構文2
+assert boolean 式 : メッセージ;
+
+// 例
+private void check(int point) {
+ assert (point &gt; 0) : &quot;point = &quot; + point;
+ // checkメソッドの処理
+}</code></pre></details></li></ul><p id="2635edb2-1684-491f-81a1-2abec778dd7b" class="">
+</p><ul id="c25a51df-5418-4195-b0d5-ef6015814b63" class="toggle"><li><details open=""><summary>AsssertionError</summary><p id="39e71fb8-3e6e-4445-9587-0f08aa41c959" class="">boolean式が実行された結果、falseが返った場合AssertionErrorオブジェクトがJava実行環境よりスローされる</p><p id="b4273de8-dccf-4f10-8390-3405aad2f2f3" class="">AssertionErrorクラスはErrorクラスのサブクラスである</p><p id="30478fa5-4c2a-4602-ab85-34f70631b226" class="">AssertionErrorオブジェクトがスローされる場合は、<mark class="highlight-red">プログラム自体にバグがあることを示唆しているので例外処理はせず</mark>、プログラムを修正する</p></details></li></ul><p id="195fba4c-25bd-443d-909f-59d652150504" class="">
+</p><ul id="100c64d5-e129-4657-9393-589406dfc24f" class="toggle"><li><details open=""><summary>アサーションを使用したファイルのコンパイルと実行</summary><p id="b313dc39-a0be-41f3-914f-2703d8e600a0" class="">アサーションを有効にするには、javaコマンドの<mark class="highlight-red">-ea</mark>オプションを使用する</p><p id="c2b51e8a-fc7b-4887-b5d0-24f5c4aebed9" class="">逆に明示的に無効にするには<mark class="highlight-red">-da</mark>オプションを使用する</p></details></li></ul><p id="6b8b8580-15d8-4a3d-8cec-702895fa7d7e" class="">
+</p><ul id="30a90c1a-8bbd-472c-9caf-3a22a2f25f76" class="toggle"><li><details open=""><summary>アサーションを使用する場面</summary><ul id="197554bc-ca54-4134-b2fe-011290b362cc" class="bulleted-list"><li style="list-style-type:disc">事前条件・・・メソッドが呼び出されたときにtrueであるべき条件のこと</li></ul><ul id="3b391ad8-ac07-42db-9ce0-6f57c7c7b075" class="bulleted-list"><li style="list-style-type:disc">事後条件・・・メソッドが正常に実行された後にtrueであるべき条件のこと</li></ul><ul id="ba84d0e2-ad52-4c79-9369-b3412b139c47" class="bulleted-list"><li style="list-style-type:disc">不変条件・・・常にtrueであるべき条件のこと</li></ul><p id="7f9920cf-9be4-41d5-b4a1-136669fc1f34" class="">また、以下に気をつける</p><ul id="62fe6103-925a-4541-bef3-939f0dcad084" class="bulleted-list"><li style="list-style-type:disc">アサーションの実行を正常動作の一部とするようなプログラムは書くべきではない</li></ul></details></li></ul></div></article></body></html>

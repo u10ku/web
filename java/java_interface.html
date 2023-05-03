@@ -1,0 +1,906 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>関数型インタフェースとラムダ式（SE GOLD）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="90a25007-e855-4b3e-9aa9-4af222033239" class="page sans"><header><h1 class="page-title">関数型インタフェースとラムダ式（SE GOLD）</h1></header><div class="page-body"><ul id="86b304ff-041e-4377-8333-4e7b5f7edc8b" class="toggle"><li><details open=""><summary>関数型インタフェースとは</summary><p id="ec3e7b70-8d99-4f22-a2a3-c95fd44e28f8" class="">定義されている抽象メソッドが1つだけのインタフェースのこと。</p><p id="d9eff341-a841-428a-a2e5-53bc01b3b65b" class="">staticメソッドやdefalutメソッドが含まれていても、抽象メソッドが1つだけであれば良い。</p><pre id="242754bf-2b05-4022-ba98-5a5a8fb4c40f" class="code"><code>// 利用例
+
+class MyFunc implements Function&lt;String,String&gt; { 
+ public String apply(String str) { 
+  return &quot;Hello&quot; + str;
+ }
+}
+
+public class Main {
+ public static void main(String[] args) { 
+  MyFunc obj = new MyFucn();
+  String str = obj.apply(&quot;naoki&quot;);
+  System.out.println(str); 
+ }
+}
+
+// 実行結果
+Hello naoki</code></pre></details></li></ul><p id="22172aa5-824a-42c9-9c8e-01c31f143483" class="">
+</p><ul id="d0e396fd-43c9-4705-ac54-292753ae73b5" class="toggle"><li><details open=""><summary>独自の関数型インタフェースの定義</summary><p id="87fe0a1e-3826-4bf6-a1ae-98544f69214f" class="">以下の要件を満たしていれば関数型インタフェースとして扱われる。</p><ul id="cb75379d-c31a-40bd-beb4-38bd42274590" class="bulleted-list"><li style="list-style-type:disc">単一の抽象メソッドを持つインタフェースとする</li></ul><ul id="00ba86bd-6b21-408e-9336-b3154b9feea5" class="bulleted-list"><li style="list-style-type:disc">staticメソッドやデフォルトメソッドは記述可能</li></ul><ul id="a27fc183-a314-4da6-b9ef-02292f817988" class="bulleted-list"><li style="list-style-type:disc">java.lang.Objectクラスのpublicメソッドは抽象メソッドとしての宣言は可能</li></ul><ul id="5c256d62-2b3e-4e1f-9cf8-4b9bd4d350cd" class="bulleted-list"><li style="list-style-type:disc">関数型インタフェースとして明示する場合は、@FunctionalInterfaceを付与する</li></ul><pre id="e8fde77e-235e-4ea8-8027-8fbb83d39a6e" class="code"><code>// 例
+
+@FunctionalInterface
+interface MyFuncInter&lt;T&gt; {
+ void foo(T t);
+ String toString();
+ boolean equals(Object ogj);
+ static void X(){};
+ default void Y(){};
+}</code></pre></details></li></ul><p id="4d27e3ea-8b4d-4151-941d-a26e9dce7dd9" class="">
+</p><ul id="fa6ada88-08ab-4d3d-9d37-501acc7f3113" class="toggle"><li><details open=""><summary>ローカル変数の型推論</summary><p id="f0b49aa0-40b5-409c-a9f8-4d592457c990" class="">JDK 10以降では、ローカル変数型推論が使用可能。</p><p id="e3e6e0b1-cb02-4d3a-88de-0e3a83433ecb" class="">型推論varは以下の箇所に使用可能。</p><ul id="bd5d0afc-23df-46e2-bbac-3cfcd982a9e6" class="bulleted-list"><li style="list-style-type:disc">ローカル変数の初期化時</li></ul><ul id="1310c5c3-d328-48f2-93d5-93d834a375c0" class="bulleted-list"><li style="list-style-type:disc">通常for文内でのインデックス</li></ul><ul id="c850ec85-8b38-478c-8923-eb4dc80283ce" class="bulleted-list"><li style="list-style-type:disc">拡張for文内で宣言されたローカル変数</li></ul><ul id="9cb5c6b0-b147-496e-bfc2-9bc1909292ce" class="bulleted-list"><li style="list-style-type:disc">try-with-resource文内のローカル変数</li></ul><pre id="043e61f6-c3b9-4bb8-a793-05f2c408ad1f" class="code"><code>// 例
+import java.util.ArrayList;
+
+public class Test{
+ // var = 100; // NG
+ // static var b = 100; // NG
+ public void method(var data) // NG メソッドの引数に型推論は使用できない
+ var c = &quot;hello&quot;;
+ // var d; // NG 初期値を与えずに使用はできない
+ // var e = null; // NG nullは不可
+ final var f = 100;
+ // var final g = 100; // NG varとfinalの順番が逆
+ var obj = new Foo();
+ var list = new ArrayList&lt;&gt;();
+ for(var i = 0;i&lt;10;i++){}
+ // var ary1 = {10,20}; // NG 配列の初期化には明示的な型が必要
+ var ary2 = new int[]{10,20};
+ }
+}
+class Foo {}</code></pre></details></li></ul><p id="723dbc9e-4be5-47de-803d-c11a60991c79" class="">
+</p><ul id="ac628f28-70e8-42bb-9454-4d8f473823c3" class="toggle"><li><details open=""><summary>ラムダ式</summary><pre id="3701eba1-8f14-43d1-8f12-a782c9f2cf2d" class="code"><code>// 構文
+{実装するメソッドの引数} -&gt; {処理};
+
+// 利用例
+List&lt;String&gt; words = Arrays.asList(&quot;Tanaka&quot;,&quot;Sato&quot;);
+
+words.replaceAll((String str) -&gt; {return str.toUpperCase();});
+// wordsreplaceAll((var str) -&gt; {return str.toUpperCase();}); // ラムダ式の引数の型にvarの指定は可能
+Sytem.out.println(words);
+
+// 実行結果
+TANAKA, SATO</code></pre><p id="429aef59-d5a4-4652-9b01-7f53167b0fb8" class="">
+</p></details></li></ul><p id="1fc7d95d-9b6e-4695-9765-407bfc705431" class="">
+</p><ul id="b2284cf1-f6fc-4121-a30e-4d607c668645" class="toggle"><li><details open=""><summary>主な関数型インタフェース</summary><p id="69f02c6f-afcd-4801-8263-b62a383d9885" class=""><mark class="highlight-red">各メソッドの引数や戻り値に基本データ型は使用できない</mark></p><table id="82328f6d-cd4c-4e5d-8ac9-f2bbaaf40d56" class="simple-table"><thead class="simple-table-header"><tr id="361e29d8-51a0-4972-92ff-deda9bb84192"><th id="\PLK" class="simple-table-header-color simple-table-header" style="width:178.1875px">インタフェース名</th><th id="B@kJ" class="simple-table-header-color simple-table-header" style="width:176px">抽象メソッド</th><th id="cvcs" class="simple-table-header-color simple-table-header" style="width:393px">概要</th></tr></thead><tbody><tr id="c8fdafd6-7ce9-40aa-a0c7-153845681238"><td id="\PLK" class="" style="width:178.1875px">Function&lt;T,R&gt;</td><td id="B@kJ" class="" style="width:176px">R apply(T t)</td><td id="cvcs" class="" style="width:393px">引数としてTを受け取り、結果としてRを返す</td></tr><tr id="5639a155-f7f7-4bdf-a294-c6a94958f682"><td id="\PLK" class="" style="width:178.1875px">BiFunction&lt;T,U,R&gt;</td><td id="B@kJ" class="" style="width:176px">R apply(T t,U u)</td><td id="cvcs" class="" style="width:393px">引数としてTとUを受け取り、結果としてRを返す</td></tr><tr id="8a580224-b1cb-434c-b05a-0e018f528197"><td id="\PLK" class="" style="width:178.1875px">Consumer&lt;T&gt;</td><td id="B@kJ" class="" style="width:176px">void accept(T t)</td><td id="cvcs" class="" style="width:393px">引数としてTを受け取り、結果を返さない</td></tr><tr id="5f9f07a6-1358-4f66-9acf-5e480cf6c2b8"><td id="\PLK" class="" style="width:178.1875px">BiConsumer&lt;T,U&gt;</td><td id="B@kJ" class="" style="width:176px">void accept(T t,U u)</td><td id="cvcs" class="" style="width:393px">引数としてTとUを受け取り、結果を返さない</td></tr><tr id="59f47593-0ee8-49c1-b568-26fab021656e"><td id="\PLK" class="" style="width:178.1875px">Predicate&lt;T&gt;</td><td id="B@kJ" class="" style="width:176px">boolean test(T t)</td><td id="cvcs" class="" style="width:393px">引数としてTを受け取り、boolean値を返す</td></tr><tr id="f98489cd-66e4-461b-b77f-29137cd2aef2"><td id="\PLK" class="" style="width:178.1875px">BiPredicate&lt;T,U&gt;</td><td id="B@kJ" class="" style="width:176px">boolean test(T t,U u)</td><td id="cvcs" class="" style="width:393px">引数としてTとUを受け取り、boolean値を返す</td></tr><tr id="ed97a4f1-ba0a-46f6-9118-4868b6677b8c"><td id="\PLK" class="" style="width:178.1875px">Supplier&lt;T&gt;</td><td id="B@kJ" class="" style="width:176px">T get()</td><td id="cvcs" class="" style="width:393px">引数を何も受け取らず、結果としてTを返す</td></tr><tr id="6f5600c6-b05d-4d15-b038-bc5edecc3eb3"><td id="\PLK" class="" style="width:178.1875px">UnaryOperator&lt;T&gt;</td><td id="B@kJ" class="" style="width:176px">T apply(T t)</td><td id="cvcs" class="" style="width:393px">引数としてTを受け取り、結果としてTを返す</td></tr><tr id="aa61e7e6-a74e-4691-aef2-e63d68119eee"><td id="\PLK" class="" style="width:178.1875px">BinaryOperator&lt;T&gt;</td><td id="B@kJ" class="" style="width:176px">T apply(T t1, T t2)</td><td id="cvcs" class="" style="width:393px">引数としてTを二つ受け取り、結果としてTを返す</td></tr></tbody></table></details></li></ul><p id="c3b6dc41-c704-46a9-b9c3-73e4d24b10ed" class="">
+</p><ul id="5bf5561c-9b4c-4112-ac12-98a583aa921a" class="toggle"><li><details open=""><summary>ラムダ式の省略記法</summary><pre id="346d6cf8-4b19-404f-ba8d-e2a57b3f52f3" class="code"><code>// 左辺
+(String str) -&gt; { return str.toUpperCase();}
+
+1.型推論による型の省略
+(str) -&gt; { return str.toUpperCase();}
+
+2.（）の省略
+引数が一つの場合は省略可能
+str -&gt; { return str.toUpperCase();}
+
+// 右辺
+1.｛｝、returnの省略
+処理が一文の場合は｛｝とreturnの省略が可能
+str -&gt; str.toUpperCase()</code></pre></details></li></ul><p id="a6ae32ed-fee6-4f6a-8c38-d820e515967f" class="">
+</p><ul id="c0f14bd5-8e0b-4aad-a238-7907c29b2540" class="toggle"><li><details open=""><summary>実質的final</summary><p id="682f8f7b-c4ac-41ea-b4b6-0bf1119abdf1" class="">ラムダ式から外側の変数を使用する場合は、その変数はfinal修飾子が付与されているか、実質的にfinalである必要がある。</p><pre id="c9576973-3adf-45a6-abeb-afe197643d86" class="code"><code>public static void main(String[] args) {
+ int i = 25;
+ Supplier&lt;Integer&gt; s = () -&gt; i;
+ //i++; // NG iはラムダ式内で使用されている
+ System.out.println(s.get());
+}</code></pre></details></li></ul><p id="4363e840-b984-4039-a402-779797c49af0" class="">
+</p><ul id="fcf3f778-d582-49ee-ac62-6ca71e35a9d3" class="toggle"><li><details open=""><summary>メソッド参照</summary><p id="86739738-2fe9-4b07-b602-543cd04c6a49" class="">抽象メソッドの引数の個数及び型と、処理内で使用しているメソッドの引数の個数及び型が一致している場合に使用可能</p><pre id="aa6c2c09-34d4-4ac8-acfa-4200ece84f8b" class="code"><code>// 使用例
+Function&lt;String, Integer&gt; f = Integer::paseInt;
+int num = f.apply(&quot;100&quot;);
+System.out.println(num);
+
+// 実行結果
+100</code></pre><pre id="cf1686a3-b7db-4b1e-809f-bc5f2217d1c2" class="code"><code>// 例1 staticメソッド参照
+List&lt;Integer&gt; list = Arrays.asList(3,1,2);
+Consumer&lt;List&lt;Integer&gt;&gt; con1 = Collections::sort;
+con1.accept(lsit); System.out.println(list);
+
+// 実行結果
+[1,2,3]</code></pre><pre id="7c90aa86-e4e7-41bb-83ea-8b57c88cb2cb" class="code"><code>// 例2 staticメソッド参照
+Comparator&lt;Integer&gt; comp = Integer::compare;
+System.out.println(comp.compare(1,2));
+System.out.println(comp.compare(2,1));
+
+// 実行結果
+-1
+1</code></pre><pre id="069bf38d-b36a-41f5-ace9-c7e8be2e72ae" class="code"><code>// 例3 インスタンスメソッド参照(forEachメソッドの実装)
+default void forEach(Consumer&lt;? super T&gt; action){
+ Objects.requireNonNull(aiction);
+  for(T t: this){
+   action.accept(t);
+ }
+}</code></pre><pre id="2657d5a9-e040-4329-81e3-dbf9722540c9" class="code"><code>// 例4 インスタンスメソッド参照
+List&lt;Integer&gt; list = List.of(3,1,2);
+list.forEach(System.out::print);
+
+// 実行結果
+312</code></pre><pre id="4713a0b4-891d-4482-9920-42b67484dbff" class="code"><code>// 例5 インスタンスメソッド参照２
+UnaryOperator&lt;String&gt; obj = String:toUpperCase;
+System.out.println(obj.apply(&quot;naoki&quot;));
+
+// 実行結果
+NAOKI</code></pre><pre id="4e7aedce-44e2-46cf-aee9-50021d033300" class="code"><code>// 例6 メソッド参照でのエラー
+// Stringクラスのメソッドのインスタンスメソッドであるlength()
+// Function&lt;String,Integer&gt; f1 = s -&gt; s.length();
+Function&lt;String,Integer&lt; f1 = String::length();
+System.out.println(f1.apply(&quot;java&quot;));
+
+// StringクラスのstaticメソッドであるvalueOf(int)
+// Function&lt;Integer,String&gt; f2 = s -&gt; String::valueOf(s);
+Function&lt;Integer,String&gt; f2 = String::valueOf;
+System.out.println(f2.apply(10));
+
+// IntegerクラスのインスタンスメソッドであるhashCode()
+Function&lt;Integer,Integer&gt; f3 = i -&gt; i.hashCode();
+System.out.println(f3.apply(10));
+
+Function&lt;Integer,Integer&gt; f4 = Integer::hashCode;
+
+//実行結果
+Main.java:19: エラー: 不適合な型: メソッド参照が無効です
+　Function&lt;Integer,Integer&gt; f4 = Integer::hashCode;
+                                 ^
+  hashcodeの参照はあいまいです
+　　IntegerのメソッドhashCode(int)とIntegerのメソッドhashCode()の両方が一致します
+エラー1個</code></pre><p id="fa3736a5-5470-429d-b21f-30354c3df0b2" class="">
+</p></details></li></ul><p id="c933bc57-01a6-439d-8e42-866cce852b8e" class="">
+</p><ul id="ef7a01cf-7503-431d-aab3-74d7a4987cdd" class="toggle"><li><details open=""><summary>コンストラクタ参照</summary><pre id="212da2ff-1fc0-47fd-8d08-86894487e9fc" class="code"><code>// 構文
+クラス名 ::new
+
+// 例
+public class Main {
+ public static void main(String[] args) {
+  Supplier&lt;Foo&gt; ogj1 = Foo::new;
+  System.out.println(obj1.get().a);
+
+  Function&lt;Integer,Foo&gt; obj2 = Foo::new;
+  System.out.println(obj2.apply(10),a);
+
+  Supplier&lt;List&lt;Foo&gt;&gt; obj3 = ArrayList::new;
+  System.out.println(obj3.get().size());
+
+  Set&lt;Foo&gt; set = Set.of(new Foo(10),new Foo(20));
+  Function&lt;Set&lt;Foo&gt;,List&lt;Foo&gt;&gt; obj4 = ArrayList::new;
+  System.out.println(obj4.apply(set).size());
+ }
+}
+
+class Foo {
+ int a = 0;
+ Foo() {}
+ Foo(int a) {this.a = a; }
+}
+
+// 実行結果
+0
+10
+0
+2</code></pre><pre id="83f66699-b5db-463f-b3db-780b5e82fa61" class="code"><code>// 例2 配列の生成にも使用可能
+Function&lt;Integer,String&gt; obj1 = String[]::new;
+System.out.println(obj1.apply(5).length);
+
+// 実行結果
+5</code></pre></details></li></ul><p id="6a0ece17-bc37-43b7-8558-04af941e5ccf" class="">
+</p><ul id="0529f0d7-0408-4b54-aa17-3dc5ed786b1c" class="toggle"><li><details open=""><summary>基本データ型を扱う関数型インタフェース</summary><p id="9df3b7b1-545d-4506-b51b-8e3fd9c26318" class="">使用されることが多いint、double、long型については、基本データ型を扱うことができる関数型インタフェースが提供されている。</p><table id="b0f8c74f-6c92-40db-a251-10493efd58d6" class="simple-table"><thead class="simple-table-header"><tr id="7b57b533-7ddd-49e6-af5c-50bd06bc23f4"><th id="v_Bp" class="simple-table-header-color simple-table-header" style="width:194px">インタフェース名</th><th id="jzYN" class="simple-table-header-color simple-table-header" style="width:323px">抽象メソッド</th></tr></thead><tbody><tr id="c7a41c3c-c85e-480d-9b1f-da91d90f3ffc"><td id="v_Bp" class="" style="width:194px">IntFunction&lt;R&gt;</td><td id="jzYN" class="" style="width:323px">R apply(int value)</td></tr><tr id="2e225907-95f3-4718-b915-9d9cf422a6e5"><td id="v_Bp" class="" style="width:194px">IntConcumer</td><td id="jzYN" class="" style="width:323px">void accept(int value)</td></tr><tr id="4ddd943c-fc42-4f65-8094-5e0216659b7e"><td id="v_Bp" class="" style="width:194px">IntPredicate</td><td id="jzYN" class="" style="width:323px">boolean test(int value)</td></tr><tr id="c25343ea-1268-4f5a-b6a5-cddc0a6efdaf"><td id="v_Bp" class="" style="width:194px">IntSupplier</td><td id="jzYN" class="" style="width:323px">int getAsInt()</td></tr><tr id="d00f5706-4352-402a-8e48-7eb256fc0e20"><td id="v_Bp" class="" style="width:194px">IntUnaryOperator</td><td id="jzYN" class="" style="width:323px">int applyAdInt(int operand)</td></tr><tr id="03c1a1ff-7723-4aa8-8d5e-57ffe282aae5"><td id="v_Bp" class="" style="width:194px">IntbinaryOperator</td><td id="jzYN" class="" style="width:323px">int applyAsInt(int left, int right)</td></tr></tbody></table></details></li></ul><p id="ff351c0c-b2f7-4bc9-824a-ab98a8d012bd" class="">
+</p><ul id="29b0ce10-0610-4690-b5b1-4c7237add0bf" class="toggle"><li><details open=""><summary>int、double、long固有の関数型インタフェース</summary><p id="ae50b687-2e7f-4aee-b94f-2e699c06b02d" class="">int、double、longにはさらに異なるデータ型を元に、基本データ型の結果を返す関数型インタフェースが提供されている。</p><table id="54016202-cdc4-4521-8a6f-c376794a4d6e" class="simple-table"><thead class="simple-table-header"><tr id="a795e5e9-29d8-4ecd-bf94-e7e8ee45e189"><th id="tU}u" class="simple-table-header-color simple-table-header" style="width:194px">インタフェース名</th><th id="wo&lt;Y" class="simple-table-header-color simple-table-header" style="width:325px">抽象メソッド</th></tr></thead><tbody><tr id="b55839e8-1165-43c7-9a2d-e14f9c66c384"><td id="tU}u" class="" style="width:194px">ToIntFunction&lt;T&gt;</td><td id="wo&lt;Y" class="" style="width:325px">int applyAsInt(T value)</td></tr><tr id="29456761-6fed-47a3-804c-27de82100045"><td id="tU}u" class="" style="width:194px">ToIntBiFunction&lt;T,U&gt;</td><td id="wo&lt;Y" class="" style="width:325px">int applyAsInt(T t,U u)</td></tr><tr id="cc323697-3edb-4d0f-92e8-d65122eed98e"><td id="tU}u" class="" style="width:194px">IntToDoubleFunction</td><td id="wo&lt;Y" class="" style="width:325px">double applyAsDouble(int value)</td></tr><tr id="fe923911-46f6-49cc-900c-7aa98cba62c4"><td id="tU}u" class="" style="width:194px">IntToLongFunction</td><td id="wo&lt;Y" class="" style="width:325px">long applyAsLong(int value)</td></tr><tr id="b0482219-b36c-47f4-b1c5-6a4b9a117dda"><td id="tU}u" class="" style="width:194px">ObjIntConsumer&lt;T&gt;</td><td id="wo&lt;Y" class="" style="width:325px">void accept(T t, int value)</td></tr></tbody></table><pre id="a2aff47f-a1de-4e83-8ed9-04194cff4a7d" class="code"><code>// 例
+ToIntFunction&lt;String&gt; f1 = String::length;
+int ans1 = f1.applyAsInt(&quot;java&quot;);
+// Integer ans1 = f1.applyAsInt(&quot;java&quot;); OK
+
+IntToDoubleFunction f2 = (int i) -&gt; {return i*1.08;};
+// IntToDoubleFunction f2 = (Integer i) -&gt; {return i*1.08;}; 
+// ラムダ式の引数に関しては自動変換が行われないのでNG 
+double ans2 = f2.applyAsDouble(1000);</code></pre></details></li></ul><p id="a0f80591-35f7-4fdc-9f8a-f3af525a19ac" class="">
+</p><ul id="b6eead07-5744-45c8-a2c4-7a9997de0b9e" class="toggle"><li><details open=""><summary>関数型インタフェースの命名パターン</summary><table id="6a230bb6-22fc-4fa3-b4ff-e85bdf4aa35e" class="simple-table"><thead class="simple-table-header"><tr id="c9642ab6-dcef-4283-adec-94074bc48ba5"><th id="{@JB" class="simple-table-header-color simple-table-header" style="width:289px">条件</th><th id="jZLK" class="simple-table-header-color simple-table-header" style="width:227px">インタフェース名</th><th id="dbY^" class="simple-table-header-color simple-table-header" style="width:210px">(引数) →　戻り値</th></tr></thead><tbody><tr id="c83fb6fd-9113-45ae-a124-ae1328a2db0e"><td id="{@JB" class="" style="width:289px">引数を二つ持つ場合
+クラスの接頭辞は「Bi」</td><td id="jZLK" class="" style="width:227px">BiFunction&lt;T,U,R&gt;など</td><td id="dbY^" class="" style="width:210px">(T,U) -&gt; R</td></tr><tr id="e2af58e9-959c-4842-934d-f2019244fe54"><td id="{@JB" class="" style="width:289px">引数の型が決まっている場合
+クラス名の接頭辞が「引数の型名」</td><td id="jZLK" class="" style="width:227px">IntFunction&lt;R&gt;</td><td id="dbY^" class="" style="width:210px">(int) -&gt; R</td></tr><tr id="12df4a8e-3a1f-425b-aae3-6cc427786bb8"><td id="{@JB" class="" style="width:289px">戻り値の型が決まっている場合
+クラス名の接頭辞が「To戻り値の型名」</td><td id="jZLK" class="" style="width:227px">ToIntFunction&lt;T&gt;</td><td id="dbY^" class="" style="width:210px">(T) -&gt; int</td></tr><tr id="9aa1b720-0d0f-482c-bc14-b7aa64dc46d3"><td id="{@JB" class="" style="width:289px">引数と戻り値の型が決まっている場合
+クラス名の接頭辞が「引数の型名To戻り値の型名」</td><td id="jZLK" class="" style="width:227px">IntToDoubleFunction</td><td id="dbY^" class="" style="width:210px">(int) -&gt; double</td></tr></tbody></table></details></li></ul><p id="a685b186-0f03-43aa-b5da-cec70411bd3a" class="">
+</p><ul id="a86bbbb1-450c-4dcc-9390-8c6f1ff3d281" class="toggle"><li><details open=""><summary>関数型インタフェースの合成</summary></details></li></ul><p id="7a2302f8-2609-4b0b-8003-a0110b448ba2" class="">各インタフェースで提供されているメソッドを使用して、関数型インタフェースを合成することが可能</p><table id="0936a789-1d42-4575-a07e-e820fa934bd0" class="simple-table"><thead class="simple-table-header"><tr id="2b5a72bd-7633-41ce-8865-b69d617c7775"><th id="q|sk" class="simple-table-header-color simple-table-header" style="width:147px">メソッド名</th><th id="rI?E" class="simple-table-header-color simple-table-header" style="width:428px">説明</th></tr></thead><tbody><tr id="ca1b0428-f0f4-4f80-bc61-92bd891ef6d8"><td id="q|sk" class="" style="width:147px">andThen</td><td id="rI?E" class="" style="width:428px">例：Consumer andThen(Consumer after)
+自身を実行した後、afterを実行した結果を返す</td></tr><tr id="610ef8c5-9996-4e53-8da4-acd09d5396f9"><td id="q|sk" class="" style="width:147px">compose</td><td id="rI?E" class="" style="width:428px">例：Function compose(Function before)
+beforeを実行した後、自身を実行し結果を返す</td></tr><tr id="f68737b7-b865-49a8-ba21-7f9d492c986e"><td id="q|sk" class="" style="width:147px">and</td><td id="rI?E" class="" style="width:428px">例：Predicate and(Predicate other)
+自身及びotherの条件を満たしたときのみtrueを返す</td></tr><tr id="0c392820-f8dd-40ae-a15d-5c0398cd682a"><td id="q|sk" class="" style="width:147px">or</td><td id="rI?E" class="" style="width:428px">例：Predicate or(Predicate other)
+自身及びotherのどちらかが条件を満たしたときのみtrueを返す</td></tr><tr id="58a651ab-38f7-4545-8738-6dbc51feb057"><td id="q|sk" class="" style="width:147px">negate</td><td id="rI?E" class="" style="width:428px">例：Predicate negate()
+自身の条件結果を反転した結果を返す</td></tr></tbody></table><pre id="e1d45dc1-bb82-44b0-a470-6d147bce2724" class="code"><code>// 例
+public class Test {
+ public static void main(String[] args) {
+  Function&lt;String,Character&gt; f1 = s -&gt; s.charAt(0);
+  Function&lt;Character,Boolean&gt; f2 = c -&gt; Character.isUpperCase(C);
+
+　// andThenの利用
+  Function&lt;String,Boolean&gt; f3 = f1.andThen(f2);
+  System.out.println(f3.apply(&quot;Java&quot;));
+
+  // composeの使用
+  Function&lt;String,Boolean&lt; f4 = f2.compose(f1);
+  System.out.println(f4.apply(&quot;Java&quot;));
+ }
+}
+
+//　実行結果
+true
+true</code></pre><pre id="5d901469-f604-4ad8-93e6-6265b2def788" class="code"><code>//　例
+public class Test {
+ public static void main(String[] args) {
+  LongPredicate p1 = n -&gt; (n%3) == 0;
+  LongPredicate p2 = n -&gt; (n%5) == 0;
+  LongPredicate p3 = p1.or(p2);
+  System.out.println(p3.test(5));
+
+　LongPredicate p4 = p1.and(p2);
+　System.out.println(p4.test(15));
+
+  LongPredicate p5 = p4.negate();
+  System.out.println(p5.test(15));
+ }
+}
+
+// 実行結果
+true
+true
+false</code></pre><p id="faf7c473-d4e0-4bb3-bd6a-450848ce4f81" class="">
+</p></div></article></body></html>

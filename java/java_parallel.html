@@ -1,0 +1,1203 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>並列処理（SE Gold）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="764b82f6-c5a5-43c3-9835-bc85fa24d355" class="page sans"><header><h1 class="page-title">並列処理（SE Gold）</h1></header><div class="page-body"><ul id="c1526f54-a4eb-4939-81e6-90017fe48022" class="toggle"><li><details open=""><summary>スレッドとは</summary><p id="5547e44f-89d3-405a-b213-1155c12140bc" class="">プログラムを実行した場合の処理の最小単位</p><p id="330a950b-d9e5-47ca-82d6-d0c10bf5cdca" class="">javaコマンドを使用して実行すると、Java実行環境は新しいスレッドを作成し、そのスレッドによって指定されたクラスのmain()メソッドを実行している</p></details></li></ul><p id="06a797f5-1b8e-44bf-b0e7-eca0c914648a" class="">
+</p><ul id="cbcaffc4-9e14-4b58-a572-17200b79f2d3" class="toggle"><li><details open=""><summary>スレッドの作成と開始</summary><ul id="facd3c12-9394-4b6a-8206-886fd03cc6d4" class="bulleted-list"><li style="list-style-type:disc">Threadクラスのサブクラスを定義する方法<p id="e3a397d1-0648-48bd-aac9-ae769106eb90" class="">Threadクラスのrun()メソッドをオーバーライドしてスレッドとして行いたい処理を記述する</p><p id="61b4e075-a83e-4f44-ba52-92c668f1fef6" class="">Threadを開始するにはThreadクラスのstart()メソッドを使用する</p><pre id="b8dcb49f-8e8d-462d-838d-efa07cf2adcb" class="code"><code>// 例
+public class Main { 
+ public static void main(String[] args) {
+  ThreadA a = new ThreadA();
+  ThreadB b = new ThreadB();
+  a.start();
+  b.start();
+ }
+}
+
+class ThreadA extends Thread {
+ public void run() {
+  for(int i = 0; i&lt;5; i++) {
+   System.out.println(&quot;A:&quot;+i+&quot; &quot;);
+  } 
+ }
+}
+
+class ThreadB extends Thread {
+ public void run() {
+  for(int i = 0; i&lt;5;i++) {
+   System.out.println(&quot;B:&quot;+i+&quot; &quot;);
+  }
+ }
+}</code></pre></li></ul><p id="2d148976-6c62-4bbd-b4f0-671093e12077" class="">
+</p><ul id="8f10979a-7c25-47cf-9907-ed9850679645" class="bulleted-list"><li style="list-style-type:disc">Runnableインタフェースを実装する方法<p id="f9453cd9-0e0f-4617-a4a5-5fdf732786d2" class="">Runnableインタフェースの抽象メソッドであるrun()メソッドをオーバーライドして、スレッドの処理を記述する</p><p id="e76e026e-f5f7-41a7-b29f-592fcbb32777" class="">次にRunnableインタフェースを実装したクラスのオブジェクトをThreadクラスのコンストラクタの引数に渡す</p><pre id="d8b9e2e6-e385-4de8-b524-fe6a42de42c7" class="code"><code>//　例
+public class Main { 
+ public static void main(String[] args) {
+  Thread a = new Thread(new ThreadA());
+  Thread b = new Thread(new ThreadB());
+  a.start();
+  b.start();
+ }
+}
+
+class ThreadA implements Runnable {
+ public void run() {
+  for(int i = 0; i&lt;5; i++) {
+   System.out.println(&quot;A:&quot;+i+&quot; &quot;) {
+  }
+ }
+}
+
+class ThreadB implements Runnable　{
+ public void run() {
+  for(int i = 0;i&lt;5; i++) {
+   System.out.println(&quot;B:&quot;+i+&quot; &quot;);
+  }
+ }
+}
+
+// ラムダ式を使う方法
+public class Main {
+ public static void main(String[] args) {
+  new Thread(new Runnable() {
+   public void run() {
+    System.out.println(&quot;hello&quot;);
+   }
+ }).start();
+ 
+  new Thread(()-&gt; {
+   System.out.println(&quot;hello&quot;);
+  }).start();
+ }
+}</code></pre></li></ul></details></li></ul><p id="02742456-477f-46a8-ae56-3349fc97f894" class="">
+</p><ul id="502693a4-14d9-4979-9277-8ee6cf4d16b8" class="toggle"><li><details open=""><summary>スレッドの状態</summary><table id="71f927d6-b206-4968-a475-d20458284973" class="simple-table"><thead class="simple-table-header"><tr id="86d3ed43-00a8-4402-bb59-4c0571c490eb"><th id="^IJW" class="simple-table-header-color simple-table-header" style="width:116px">状態</th><th id="?MiJ" class="simple-table-header-color simple-table-header" style="width:770px">説明</th></tr></thead><tbody><tr id="9ba1bef4-b7d6-4156-9364-6045cfd3d6e4"><td id="^IJW" class="" style="width:116px">実行可能</td><td id="?MiJ" class="" style="width:770px">スレッドが生成され、実行の機会が与えられるのを待っている状態</td></tr><tr id="f1252e08-db17-4126-8795-87f2ad4eb697"><td id="^IJW" class="" style="width:116px">実行中</td><td id="?MiJ" class="" style="width:770px">スレッドが実行され、処理を待っている状態</td></tr><tr id="2032effa-add3-4963-9cab-ab65c8c2742c"><td id="^IJW" class="" style="width:116px">実行不可能</td><td id="?MiJ" class="" style="width:770px">ディスクの入出力操作や、スレッドの排他制御や同期処理などにより、スレッドの動作が一時的に休止している状態</td></tr><tr id="13dfda0c-64b4-4e6c-8acd-1e33e9140d0c"><td id="^IJW" class="" style="width:116px">終了</td><td id="?MiJ" class="" style="width:770px">run()メソッドの処理が終わり、スレッドが終了した状態</td></tr></tbody></table><p id="2d87e194-ae67-4273-a9af-f34786fa28b3" class="">終了したスレッドはもう一度実行することは不可能。（IlligalThreadStateException)</p></details></li></ul><p id="b9b1207c-d5dd-46fc-badd-0ef073ee54e1" class="">
+</p><ul id="79698f42-0e1a-442e-acc8-9a7c79fcf3b2" class="toggle"><li><details open=""><summary>スレッドの優先度</summary><p id="b415a509-2f8a-450c-8ae4-2eea3bbc9247" class="">各スレッドには優先度が設定されており、実行可能状態のスレッドが競合した場合は、一般的に優先度が高いものから処理される</p><p id="4a45a426-8469-4f01-b2d8-4e8ec3666fcf" class="">以下はThreadクラスの優先度に関するメソッドと定数</p><table id="9e134947-e954-4fd7-86c8-19c236226d71" class="simple-table"><tbody><tr id="19db3647-ed45-4935-89ff-7272c9b13cd1"><td id="W~MU" class="block-color-gray_background" style="width:286px">メソッド名</td><td id="hC|d" class="block-color-gray_background" style="width:623px">説明</td></tr><tr id="3753a0ee-db85-4842-8fab-1b03f1287e5f"><td id="W~MU" class="" style="width:286px">static Thread currentThread()</td><td id="hC|d" class="" style="width:623px">現在実行中のスレッドオブジェクトを取得する</td></tr><tr id="db1ace59-cdbb-4b8b-85f3-2af0f1b11229"><td id="W~MU" class="" style="width:286px">final String getName()</td><td id="hC|d" class="" style="width:623px">スレッドの名前を返す</td></tr><tr id="fb20fba5-d37c-4b39-bbf7-3c4b740f8c01"><td id="W~MU" class="" style="width:286px">final int getPriority()</td><td id="hC|d" class="" style="width:623px">スレッドの優先度を返す</td></tr><tr id="2c3afb3d-0181-4748-80c6-5327094fb73c"><td id="W~MU" class="" style="width:286px">final void setPriority(int newPriority)</td><td id="hC|d" class="" style="width:623px">スレッドの優先度を変更する
+引数で指定できるのは1から10まで（デフォルトは5）</td></tr><tr id="1a4f2b58-c338-47e0-925a-50ad3c4e3aa0"><td id="W~MU" class="block-color-gray_background" style="width:286px">定数名</td><td id="hC|d" class="block-color-gray_background" style="width:623px"></td></tr><tr id="c75107e5-364e-43a4-b4c8-e6d3d133b8c2"><td id="W~MU" class="" style="width:286px">public static final int MAX_PRIORITY</td><td id="hC|d" class="" style="width:623px">最大の優先度（10）</td></tr><tr id="0d453bc0-4127-444f-813a-2853184341ee"><td id="W~MU" class="" style="width:286px">public static final int NORMAL_PRIORITY</td><td id="hC|d" class="" style="width:623px">デフォルトの優先度（5）</td></tr><tr id="ca1fd474-7db7-45a6-83fc-dfcb060186b3"><td id="W~MU" class="" style="width:286px">public static fianl int MIN_PRIORITY</td><td id="hC|d" class="" style="width:623px">最小の優先度（1）</td></tr></tbody></table></details></li></ul><p id="23285aff-f885-490d-8ae8-0062a16e218b" class="">
+</p><ul id="d6933dd7-a83b-490c-899d-e13f174fcb64" class="toggle"><li><details open=""><summary>スレッドを制御</summary><p id="ebc6b7df-b9b5-4dce-a8ad-27e8b146887f" class="">Threadクラスの制御用メソッド</p><table id="9ce3d6ce-291a-461f-8c84-a742a8e53ca3" class="simple-table"><thead class="simple-table-header"><tr id="73bf7555-bad1-4218-be2e-aeff1e47dfb7"><th id="c|bl" class="simple-table-header-color simple-table-header" style="width:372px">メソッド名</th><th id=":@iK" class="simple-table-header-color simple-table-header" style="width:595px">説明</th></tr></thead><tbody><tr id="03be2f86-6d75-41d0-ac14-f752a62d7176"><td id="c|bl" class="" style="width:372px">static void sleep(long millis) throws InterruptedException</td><td id=":@iK" class="" style="width:595px">このメソッドを呼び出したスレッドが、millisミリ秒休止する</td></tr><tr id="24213f80-5721-459c-a135-3af03e2f572f"><td id="c|bl" class="" style="width:372px">final void join() throws InterruptedException</td><td id=":@iK" class="" style="width:595px">実行中のスレッドが終了するまで待機する</td></tr><tr id="6609b266-8026-4524-937e-599b0589380b"><td id="c|bl" class="" style="width:372px">static void yield()</td><td id=":@iK" class="" style="width:595px">現在実行しているスレッドを一時的に休止し、他のスレッドに実行の機会を与える</td></tr><tr id="6cc07dba-c84e-40ad-9515-2575698bc572"><td id="c|bl" class="" style="width:372px">void interruput()</td><td id=":@iK" class="" style="width:595px">休止中のスレッドに割り込みを入れる
+割り込みを入れられたスレッドは、java.lang.InterruptedException例外をJava環境から受け取り、処理を再開する</td></tr></tbody></table><pre id="428faec9-598c-4e72-88f5-8883042177d5" class="code"><code>public class Main {
+ public static void main(String[] args) {
+
+  Thread threadA = new Thread(()-&gt;{
+   System.out.println(&quot;threadSA:sleep 開始&quot;);
+   try {
+    Thread.sleep(5000);
+   } catch (InterruptedException e) { 
+    System.out.println(&quot;threadA:割り込みをキャッチしました&quot;);
+   }
+   System.out.println(&quot;threadA:処理再開&quot;);
+  });
+  threadA.start();
+
+  try {
+   System.out.println(&quot;main:sleep 開始&quot;);
+   Thread.sleep(2000);
+   System.out.println(&quot;main:sleep 終了&quot;);
+   threadA.interrupt();
+  } catch (InterruptedException e) {
+   System.out.println(&quot;main:割り込みをキャッチしました&quot;);
+  }
+ }
+}
+
+// 実行結果
+main:sleep 開始
+threadA:sleep 開始
+main:sleep 終了
+threadA:割り込みをキャッチしました
+threadA:処理開始</code></pre></details></li></ul><p id="2b0c2994-dfd8-452a-803e-6d8b9bdaaa64" class="">
+</p><ul id="6609512e-d17d-4030-a8fd-109cc0eb2fd4" class="toggle"><li><details open=""><summary>排他制御と同期制御</summary><p id="3412734f-4b23-4c5d-bcc8-195b149fb00a" class="">共有して使用しているオブジェクトに対し、</p><ul id="76c90d58-cb90-4017-85da-1835b580a530" class="bulleted-list"><li style="list-style-type:disc">他のスレッドに邪魔されないように独占して実行したい場合は<mark class="highlight-red">排他制御</mark></li></ul><ul id="4ecdfdb4-3ae9-4da3-9b75-89c8eb7f73e6" class="bulleted-list"><li style="list-style-type:disc">スレッド同士で実行のタイミングを合わせたい場合は<mark class="highlight-red">同期制御</mark></li></ul></details></li></ul><p id="85fd42a2-5b80-4390-8b51-c8296ed08ed8" class="">
+</p><ul id="bf6a582b-bbac-412d-85ae-9da7a5b9fc4a" class="toggle"><li><details open=""><summary>synchronizedによる<mark class="highlight-red">排他制御</mark></summary><p id="24c07b2e-d023-4f71-8d97-c1e964cc6a35" class="">synchronizedキーワードを使用することにより、同時に1つのスレッドからしか実行されないことが保証される</p><pre id="02501b46-ecac-40e9-8ca3-a0f04b1d6d7d" class="code"><code>// メソッドに指定
+synchronized void add(int a) {...}
+
+// 部分的にブロックで指定
+void add(int a) {
+ ...
+ synchronized(ロック対象のオブジェクト) {...}
+ ...
+}
+
+// 自オブジェクトを対象にする場合は
+synchronized(this) {}
+
+// 例
+public synchronized static void method() {}
+public static void methodB() {
+ synchronized(Share.class) {}
+}</code></pre></details></li></ul><p id="8d599763-d849-47ec-b83c-9c2e51003b48" class="">
+</p><ul id="4ba0a29f-35e7-4c6a-9675-eee66484e8f3" class="toggle"><li><details open=""><summary>wait()、notify()、notifyAll()による<mark class="highlight-red">同期制御</mark></summary><p id="0acfcae3-0704-48d4-bd97-45f88c583c0f" class="">Objectクラスの制御用メソッド</p><table id="4604803c-9a26-4371-998c-d58975669996" class="simple-table"><thead class="simple-table-header"><tr id="caa8df55-3ee8-4b41-86d1-aa0088f73b3f"><th id="YvKD" class="simple-table-header-color simple-table-header" style="width:380px">メソッド名</th><th id="&lt;`vB" class="simple-table-header-color simple-table-header" style="width:521px">説明</th></tr></thead><tbody><tr id="dd0f8269-9de7-4c44-a691-bf4769c17fa0"><td id="YvKD" class="" style="width:380px">final void wait() throws InterruptedException</td><td id="&lt;`vB" class="" style="width:521px">現在のスレッドを待機させる</td></tr><tr id="09905f6d-563d-4406-8105-a886ab84e3be"><td id="YvKD" class="" style="width:380px">final void wait(long timeout) throws InterruptedException</td><td id="&lt;`vB" class="" style="width:521px">指定された時間が経過するまで、現在のスレッドを待機させる</td></tr><tr id="e7c06c52-3308-4497-9357-8db707d900d7"><td id="YvKD" class="" style="width:380px">final void notify()</td><td id="&lt;`vB" class="" style="width:521px">このオブジェクトの待機中のスレッドを1つ再開する（スレッドの指定は不可）</td></tr><tr id="ec893752-962a-4fe3-9900-986ea79cfbf4"><td id="YvKD" class="" style="width:380px">final void notifyAll()</td><td id="&lt;`vB" class="" style="width:521px">このオブジェクトの待機中のすべてのスレッドを再開する</td></tr></tbody></table><p id="c7ebc9f9-ee32-4a12-a69f-8529b28f1897" class="">synchronized指定されていないメソッドやブロック（ロックの取得、解放がない）で使用した場合、IlligalMonitorStateException例外が発生する</p><pre id="900f2ea3-d7a7-425e-b867-f13743bd2fb8" class="code"><code>// 例
+class Share { // 共有して使用されるオブジェクト
+ private int a = 0;
+ private String b;
+ public synchronized void set() {
+  while(a != 0) {
+   try {
+    wait();
+   } catch (InterruptedException e) {}
+  }
+  notify();
+  a++; b = &quot;data&quot;;
+  System.out.println(&quot;set() a:&quot;+a+&quot; b&quot;+b);
+ }
+
+public synchronized void print() { 
+ while(b == null) {
+  try　{
+   wait();
+  } catch(InterruptedException e) {}
+ }
+ notify();
+ a--; b == null;
+ System.out.println(&quot; print() a&quot; +a+&quot; b&quot;+b);
+ }
+}
+
+// 実行結果
+set() a:1 b:date
+ print() a :0 b:null
+set() a:1 b:date
+ print() a :0 b:null
+set() a:1 b:date
+ print() a :0 b:null
+set() a:1 b:date
+ print() a :0 b:null
+set() a:1 b:date
+ print() a :0 b:null
+</code></pre></details></li></ul><p id="39fae4d0-1203-4997-ad6d-737a00a68afe" class="">
+</p><ul id="6807b45e-3c07-43c1-b4dd-a9013e0fe4f3" class="toggle"><li><details open=""><summary>資源の競合</summary><ul id="e8534491-bfce-4da0-9e8d-be39bd9925f2" class="bulleted-list"><li style="list-style-type:disc">デッドロック<p id="3dd4fb1a-2679-4ee8-a5de-aa3b560f7881" class="">全てのスレッドがロックの解放を同時に待ってしまい、ロックが永遠に解けなくなる状況</p></li></ul><ul id="28e6659b-5b36-4491-9124-3ee9a17debcd" class="bulleted-list"><li style="list-style-type:disc">ライブロック<p id="07f5d38b-3678-4db5-bccd-0f3a96079e19" class="">複数のスレッドが共有資源の獲得と解放を行ってはいるが、獲得が必要なときには他のスレッドにロックされ、進まない処理を繰り返し続ける状況</p></li></ul><ul id="92ed810b-10d7-42fd-80d5-066aa8eae230" class="bulleted-list"><li style="list-style-type:disc">スレッドスタベーション<p id="8e968ddc-6534-445a-83d7-7ff5297d2fa5" class="">複数のスレッドが同時実行している時、共有オブジェクトをなかなか解放しないスレッドがあるとその共有オブジェクトを使用する他のオブジェクトが実行を長時間待たされることがある</p></li></ul></details></li></ul><p id="39d17814-799c-4755-bf48-4ae64d7704ca" class="">
+</p><ul id="6d2d86de-d413-498d-8802-04dc5034a18e" class="toggle"><li><details open=""><summary>コレクションの変更の検出</summary><p id="99dd9ec8-f5e5-4552-84cd-3710ff8bb8c2" class="">あるスレッドがコレクションオブジェクトで反復処理を行っている間に、別のスレッドがそのコレクションオブジェクトを変更することは一般に許可されない</p><pre id="d5a8928e-f6d5-4441-92d6-a959165f76eb" class="code"><code>Map&lt;Integer,String&gt; map = new HashMap&lt;&gt;();
+map.put(1,&quot;tanaka&quot;);
+map.put(2,&quot;urai&quot;);
+// map.remove(1); map.remove(2);
+for(Integer key:map.keySet()) {
+ map.remove(key);
+}
+
+// 実行結果
+Exception in thread &quot;main&quot; java.util.ConcurrentModificationException
+...</code></pre><p id="85f72129-3f08-41c3-8903-b4ad98eba590" class="">上のコードではイテレータの取得を行っていないが、拡張for文で繰り返し処理を行うために実行環境上ではイテレータが使用されている（フェイルファスト・イテレータ）</p><p id="6221e29b-7e38-43ff-bfd9-743cf979ef87" class="">このイテレータの反復処理中にコレクションに変更可能性があるならば、即座に例外を発生して処理を中断する使用になっている</p></details></li></ul><p id="c9f99b2a-043d-455f-be60-d35dc7977eca" class="">
+</p><ul id="8b72eff6-db03-413e-97a5-e8d81272d4ed" class="toggle"><li><details open=""><summary>並列コレクション</summary><p id="3da7f0dc-df34-46c7-b6a4-d6422fd5b9cd" class="">java.util.concurrentパッケージには、マルチスレッド環境下で安全に使用できるコレクションが提供されている</p><p id="21f73f55-15db-4a1d-bcf3-b727f8e6f5b3" class="">多くのコレクションクラスは同期性をサポートしておらず、マルチスレッドアプリケーションでリストやマップを使用する場合、synchronizedメソッドやCollectionクラスのsynchronizedList()などを使用して並列処理を制御する必要がある</p><p id="3a8971c4-1d74-4560-ab83-d70a7dfabf91" class="">以下はCollectionsクラスのスレッドセーフなオブジェクトを返すstaticメソッド</p><table id="d3653f85-319c-4df6-af7d-cd9f77352556" class="simple-table"><thead class="simple-table-header"><tr id="1ed041c3-9991-4cfe-9860-f683c32f1d80"><th id="j^^p" class="simple-table-header-color simple-table-header" style="width:495px">メソッド名</th><th id="cS&lt;V" class="simple-table-header-color simple-table-header" style="width:522px">説明</th></tr></thead><tbody><tr id="c210ac3d-98cf-42f3-9552-851dc38db277"><td id="j^^p" class="" style="width:495px">static &lt;T&gt; Collection&lt;T&gt; synchronizedCollection(Collection&lt;T&gt; c)</td><td id="cS&lt;V" class="" style="width:522px">スレッドセーフなコレクションオブジェクトを返す</td></tr><tr id="98e80ed2-648a-4df9-84eb-c8cfc27792c3"><td id="j^^p" class="" style="width:495px">static &lt;T&gt; Set&lt;T&gt; synchronizedSet(Set&lt;T&gt; s)</td><td id="cS&lt;V" class="" style="width:522px">スレッドセーフなセットオブジェクトを返す</td></tr><tr id="d3bb3467-5b23-4df9-84e7-2a544c7f8cf5"><td id="j^^p" class="" style="width:495px">static &lt;T&gt; SortedSet&lt;T&gt; synchronizedSortedSet(SortedSet&lt;T&gt; s)</td><td id="cS&lt;V" class="" style="width:522px">スレッドセーフなソート・セットオブジェクトを返す</td></tr><tr id="d2aba33b-a2e2-4a5b-90d5-06e9ffc91e5e"><td id="j^^p" class="" style="width:495px">static &lt;T&gt; NavigableSet&lt;T&gt; synchronizedNavigableSet(NavigableSet&lt;T&gt; s)</td><td id="cS&lt;V" class="" style="width:522px">スレッドセーフなナビゲート可能セットオブジェクトを返す</td></tr><tr id="61609ee1-d373-4c20-b2eb-3138acc28870"><td id="j^^p" class="" style="width:495px">static &lt;T&gt; LIst&lt;T&gt; synchronizedList(List&lt;T&gt; list)</td><td id="cS&lt;V" class="" style="width:522px">スレッドセーフなリストオブジェクトを返す</td></tr><tr id="c1055532-4d93-4e8d-8a8f-373ce1e0e8ed"><td id="j^^p" class="" style="width:495px">static &lt;T&gt; Map&lt;K,V&gt; synchronizedMap(Map&lt;K,V&gt; m)</td><td id="cS&lt;V" class="" style="width:522px">スレッドセーフなマップオブジェクトを返す</td></tr><tr id="395d5b7c-4f75-4903-a9e1-39883bfdb732"><td id="j^^p" class="" style="width:495px">static &lt;T&gt; SortedMap&lt;K,V&gt; synchronizedSortedMap(SortedMap&lt;K,V&gt; m)</td><td id="cS&lt;V" class="" style="width:522px">スレッドセーフなソート・マップオブジェクトを返す</td></tr><tr id="946df218-a9d7-4c1a-a2b4-d9154982e6b5"><td id="j^^p" class="" style="width:495px">static &lt;T&gt; NavigableMap&lt;K,V&gt; synchronizedNavigableMap(NavigableMap&lt;K,V&gt; m)</td><td id="cS&lt;V" class="" style="width:522px">スレッドセーフなナビゲート可能マップオブジェクトを返す</td></tr></tbody></table></details></li></ul><p id="e5bfe308-4c96-47da-945f-4dda2fd8eef3" class="">
+</p><ul id="d24bc011-0080-46a3-aed6-ac487981d3e9" class="toggle"><li><details open=""><summary>Queueインタフェースの拡張</summary><p id="41e9b304-a65c-43ab-9bd8-9ad73b3dd43f" class="">Queueインタフェースの同期化拡張として、java.concurrentパッケージは以下の以下の様なインタフェース及び実装クラスを提供している</p><table id="3658547a-6b03-403c-9ad9-b5a71e7d5133" class="simple-table"><thead class="simple-table-header"><tr id="466c2d86-cf01-4976-ae5b-c6937d601039"><th id="xF}K" class="simple-table-header-color simple-table-header" style="width:211px">インタフェース・クラス名</th><th id="p^{W" class="simple-table-header-color simple-table-header" style="width:667px">説明</th></tr></thead><tbody><tr id="aee75ec0-165b-4e5d-83b6-1143d211dd74"><td id="xF}K" class="" style="width:211px">BlockingQueueインタフェース</td><td id="p^{W" class="" style="width:667px">要素を取り出すとき、キューを空にしないために待機するようQueueインタフェースを拡張</td></tr><tr id="9f53a1fc-4b84-49a3-8419-60346813e78f"><td id="xF}K" class="" style="width:211px">SynchronousQueueクラス</td><td id="p^{W" class="" style="width:667px">BlockingQueueインタフェースを実装した基本的なブロッキングキュー</td></tr><tr id="c552d5c6-763c-4437-9851-8585606e8e20"><td id="xF}K" class="" style="width:211px">LinkedBlockingQueueクラス</td><td id="p^{W" class="" style="width:667px">リンクノードに基づいたFIFOブロッキングキュー</td></tr><tr id="a2c00e6d-b930-4627-b596-2020c65ae686"><td id="xF}K" class="" style="width:211px">ArrayBlockingQueueクラス</td><td id="p^{W" class="" style="width:667px">配列に基づいたFIFOブロッキングキュー</td></tr></tbody></table><p id="c16fa87e-580e-4be7-833f-02cdf2b8951f" class="">ブロッキングとは、要素の取得時にキューが空であれば要素が待機したり、要素の格納時にキュー内が一杯であれば空が生じるまで待機したりする機能のこと</p><p id="881ff7e0-9421-46ed-bbae-988268757081" class="">以下はBlockingQueueインタフェースの主なメソッド</p><table id="aeab63ae-864f-4d0e-860e-da2ebf35647e" class="simple-table"><thead class="simple-table-header"><tr id="908be0ee-eb8c-4ef8-ad27-2410fcd3ead2"><th id="Um_M" class="simple-table-header-color simple-table-header" style="width:49px"></th><th id="VjUm" class="simple-table-header-color simple-table-header">例外のスロー</th><th id=":zv:" class="simple-table-header-color simple-table-header">特殊な値</th><th id="wTZK" class="simple-table-header-color simple-table-header">ブロック</th><th id="COBs" class="simple-table-header-color simple-table-header">タイムアウト</th></tr></thead><tbody><tr id="8e4f4d6b-114f-4fe9-936b-a2e64b22bd0e"><td id="Um_M" class="" style="width:49px">挿入</td><td id="VjUm" class="">add(e)</td><td id=":zv:" class="">offer(e)</td><td id="wTZK" class="">put(e)</td><td id="COBs" class="">offer(e,time,unit)</td></tr><tr id="65fcb6d5-9c89-4e8d-a34e-a073d7d29ee8"><td id="Um_M" class="" style="width:49px">削除</td><td id="VjUm" class="">remove()</td><td id=":zv:" class="">poll()</td><td id="wTZK" class="">take()</td><td id="COBs" class="">poll(time,unit)</td></tr><tr id="26426d8c-ccfa-401a-9ccf-217f54156617"><td id="Um_M" class="" style="width:49px">検査</td><td id="VjUm" class="">element()</td><td id=":zv:" class="">peek()</td><td id="wTZK" class="">適用外</td><td id="COBs" class="">適用外</td></tr></tbody></table><p id="0dd3ffdb-b7b6-481b-aae7-7b7c59e6e12b" class="">ブロック：操作が正常に完了するまで現在のスレッドを無制限にブロック</p><p id="acef0a45-0faa-4295-a497-48ce7473366d" class="">タイムアウト：処理が中止されるまで指定された制限時間内のみブロック</p><pre id="7203b3c5-524d-422b-b258-2f2bdd372697" class="code"><code>// 例
+BlockingQueue&lt;Double&gt; queue = new LinkedBlockingQueue&lt;&gt;(3);
+new Thread(()-&gt; {
+ while(true) {
+  try {
+   queue.offer(Math.random(),2,TimeUnit.SECONDS);
+    System.out.println(&quot;offer():&quot;+queue.size());
+  }catch(InterruptedException e) { e.printStackTrace(); }
+ }
+}).start();
+
+new Thread(()-&gt; {
+ while(true) {
+  try {
+   double pNum = queue.poll(2,TimeUnit.SECONDS);
+    System.out.println(&quot;poll()&quot;+pNum);
+  }catch(InterruptedException e) { e.printStackTrace(); }
+ }
+}).start();
+
+// 実行結果
+offer():1
+offer():2
+offer():3
+poll():2.482......
+poll():0.995......
+offer():3
+poll():......</code></pre><p id="b5d3f9ea-1ed5-41ba-861b-cb4cf0d96776" class="">またDequeインタフェースのブロッキングをサポートしたインタフェースとしてBlockingDequeも提供されている</p><p id="a7a24419-7588-407c-b2ca-f22b9b3303cd" class="">以下はBlockingDequeインタフェースの主なメソッド</p><table id="bbba82b9-3b35-436d-9293-87ccd1f0e0a8" class="simple-table"><thead class="simple-table-header"><tr id="0e77f3fa-4d41-44d0-8666-b26b2633fd7f"><th id="i&gt;NT" class="simple-table-header-color simple-table-header" style="width:90px">最初の要素</th><th id="=yTB" class="simple-table-header-color simple-table-header" style="width:112px">（先頭）</th><th id="QAPU" class="simple-table-header-color simple-table-header"></th><th id="\V^G" class="simple-table-header-color simple-table-header"></th><th id="dYNN" class="simple-table-header-color simple-table-header" style="width:151.27084350585938px"></th></tr></thead><tbody><tr id="0b6410a9-989a-433f-ac34-e021d40ce462"><td id="i&gt;NT" class="block-color-gray_background" style="width:90px"></td><td id="=yTB" class="block-color-gray_background" style="width:112px">例外のスロー</td><td id="QAPU" class="block-color-gray_background">特殊な値</td><td id="\V^G" class="block-color-gray_background">ブロック</td><td id="dYNN" class="block-color-gray_background" style="width:151.27084350585938px">タイムアウト</td></tr><tr id="e111e0fb-19fd-42da-874d-c4f9d303eb07"><td id="i&gt;NT" class="" style="width:90px">挿入</td><td id="=yTB" class="" style="width:112px">addFirst(e)</td><td id="QAPU" class="">offerFirst(e)</td><td id="\V^G" class="">putFirst(e)</td><td id="dYNN" class="" style="width:151.27084350585938px">offerFirst(e,time,unit)</td></tr><tr id="bf6fb0e3-2bb2-4a4a-a9c6-6207a2c4965e"><td id="i&gt;NT" class="" style="width:90px">削除</td><td id="=yTB" class="" style="width:112px">removeFirst()</td><td id="QAPU" class="">pollFirst()</td><td id="\V^G" class="">takeFirst()</td><td id="dYNN" class="" style="width:151.27084350585938px">pollFirst(time,unit)</td></tr><tr id="78c632c1-c52b-43ee-ae90-c0aa36f557ef"><td id="i&gt;NT" class="" style="width:90px">検査</td><td id="=yTB" class="" style="width:112px">getFirst()</td><td id="QAPU" class="">peekFirst()</td><td id="\V^G" class="">適用外</td><td id="dYNN" class="" style="width:151.27084350585938px">適用外</td></tr></tbody></table><table id="55f84da9-8d3a-43a0-a8ec-e95d12ec9480" class="simple-table"><thead class="simple-table-header"><tr id="8a533c4a-a08e-4763-81fd-f46c27aca94a"><th id="i&gt;NT" class="simple-table-header-color simple-table-header" style="width:90px">最後の要素</th><th id="=yTB" class="simple-table-header-color simple-table-header" style="width:112px">（末尾）</th><th id="QAPU" class="simple-table-header-color simple-table-header"></th><th id="\V^G" class="simple-table-header-color simple-table-header"></th><th id="dYNN" class="simple-table-header-color simple-table-header" style="width:151.27084350585938px"></th></tr></thead><tbody><tr id="b2323ed7-b3fb-402c-8109-ca3b0faeb6d2"><td id="i&gt;NT" class="block-color-gray_background" style="width:90px"></td><td id="=yTB" class="block-color-gray_background" style="width:112px">例外のスロー</td><td id="QAPU" class="block-color-gray_background">特殊な値</td><td id="\V^G" class="block-color-gray_background">ブロック</td><td id="dYNN" class="block-color-gray_background" style="width:151.27084350585938px">タイムアウト</td></tr><tr id="8d43b101-dd88-4231-9dfa-e0c2411e8c94"><td id="i&gt;NT" class="" style="width:90px">挿入</td><td id="=yTB" class="" style="width:112px">addLast(e)</td><td id="QAPU" class="">offerLast(e)</td><td id="\V^G" class="">putLast(e)</td><td id="dYNN" class="" style="width:151.27084350585938px">offerLast(e,time,unit)</td></tr><tr id="f50cda1d-272b-4c9b-a237-7181b7aa5a2a"><td id="i&gt;NT" class="" style="width:90px">削除</td><td id="=yTB" class="" style="width:112px">removeLast()</td><td id="QAPU" class="">pollLast()</td><td id="\V^G" class="">takeLast()</td><td id="dYNN" class="" style="width:151.27084350585938px">pollLast(time,unit)</td></tr><tr id="84ff1465-1057-4a42-8804-533dfd6f9c75"><td id="i&gt;NT" class="" style="width:90px">検査</td><td id="=yTB" class="" style="width:112px">getLast()</td><td id="QAPU" class="">peekLast()</td><td id="\V^G" class="">適用外</td><td id="dYNN" class="" style="width:151.27084350585938px">適用外</td></tr></tbody></table></details></li></ul><p id="a5f9ffb9-751c-4fc1-89be-9ce666b263a0" class="">
+</p><ul id="601a3f69-de01-495c-8d33-5b38a2ca127d" class="toggle"><li><details open=""><summary>Mapインタフェースの拡張</summary><p id="592d178a-1ead-4365-80b0-61308250f5d3" class="">同期性をサポートしたマップの主なインタフェースとクラス</p><table id="ebed34eb-e150-4426-9014-3b3b554492b1" class="simple-table"><thead class="simple-table-header"><tr id="9de7f5db-8378-4514-96e7-3745cd6313fc"><th id="t&gt;&gt;z" class="simple-table-header-color simple-table-header">インタフェース・クラス名</th><th id="daWR" class="simple-table-header-color simple-table-header" style="width:505px">説明</th></tr></thead><tbody><tr id="e6785012-2250-4d0c-b616-13045a6dd401"><td id="t&gt;&gt;z" class="">ConcurrentMapインタフェース</td><td id="daWR" class="" style="width:505px">スレッドの安全性と原子性の保証を提供するマップ</td></tr><tr id="e7ab7ed2-9d92-4639-8a0d-3aa84cfd5e9d"><td id="t&gt;&gt;z" class="">ConcurrentHashMapクラス</td><td id="daWR" class="" style="width:505px">ConcurrentMapインタフェースを実装した同期をサポートしたマップクラス</td></tr></tbody></table><p id="7a0450fa-6130-463e-bc59-53ae26c9f3b6" class="">ConcurrentMapインタフェースのメソッド</p><table id="02672da5-582b-4168-bc57-e001566bbbdc" class="simple-table"><thead class="simple-table-header"><tr id="6a715ca2-f722-453d-b322-9c55624a0b11"><th id="`R]?" class="simple-table-header-color simple-table-header" style="width:322px">メソッド名</th><th id="]{ag" class="simple-table-header-color simple-table-header" style="width:502px">説明</th></tr></thead><tbody><tr id="10791ccf-594c-4818-b22a-daae46105a07"><td id="`R]?" class="" style="width:322px">V putIfAbsent(K key, V value)</td><td id="]{ag" class="" style="width:502px">指定されたキーがまだ値と関連付けられていない場合は、指定された値に関連づける</td></tr><tr id="b5bf0a70-8ee9-4fd1-bb3a-1c092516a783"><td id="`R]?" class="" style="width:322px">boolean remove(Object key,Objet value)</td><td id="]{ag" class="" style="width:502px">キー（及びそれに対応する値）をこのマップから削除する
+そのキーがマップにない場合は何もしない</td></tr><tr id="6c45581e-161c-48f8-b1ff-d35177d4b86a"><td id="`R]?" class="" style="width:322px">V replace(K key, V value)</td><td id="]{ag" class="" style="width:502px">キーが値に現在マッピングされている場合のみ、そのキーのエントリを置換する</td></tr><tr id="d9f407b0-5735-4eeb-8b28-874a8fcddf23"><td id="`R]?" class="" style="width:322px">boolean replace(K key,V oldValue,V newValue)</td><td id="]{ag" class="" style="width:502px">キーが指定された値で現在マッピングされている場合のみ、そのキーのエントリを置換する</td></tr></tbody></table><p id="c2e98cf1-e5ad-42ee-8d47-045ce06a3a7b" class="">通常、マップにおいてキーと値のセットを格納する際、まずcontainsKey()やget()メソッドを使用して、指定されたキーが存在するか確認するが、
+ConcurrentMapインタフェースで提供されているメソッドは1つのロックで確認する</p><pre id="f0d90797-fb5b-4a99-94b0-a69e76c6bedb" class="code"><code>// 例
+Map&lt;Integer,String&gt; map = new ConcurrentHashMap&lt;&gt;();
+map.put(1,&quot;tanaka&quot;);
+map.put(2,&quot;urai&quot;);
+for(Integer key:map.keySet()){map.remove(key);}</code></pre></details></li></ul><p id="949d141d-813d-4ed3-8b05-338209a68c3e" class="">
+</p><ul id="8db0e75c-fd53-4f78-b731-07ffa04d6e74" class="toggle"><li><details open=""><summary>ArrayLsitクラスとSetインタフェースの拡張</summary><p id="6ba177c9-b5e4-4ec1-9a6e-216bee5dede2" class="">ArrayListクラス及びSetインタフェースを同期化拡張した主なクラス</p><table id="78b22642-4ff8-473e-95b8-51e3068aa0d8" class="simple-table"><thead class="simple-table-header"><tr id="ca849355-da1e-4063-8447-cb775491c2c9"><th id="YKg~" class="simple-table-header-color simple-table-header" style="width:160px">クラス名</th><th id="^rFb" class="simple-table-header-color simple-table-header" style="width:703px">説明</th></tr></thead><tbody><tr id="2a7f16dc-6932-4e0c-870f-c9ac41cd6f13"><td id="YKg~" class="" style="width:160px">CopyOnWriteArrayList</td><td id="^rFb" class="" style="width:703px">もとになる配列の新しいコピーを作成することにより、スレッドセーフを実現するArrayListの拡張</td></tr><tr id="be270307-ecbe-449b-9307-4928786c1b33"><td id="YKg~" class="" style="width:160px">CopyOnWriteArraySet</td><td id="^rFb" class="" style="width:703px">内部でCopyOnWriteArrayListオブジェクトを使用して、スレッドセーフを実現するSetインタフェースの拡張</td></tr></tbody></table><pre id="6f454ee3-3b1f-40dc-95a4-1e2d9cda0ec8" class="code"><code>ArrayLsit&lt;String&gt; list = new ArrayList&lt;String&gt;();
+list.add(&quot;A&quot;);list.add(&quot;B&quot;);list.add(&quot;C&quot;);list.add(&quot;D&quot;);
+
+new Thread(() -&gt; {
+ Iterator itr = list.iterator();
+ while(itr.hasNext()){
+  System.out.println(&quot;ThreadA:&quot;+itr.next());
+  try {
+   Thread.sleep(5000); 
+  }catch(InterruptedException e) { e.printStackTrace();}
+ }
+}).start();
+
+try { 
+ Thread.sleep(1000);
+}catch(InterruptedException e) { e.printStackTrace();}
+list.add(&quot;E&quot;);System.out.println(&quot;main:add()&quot;);
+list.remove(2);System.out.println(&quot;main:remove()&quot;);
+
+// 実行結果
+ThreadA：A
+main:add()
+main:remove()
+Exception in thread &quot;Thread-0&quot; java.util.ConcurrentModificationException
+ at.java.base/java....</code></pre><pre id="6bec7ffa-7739-47f9-8294-d22ac092b9a6" class="code"><code>List&lt;String&gt; list = new CopyOnWriteArrayLsit&lt;String&gt;();
+list.add(&quot;A&quot;);list.add(&quot;B&quot;);list.add(&quot;C&quot;);list.add(&quot;D&quot;);
+
+new Thread(() -&gt; {
+ Iterator itr = list.iterator();
+ while(itr.hasNext()){
+  System.out.println(&quot;ThreadA:&quot;+itr.next());
+  try {
+   Thread.sleep(5000); 
+  }catch(InterruptedException e) { e.printStackTrace();}
+ }
+}).start();
+
+try { 
+ Thread.sleep(1000);
+}catch(InterruptedException e) { e.printStackTrace();}
+list.add(&quot;E&quot;);System.out.println(&quot;main:add()&quot;);
+list.remove(2);System.out.println(&quot;main:remove()&quot;);
+
+// 実行結果
+ThreadA：A
+main:add()
+main:remove()
+ThreadA:B
+ThreadA:C
+ThreadA:D</code></pre></details></li></ul><p id="7acf0cae-c3c1-4bc8-9355-70f9e04fe400" class="">
+</p><ul id="e450b46f-00fc-45fc-8c62-977b8da8a38f" class="toggle"><li><details open=""><summary>Executorフレームワーク</summary><p id="05abcb3f-e389-4ca6-8406-c7bc3b6ab6d1" class="">今までのマルチスレッドプログラミングでは、ThreadクラスやRunnableインタフェースを使用していましたが、</p><p id="84d4d813-98e3-4896-86a7-2135e3f3dbed" class="">java.util.concurrentパッケージで提供されているExecutorフレームワークを使用すると、スレッドの再利用やスケジューリングを行うスレッドコードを簡単に実装できる</p><p id="e406e413-f923-42c7-b505-c13909b956b6" class="">Executorフレームワークの主なインタフェースとクラス</p><table id="2a3fc028-6f43-43ae-80e4-19ef4fc36de3" class="simple-table"><thead class="simple-table-header"><tr id="cd53cea2-f714-4d34-a70f-a3fe03ec6b6d"><th id="ULM:" class="simple-table-header-color simple-table-header">インタフェース・クラス名</th><th id="gOtP" class="simple-table-header-color simple-table-header" style="width:477px">説明</th></tr></thead><tbody><tr id="41297e7e-087b-4380-8943-00f26bf0d31a"><td id="ULM:" class="">Executorインタフェース</td><td id="gOtP" class="" style="width:477px">指定されたRunnableタスク（1つの処理）を実行するオブジェクト</td></tr><tr id="ea9907ed-f25b-4255-9a8d-1f511e2f72b7"><td id="ULM:" class="">ExecutorServiceインタフェース</td><td id="gOtP" class="" style="width:477px">終了を管理するメソッド、および非同期タスクの実行状況を追跡するFutureを生成するメソッドを提供</td></tr><tr id="1d62c81d-d478-46bd-a03f-5f7ca5209189"><td id="ULM:" class="">Futureインタフェース</td><td id="gOtP" class="" style="width:477px">非同期計算の結果を表す
+計算が完了したかどうかのチェック、完了までの待機、計算結果の取得などを行うためのメソッドを提供</td></tr><tr id="1516757a-638d-4d21-880c-c2061fcafcc5"><td id="ULM:" class="">Callableインタフェース</td><td id="gOtP" class="" style="width:477px">タスクを行うクラス
+結果を返すメソッドを提供</td></tr><tr id="fbf6f1a2-b36c-43f0-b732-799be9770663"><td id="ULM:" class="">Executorsクラス</td><td id="gOtP" class="" style="width:477px">Executor、ExecutorService、ScheduledExecutorService、ThreadFactory、Callableオブジェクト用のファクトリ、及びユーティリティメソッドを提供</td></tr></tbody></table><p id="4d0b58ed-97da-4efa-9809-e2c8876cbdb2" class="">通常、Executorオブジェクトは、明示的にスレッドを作成する代わりに使用され
+new Thread(new(RunnableTask())).start()を呼び出す代わりに、Executorオブジェクトのexecute()メソッドを呼び出す</p><p id="010ce231-965f-48fa-a399-fb2db21a36d4" class="">以下はExecutorsクラスの主なメソッドである</p><table id="ab2c8445-b9b3-4a9c-8a76-54377033a61d" class="simple-table"><thead class="simple-table-header"><tr id="5a1b3a1c-f5b6-4329-8639-5dc7e875fc70"><th id="iUDK" class="simple-table-header-color simple-table-header" style="width:424px">メソッド名</th><th id="fFXG" class="simple-table-header-color simple-table-header" style="width:487px">説明</th></tr></thead><tbody><tr id="89c951f5-ab5f-4415-a195-f6537198a54c"><td id="iUDK" class="" style="width:424px">static ExecutorService newSingleThreadExecutor()</td><td id="fFXG" class="" style="width:487px">1つのスレッドでタスクの処理をするExecutorServiceオブジェクトを返す</td></tr><tr id="e4fc8402-c568-4766-8100-e7be20826e10"><td id="iUDK" class="" style="width:424px">static ExecutorService newFixedThreadExecutor(int nThreads)</td><td id="fFXG" class="" style="width:487px">固定数のスレッドを再利用するスレッドプールを提供するExecutorServiceオブジェクトを返す</td></tr><tr id="771eeb35-4920-42bc-8533-2a1c618f4add"><td id="iUDK" class="" style="width:424px">static ExecutorService newCachedThreadPool()</td><td id="fFXG" class="" style="width:487px">新規スレッドを作成するスレッドプールを作成するが、利用可能な場合には以前に構築されたスレッドを再利用するExecutorServiceオブジェクトを返す</td></tr><tr id="f00641be-baec-4fde-ad2c-c9ec78b13874"><td id="iUDK" class="" style="width:424px">static ScheduledExecutorService newSingleThreadScheduledExecutor()</td><td id="fFXG" class="" style="width:487px">指定された遅延時間後、または周期的にコマンドの実行をスケジュールできる、1つのスレッドでタスクの処理するScheduledExecutorServiceオブジェクトを返す</td></tr><tr id="dced1e90-63ec-4ef0-9def-c99881e0087d"><td id="iUDK" class="" style="width:424px">static ScheduledExecutorService newScheduledThreadPool()</td><td id="fFXG" class="" style="width:487px">指定された遅延時間後、または周期的にコマンドの実行をスケジュールできる、スレッドプールを作成するScheduledExecutorServiceオブジェクトを返す</td></tr><tr id="0b3580f8-ac3a-48b6-af8a-a851cb3ed96b"><td id="iUDK" class="" style="width:424px">static Callable&lt;Object&gt; callable(Runnable task)</td><td id="fFXG" class="" style="width:487px">呼び出し時に指定されたタスクを実行し、nullを返すCallableオブジェクトを返す</td></tr><tr id="17db0c2b-b44e-40f4-8d2a-87ba0314e1df"><td id="iUDK" class="" style="width:424px">static &lt;T&gt; Callable&lt;T&gt; callable(Rnnable task,T result)</td><td id="fFXG" class="" style="width:487px">呼び出し時に指定されたタスクを実行し、指定された結果を返すCallableオブジェクトを返す</td></tr></tbody></table><p id="3005c743-a851-4e65-b81c-365df93376f7" class="">ExecutorServiceインタフェースの主なメソッドは以下のとおり</p><table id="7e9a59f5-6f92-4f4b-aa14-54a18954861f" class="simple-table"><thead class="simple-table-header"><tr id="280f6837-da9b-4683-8454-63f06e34a295"><th id="B:H|" class="simple-table-header-color simple-table-header" style="width:278px">メソッド名</th><th id="AN:N" class="simple-table-header-color simple-table-header" style="width:629px">説明</th></tr></thead><tbody><tr id="22057d1a-2755-4975-b0be-b97861db8466"><td id="B:H|" class="" style="width:278px">boolean awaitTermination(long timeout, TimeUnit unit) Throws InterruptedException</td><td id="AN:N" class="" style="width:629px">シャットダウン要求後に全てのタスクが実行を完了していたか、タイムアウトが発生するか、現在のスレッドで割り込みが発生するか、そのいずれかが最初に発生するまでブロックする</td></tr><tr id="af6fb35d-ac9d-4b5b-9ed4-799e3848834a"><td id="B:H|" class="" style="width:278px">boolean isShutdown()</td><td id="AN:N" class="" style="width:629px">このExecutorがシャットダウンしていた場合、trueを返す</td></tr><tr id="0628a61a-6bac-4388-8f87-04d05575b218"><td id="B:H|" class="" style="width:278px">boolean isTerminated()</td><td id="AN:N" class="" style="width:629px">シャットダウンに続いて全てのタスクが完了していた場合、trueを返す</td></tr><tr id="d93fbc77-9528-46a5-bb87-6f194178dee9"><td id="B:H|" class="" style="width:278px">void shutdown()</td><td id="AN:N" class="" style="width:629px">順序正しくシャットダウンをする
+以前に送信されたタスクは実行されるが、新規タスクは受け入れられない</td></tr><tr id="32dec371-136f-453a-97a4-1424bbe2fcc1"><td id="B:H|" class="" style="width:278px">List&lt;Runnable&gt; shutdownNow()</td><td id="AN:N" class="" style="width:629px">実行中のアクティブなタスク、および待機中のタスクの処理を停止し、実行を待機していたタスクのリストを返す</td></tr><tr id="2ec5c380-e117-4d3a-bb23-f2923195b0bc"><td id="B:H|" class="" style="width:278px">&lt;T&gt; Future&lt;T&gt; submit(Callable&lt;T&gt; task)</td><td id="AN:N" class="" style="width:629px">値を返す実行用のCallableタスクを送信して、結果を表すFutureオブジェクトを返す</td></tr><tr id="3c133ccf-a83a-42c8-a2e3-eccc0ab34604"><td id="B:H|" class="" style="width:278px">Future&lt;T&gt; submit(Runnable task)</td><td id="AN:N" class="" style="width:629px">実行用のRunnableタスクを送信して、その結果を表すFutureを返す</td></tr><tr id="d9a74cc6-dbde-4d85-a24e-c8043bf050f1"><td id="B:H|" class="" style="width:278px">&lt;T&gt; Future&lt;?&gt; submit(Runnable task,T result)</td><td id="AN:N" class="" style="width:629px">実行用のRunnableタスクと正常に完了した際の結果値を送信して、その結果値を保持するFutureを返す</td></tr><tr id="6384c53b-e490-4729-adf1-b2a43940e570"><td id="B:H|" class="block-color-gray_background" style="width:278px">void execute(Runnable command)</td><td id="AN:N" class="block-color-gray_background" style="width:629px">指定されたタスクを実行する</td></tr></tbody></table><p id="5e961232-8de1-4092-9e3f-6965b9a443ec" class="">一番下のメソッドはExecutorインタフェースのメソッド</p><pre id="3e0aa787-7978-4615-a084-9d1f313bdfaa" class="code"><code>ExecutorService service = null;
+try {
+ service = Executors.newSingleThreadExecutor();
+ System.out.println(&quot;service.execute()&quot;);
+ for(int i = 0;i&lt;3;i++) {
+  service.execute(()-&gt;{
+   System.out.println(&quot;thread task&quot;);
+   for(int a = 0;a&gt;5;a++) {
+    try {
+     Thread.sleep(500);
+     System.out.print(&quot;*&quot;);
+    }catch(InterruptedException e) { e.printStackTrace(); }
+   }
+   System.out.println();
+  });
+ }
+} finally {
+ service.shutdown();
+ System.out.println(&quot;ex.shutdown()&quot;);
+}
+
+// 実行結果
+service.execute()
+ex.shutdown()
+thread task*****
+thread task*****
+thread task*****</code></pre><p id="154bb8d7-ff48-42d7-8f14-6d7c7242b492" class="">
+</p><p id="84b6ac62-5573-435a-9fee-850ab261e4a5" class="">Futureは非同期的な演算の結果を表現するためのクラスであり、Futureを利用すれば、マルチスレッド環境で処理されたいくつかのデータを他のスレッドに渡すことが可能になる</p><p id="4b72d2a3-3b8f-4504-8128-3e3b67767dd7" class="">以下はFutureインタフェースの主なメソッド</p><table id="7207c1f5-c686-490a-8b4a-ca5e20c5fb0e" class="simple-table"><thead class="simple-table-header"><tr id="64edac19-d010-4790-8f72-3f9d39c3e45b"><th id="YTEt" class="simple-table-header-color simple-table-header" style="width:298px">メソッド名</th><th id="&gt;GM|" class="simple-table-header-color simple-table-header" style="width:358px">説明</th></tr></thead><tbody><tr id="bb312770-36e4-44b8-b7ea-8a385fb9d978"><td id="YTEt" class="" style="width:298px">boolean cancel(boolean mayInterruptIfrunning)</td><td id="&gt;GM|" class="" style="width:358px">このタスクの実行の取り消しを試みる</td></tr><tr id="7bba6e30-bf56-4fd2-8a19-480907343c80"><td id="YTEt" class="" style="width:298px">boolean isCancelled()</td><td id="&gt;GM|" class="" style="width:358px">このタスクが正常に完了する前に取り消された場合はtrueを返す</td></tr><tr id="19e872d2-3970-4650-8d96-007faa6b4518"><td id="YTEt" class="" style="width:298px">boolean isDone()</td><td id="&gt;GM|" class="" style="width:358px">このタスクが完了した場合はtrueを返す</td></tr><tr id="f8484c02-6df4-4b3c-be61-2da7d2b77d34"><td id="YTEt" class="" style="width:298px">V get() throws InterruptedException,ExecutionException</td><td id="&gt;GM|" class="" style="width:358px">必要に応じてタスクが完了する待機し、その後タスク結果を取得する</td></tr><tr id="7589ee3b-b15e-4510-9925-0f9a27b20d91"><td id="YTEt" class="" style="width:298px">V get(long timeout,TimeUnit unit) throws InterruptedException,ExecutionException,TimeoutException</td><td id="&gt;GM|" class="" style="width:358px">必要に応じて、最大で指定された時間及び計算が完了するまで待機し、その後タスク結果を取得する</td></tr></tbody></table><pre id="e1d94077-f348-4010-84ec-4cf471f17cc5" class="code"><code>// 例
+ExecutorService service = null;
+try {
+ service = Executor.newSingleThreadExecutor();
+ Future&lt;?&gt; result1 = service.submit(()-&gt;System.out.println(&quot;hello&quot;));
+ System.out.println(result1.get());
+ Future&lt;Boolean&gt; result2 = service.submit(()-&gt;System.out.println(&quot;hello&quot;),ture);
+ System.out.println(result2.get());
+} catch (InterruptedException | ExecutionException e) {
+ e.printStackTrace();
+} finally {
+ if(service != null) service.shutdown();
+}
+
+// 実行結果
+hello
+null
+hello
+true</code></pre></details></li></ul><p id="73dfdce4-bd8f-439e-a4b4-32b76d334999" class="">
+</p><ul id="c6dc5dd0-deba-412f-8281-90c52b551d8e" class="toggle"><li><details open=""><summary>Callableインタフェース</summary><p id="9aa11c0c-6c49-446f-a607-79759134f3b6" class="">Runnableインタフェースのrun()メソッドは、戻り値がvoidであるため、処理結果をスレッド開始元に返すことはできない</p><p id="68cbcd46-3cb0-4ac2-a5f1-d7744112db26" class="">Callableインタフェースは処理結果をオブジェクトで返すことが可能</p><table id="beeceb37-43a9-43fc-93b3-b677ae1b4b98" class="simple-table"><thead class="simple-table-header"><tr id="f4162462-2723-435d-b5e4-4ac427cfd423"><th id="Fyc:" class="simple-table-header-color simple-table-header" style="width:205.0729217529297px">メソッド名</th><th id="U~jt" class="simple-table-header-color simple-table-header" style="width:329px">説明</th></tr></thead><tbody><tr id="dc4fa1b6-daa2-4219-8950-6c83219f95de"><td id="Fyc:" class="" style="width:205.0729217529297px">V call() throws Exception</td><td id="U~jt" class="" style="width:329px">タスクを実行し結果を返す
+タスクが実行できない場合は例外をスローする</td></tr></tbody></table><pre id="7ba97019-f536-4cc6-bbb0-0ac07db8be6a" class="code"><code>//　例
+ExecutorService service = null;
+try {
+ service = Executors.newSingleThreadExecutor();
+ Future&lt;Date&gt; result = service.submit(()-&gt;new Date());
+ System.out.println(result.get());
+} catch (InterruptedException|ExecutionException e) {
+ e.printStackTrace();
+} finally {
+ if(service != null) service.shutdown();
+}
+
+// 実行結果
+Fir Feb 21 13:01:32 JST 2020</code></pre></details></li></ul><p id="c976b900-b992-4910-a2eb-404d4bd5d348" class="">
+</p><ul id="ed68f37d-1310-44b2-af67-976db7356de1" class="toggle"><li><details open=""><summary>タスクのスケジュール</summary><p id="0c64e338-0f71-448f-a602-4ffe11f21580" class="">タスクの指定時間後の実行や、定期的な実行などの制御が可能</p><p id="00459159-45c3-42f1-8141-b73ac8c74074" class="">そのためにExecutorServiceインタフェースを継承したScheduledExecutorServiceインタフェースを利用する</p><p id="ae6d936c-3305-4fff-8eb2-c6b0f1e4cdcb" class="">以下は主なメソッド</p><table id="5526f0cc-4ce0-4da7-82da-3d4a7b161797" class="simple-table"><thead class="simple-table-header"><tr id="309227c6-1c8d-4279-ba9d-fff047294ff0"><th id="KcQj" class="simple-table-header-color simple-table-header" style="width:239px">メソッド名</th><th id="=O=o" class="simple-table-header-color simple-table-header" style="width:409px">説明</th></tr></thead><tbody><tr id="7823fdd9-c874-400c-86bd-d0f2b7845948"><td id="KcQj" class="" style="width:239px">&lt;V&gt; ScheduledFuture&lt;V&gt; schedule(Callable&lt;V&gt; callable,long delay,TimeUnit unit)</td><td id="=O=o" class="" style="width:409px">指定された遅延時間後に有効になる単発的なアクションを作成してCallableを実行する</td></tr><tr id="53976ad2-bcee-4abf-87ff-c2a289b16146"><td id="KcQj" class="" style="width:239px">ScheduledFuture&lt;?&gt; schedule(Runnable command,long delay,TimeUnit unit)</td><td id="=O=o" class="" style="width:409px">指定された遅延時間後に有効になる単発的なアクションを作成してRunnableを実行する</td></tr><tr id="6703f075-d02d-4c42-961f-e3c497c0c184"><td id="KcQj" class="" style="width:239px">ScheduledFuture&lt;?&gt; scheduleAtFixedRate(Runnable command,long initialDelay,long period,TimeUnit unit)</td><td id="=O=o" class="" style="width:409px">指定された初期遅延の経過後に初めて有効になり、その後は指定された期間ごとに有効になる定期的なアクションを作成して実行する</td></tr><tr id="73b7c6f7-5b5e-475a-9493-79aed3e26ba3"><td id="KcQj" class="" style="width:239px">ScheduledFuture&lt;?&gt; scheduleWithFixedDelay(Rnnable command,long initialDelay,long delay,TimeUnit unit)</td><td id="=O=o" class="" style="width:409px">指定された処理遅延の経過後に初めて有効になり、その後は実行の終了後から次の開始まで指定の遅延時間毎に有効になる定期的なアクションを作成して実行する</td></tr></tbody></table><pre id="40f5b2e1-bc63-4e7d-b67a-56b1523a0d8b" class="code"><code>//　例
+ScheduledExecutorService service = null;
+try {
+ service = Executors.newSingleThreadscheduledExecutor();
+ Runnable task = () -&gt; System.out.println(new Date());
+ service.scheduleWithFixedDelay(task,2,2,TimeUnit.SECONDS);
+ Thread.sleep(10000);
+} catch (InterruptedException e) {
+ e.printStackTrace();
+} finally {
+ if(servie != null) service.shutdown();
+}
+
+// 実行結果
+Thu Oct 06 15:25:01 GMT+09:00 2022
+Thu Oct 06 15:25:03 GMT+09:00 2022
+Thu Oct 06 15:25:05 GMT+09:00 2022
+Thu Oct 06 15:25:07 GMT+09:00 2022</code></pre></details></li></ul><p id="e172a68c-ad11-49ed-997c-c49391ff8184" class="">
+</p><ul id="213e8c81-0cbd-4178-b23a-aec0435ba471" class="toggle"><li><details open=""><summary>TimeUnit列挙型の列挙値</summary><table id="07ce74d3-68c8-45e7-abb6-224524ab8c3d" class="simple-table"><thead class="simple-table-header"><tr id="3a927d4e-0a53-47c9-a8ee-687895da98d5"><th id="tzpk" class="simple-table-header-color simple-table-header" style="width:177px">列挙値</th><th id="yand" class="simple-table-header-color simple-table-header">説明</th></tr></thead><tbody><tr id="405b02bd-e9aa-4301-ab3f-27d6fca0c775"><td id="tzpk" class="" style="width:177px">NANOSECONDS</td><td id="yand" class="">ナノ秒</td></tr><tr id="cd6f1aa5-f6b9-443a-aaff-78715826c70c"><td id="tzpk" class="" style="width:177px">MICROSECONDS</td><td id="yand" class="">マイクロ秒</td></tr><tr id="a6ac7c48-157f-4b33-bf8a-944d259c459d"><td id="tzpk" class="" style="width:177px">MILLISECONDS</td><td id="yand" class="">ミリ秒</td></tr><tr id="8ee08599-9e21-4726-99e6-4e26f6a9dbd3"><td id="tzpk" class="" style="width:177px">SECONDS</td><td id="yand" class="">秒</td></tr><tr id="d77a9088-4d38-478e-9eae-6fe97de717fa"><td id="tzpk" class="" style="width:177px">MINUTES</td><td id="yand" class="">頒</td></tr><tr id="52a2a13d-d742-4178-9760-04bac60143a1"><td id="tzpk" class="" style="width:177px">HOURS</td><td id="yand" class="">時</td></tr><tr id="6dbcbb59-6ce9-4463-9bfb-3fde190d3343"><td id="tzpk" class="" style="width:177px">DAYS</td><td id="yand" class="">日</td></tr></tbody></table></details></li></ul><p id="cc7cb008-3076-4644-a0a5-90f51f4a4ae8" class="">
+</p><ul id="dc984e04-9e49-46a5-9c46-03358d2a2251" class="toggle"><li><details open=""><summary>スレッドプール</summary><p id="649a39de-b566-461f-904b-a48db9f2f4b3" class="">複数のスレッドを用意しておき、タスクを順次実施させる</p><pre id="f147b0f2-a2c0-4c15-b909-b6d0888d0805" class="code"><code>// 構文1
+static ExecutorService newCachedThreadPool()
+// 新規スレッドを作成するスレッドプールを作成するが、以前に作成されたスレッドが利用可能であれば再利用する
+
+// 構文2
+static ExecutorService newFixedThreadPool(int nThreads)
+// 固定数のスレッドを再利用するスレッドプールを作成する
+// 引数で指定した数のスレッドが全てアクティブであると、それらのスレッドはスレッドが使用可能になるまで待機する
+
+// 構文3
+// 引数で指定したプールサイズのスレッドプールを作成する
+// ただし、定期的なコマンド実行が可能</code></pre><pre id="e68c6fd7-723a-462e-8ec8-e188db3ee708" class="code"><code>ExecutorService service = null;
+try { 
+ service = Executors.newCachedThreadPool();
+ Runnable task = () -&gt; {
+  String name = Thread.currentThread().getName();
+  System.out.println(name+&quot;:start&quot;);
+  try {
+   Thread.sleep(3000);
+  } catch (InterruptedException e) {
+    e.printStackTrace();
+  }
+  System.out.println(name+&quot;:end&quot;);
+ };
+ for(int i = 0; i&lt;5; i++) {
+  service.execute(task);
+ }
+} finally {
+ if(service != null) service.shutdown();
+}
+
+// 実行結果
+pool-1-thread-1 : start 
+pool-1-thread-4 : start 
+pool-1-thread-2 : start 
+pool-1-thread-5 : start 
+pool-1-thread-3 : start 
+pool-1-thread-5 : end 
+pool-1-thread-1 : end 
+pool-1-thread-2 : end 
+pool-1-thread-3 : end 
+pool-1-thread-4 : end</code></pre></details></li></ul><p id="78ccd71a-e0ba-4970-a4b6-2ca35199c000" class="">
+</p><ul id="1d340815-cb32-41b9-bc05-b4e13cd8149c" class="toggle"><li><details open=""><summary>CyclicBarrierクラス</summary><p id="94801eab-b89e-41c7-98ae-91d58a411737" class="">複数のスレッドで処理を行っている際に、バリアポイントを設定しておくと、指定した数のスレッドがその箇所に到達するまで待機する</p><p id="a531ba36-aaba-4469-b331-7670173197b9" class="">必要に応じて、バリアポイントを通過する際に、バリアクッションと呼ばれる処理を実行することも可能</p><p id="99eca2ba-fca5-4c8b-8056-b78168a93007" class="">以下はCyclicBarrierクラスのコンストラクタと主なメソッド</p><table id="8240079f-bd93-4921-9425-405b5b62aaa2" class="simple-table"><thead class="simple-table-header"><tr id="c8a93be4-17c4-4f1c-afc5-e853337ac959"><th id="iiId" class="simple-table-header-color simple-table-header" style="width:309px">コンストラクタ・メソッド</th><th id="Qudt" class="simple-table-header-color simple-table-header" style="width:319px">説明</th></tr></thead><tbody><tr id="b0982e2f-5a3e-451f-b924-d80224c07797"><td id="iiId" class="" style="width:309px">public CyclicBarrier(int parties)</td><td id="Qudt" class="" style="width:319px">引数で指定された数分のスレッドが待機状態になると、バリアポイントを通過する</td></tr><tr id="18245d60-f677-4697-bf34-4f8d17b45db5"><td id="iiId" class="" style="width:309px">public CyclicBarrier(int parties,Runnable barrierAction)</td><td id="Qudt" class="" style="width:319px">バリアポイントを通過する際に、第2引数で指定されたバリアアクションを実行する</td></tr><tr id="7f459665-670d-4dcf-80e0-b184f4f0e2c8"><td id="iiId" class="" style="width:309px">public int await() throws InterruptedException,BrokenBarrierException</td><td id="Qudt" class="" style="width:319px">バリアポイントに指定された数のスレッドが到着するまで待機する</td></tr></tbody></table><pre id="8847d58a-b11f-40bd-b073-16d5b512501a" class="code"><code>import java.util.concurrent.*;
+public class Main {
+ void exec(CyclicBarrier barrier) {
+  try {
+    System.out.println(Thread.currentThread().getName() + &quot;start&quot;);
+    Thread.sleep((int)(Math.random()*3000));
+    barrier.await();
+    System.out.println(Thread.currentThread().getName() + &quot;end&quot;);
+  }catch(BrokenBarrierException | InterruptedException e) { }
+ }
+ public static void main(String[] args) {
+  ExecutorService service = null;
+  try {
+   service = Executors.newFixedThreadPool(4);
+   CyclicBrrier = new CyclicBarrier(2,()-&gt;System.out.println(&quot;task &quot;));
+   for(int i = 0; i&lt;4; i++) {
+     service.execute(()-&gt;new Main().exec(barrier));
+   }
+  } finally {
+   if(service != null) service.shutdown();
+  }
+ }
+}
+
+// 実行結果
+pool-1-thread-2 start 
+pool-1-thread-3 start 
+pool-1-thread-4 start 
+pool-1-thread-1 start 
+task
+pool-1-thread-3 end 
+pool-1-thread-1 end 
+task 
+pool-1-thread-4 end 
+pool-1-thread-2 end
+
+</code></pre></details></li></ul><p id="5dc4ce5a-ffab-4316-95b7-eec5b2058c7a" class="">
+</p><ul id="a54092f6-05e6-44f5-8a22-7372259a2e97" class="toggle"><li><details open=""><summary>アトミック変数</summary><p id="66841ffb-b5ed-4ac5-a8e6-3ed618615243" class="">分割不可能な操作のことをアトミック操作と呼ぶ</p><p id="fc35e7cb-9f73-40ff-98ab-0cffca9277da" class="">java.util.concurrent.atomicパッケージはアトミック操作を簡単に実装するため、アトミックに操作できる値を表すクラスを提供している</p><table id="da55ae73-8867-447e-9cfc-ad6a05502719" class="simple-table"><thead class="simple-table-header"><tr id="6620b80f-de8f-498c-aa21-9e8bc9232231"><th id="gPMf" class="simple-table-header-color simple-table-header" style="width:123px">クラス名</th><th id="a^U\" class="simple-table-header-color simple-table-header" style="width:395px">説明</th></tr></thead><tbody><tr id="c796a4d0-400d-42d4-a054-61f1c92bab34"><td id="gPMf" class="" style="width:123px">AtomicBoolean</td><td id="a^U\" class="" style="width:395px">アトミックに操作するboolean型の値を扱うクラス</td></tr><tr id="ffdfd6ae-ca16-4e80-aa2f-f9ac39494699"><td id="gPMf" class="" style="width:123px">AtomicInteger</td><td id="a^U\" class="" style="width:395px">アトミックに操作するint型の値を扱うクラス</td></tr><tr id="1e00f5b7-2af3-464c-bc15-a70f020a5e12"><td id="gPMf" class="" style="width:123px">AtomicLong</td><td id="a^U\" class="" style="width:395px">アトミックに操作するlong型の値を扱うクラス</td></tr><tr id="2f92a574-163c-489d-b653-143f29ab0639"><td id="gPMf" class="" style="width:123px">AtomiReference</td><td id="a^U\" class="" style="width:395px">アトミックに操作する参照型のデータを扱うクラス</td></tr></tbody></table><pre id="2b482633-6dc7-46f6-bb8a-6b930c8eeca7" class="code"><code>import java.util.concurrent.atomic.*;
+import java.util.concurrent.*;
+
+class IntegerTest {
+ private Integer syncInteger;
+ private final AtomicInteger atomicInteger;
+ public Integertest() {
+  syncInteger = 0;
+  atomicInteger = new AtomicInteger(0);
+ }
+ synchronized public void addSyncInteger() {
+  syncInteger++;
+ }
+ public void addAtomicInteger() {
+  atomicInteger.getAndIncrement();
+ }
+ public void showData() {
+  System.out.println(&quot;syncInt  :&quot; + syncInteger);
+  System.out.println(&quot;atomicInt:&quot; + atomicInteger.get());
+ } 
+}
+
+public class Main {
+ public static void main(String[] args) throws InterruptedException {
+  IntegerTest obj = new IntegerTest();
+  exec(()-&gt;obj.addSyncInteger());
+  exec(()-&gt;obj.addAtomicInteger());
+  obj.showData();
+ }
+ private static void exec(Rnnable task) throws InterruptedException {
+  ExecutorService service = null;
+  try {
+   service = Executors.newFixedThreadPool(100);
+   for (int i = 0; i &lt; 10000; i++ ) {
+    service.submit(task);
+   }
+   service.awaitTermination(10,TimeUnit.SECONDS);
+  } finally {
+   if(service != null) service.shutdown();
+  }
+ }
+}
+
+// 実行結果
+syncInt  :10000
+atomicint:10000</code></pre><p id="88dddafc-5518-43fe-a49d-48142f6f63c5" class="">AtomicIntegerクラスの主なメソッド</p><table id="ee5ce131-5f03-4df3-b04f-5f656c7b6d70" class="simple-table"><thead class="simple-table-header"><tr id="1be7b976-0d38-4e02-bd0f-bef604169316"><th id="]yr]" class="simple-table-header-color simple-table-header" style="width:207px">メソッド名</th><th id="M=up" class="simple-table-header-color simple-table-header" style="width:427px">説明</th></tr></thead><tbody><tr id="41e751b3-b055-498d-b245-0271903bc761"><td id="]yr]" class="" style="width:207px">final int addAndGet(int delta)</td><td id="M=up" class="" style="width:427px">アトミックに指定された値を現在の値に追加する
+戻り値は、増加後の値</td></tr><tr id="bfbd271b-2ae6-4dbe-aeb1-d74aaa1bf58f"><td id="]yr]" class="" style="width:207px">final boolean compareAndSet(int expect,int update)</td><td id="M=up" class="" style="width:427px">現在の値が第一引数と等しい場合、アトミックに第二引数で指定された値に更新する</td></tr><tr id="a298cd4f-1c7d-49b4-8193-bd60c5c6af03"><td id="]yr]" class="" style="width:207px">final int incrementAndGet()</td><td id="M=up" class="" style="width:427px">アトミックにインクリメントし、更新値を返す</td></tr><tr id="9fc35879-4306-4aad-a445-06259a9d48a5"><td id="]yr]" class="" style="width:207px">final int get()</td><td id="M=up" class="" style="width:427px">現在の値を取得する</td></tr><tr id="d82475a0-dd04-410d-b245-8080a71ac0a7"><td id="]yr]" class="" style="width:207px">final int getAndIncrement()</td><td id="M=up" class="" style="width:427px">アトミックにインクリメントし、更新前の値を返す</td></tr></tbody></table></details></li></ul><p id="562b761f-d87b-410f-aa25-043264e0536d" class="">
+</p><ul id="bf40a008-7d9f-4a22-95a7-0d1a50b88a76" class="toggle"><li><details open=""><summary>パラレルストリーム</summary><p id="404e5095-bd7d-497d-9c90-bbdb478946dc" class="">並列処理を行うストリームのこと</p><p id="b5110aeb-0c83-43d1-b9de-475c1678b139" class="">逐次処理のストリームはシーケンシャルスストリームと呼ぶ</p><table id="7c461e33-6e79-4847-b538-22d5b5fb7e22" class="simple-table"><thead class="simple-table-header"><tr id="c58b4b45-bc9c-4e26-8aa5-d088eec52082"><th id="TVjN" class="simple-table-header-color simple-table-header" style="width:167px">メソッド名</th><th id="Lr&lt;f" class="simple-table-header-color simple-table-header" style="width:471px">説明</th></tr></thead><tbody><tr id="f2a384db-f5ed-4072-a555-8e7aac039685"><td id="TVjN" class="" style="width:167px">default Stream&lt;E&gt; parallelStream()</td><td id="Lr&lt;f" class="" style="width:471px">Collectionインタフェースで提供
+コレクションをソースとしてパラレルストリームを返す</td></tr><tr id="6d9d61cd-5ca4-47ec-a2c7-eea2b3646c99"><td id="TVjN" class="" style="width:167px">S parallel()</td><td id="Lr&lt;f" class="" style="width:471px">BaseStreamインタフェースで提供
+ストリームをソースとしてパラレルストリームを返す</td></tr><tr id="7fa0ab10-b7bf-4538-b2a1-1f30e3089d12"><td id="TVjN" class="" style="width:167px">boolean isParallel()</td><td id="Lr&lt;f" class="" style="width:471px">BaseStreamインタフェースで提供
+このストリームがパラレルストリームであればtrueを返す</td></tr><tr id="ae055bc5-09d6-4d64-a72d-fb3ff7b8b9f6"><td id="TVjN" class="" style="width:167px">S sequential()</td><td id="Lr&lt;f" class="" style="width:471px">BaseStreamインタフェースで提供
+ストリームをソースとしてシーケンシャルストリームを返す</td></tr></tbody></table><pre id="78e52fea-be6f-4ee2-b7e3-ee92ce5c5ef0" class="code"><code>List&lt;String&gt; liet = Arrays.asList(&quot;aaa&quot;,&quot;bb&quot;,&quot;c&quot;);
+Stream&lt;String&gt; stream1 = list.parallelStream();
+System.out.println(&quot;stream1 :&quot; + stream1.isParallel());
+Stream&lt;String&gt; stream2 = list.stream();
+System.out.println(&quot;stream2 :&quot; + stream2.isParallel());
+Stream&lt;String&gt; stream3 = stream2.parallel();
+System.out.println(&quot;stream3 :&quot; + stream3.isParallel());
+
+// 実行結果
+stream1 :true
+stream2 :false
+stream3 :true</code></pre><p id="048bc5bd-ea13-4ba5-941f-1298a76f56b5" class="">パラレルストリームでは要素を並列に処理を行うため、どの要素から実行されるかは実行時によって異なる</p><pre id="6ba79d9d-587d-47b2-b616-526fc600df26" class="code"><code>// シーケンシャルストリームによる実行
+Arrays.asList(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;)
+      .stream()
+      .forEach(a-&gt;System.out.print(s+&quot; &quot;));
+System.our.println();
+// パラレルストリームによる実行
+Arrays.asList(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;)
+      .parallelStream()
+      .forEach(s-&gt;System.our.print(s+&quot; &quot;));
+
+// 実行結果
+()\21&gt;java Main
+a b c d e
+c a b d e
+()\21&gt;java Main
+a b c d e
+c d b e a</code></pre></details></li></ul><p id="122924cb-7937-476e-ac2b-447dad42266a" class="">
+</p><ul id="d29da262-3f42-4a6e-8491-3a721eef2ff3" class="toggle"><li><details open=""><summary>ForkJoinPoolの利用</summary><p id="a166cc12-c7e4-4801-8ce6-8b0969214b57" class="">parallel()やparallelStream()メソッドを使用したストリームの並列処理ではForkJoinPoolが使用される</p><p id="2353be0f-8a46-41a2-aeb2-9b9536aa2b5e" class="">ForkJoinPoolクラスはExecutorServiceインタフェースの実装クラスで、重い計算を小さなタスクに分割し、複数のスレッドによって並列実行することで高速に処理することを目的としたクラスである</p><pre id="7a6ced57-bfbf-46d2-8185-9fa4db0cde0a" class="code"><code>import java.util.*;
+import java.util.atream.*;
+import java.util.concurrent.*;
+public class Main {
+ public static void main(String[] args) throws Exception {
+  System.out.println(&quot;commonPool :&quot; + ForkJoinPool.commonPool().getParallelism());
+  IntStream.range(0,100).parallel()
+           .forEach(i-&gt;System.out.println(Thread.currentThread().getName() + &quot;: &quot; + i));
+ }
+}
+
+// 実行結果
+()\22&gt;java Main
+commonPool : 7
+ForkjoinPool.commonPool-worker-9: 56
+main: 65
+ForkjoinPool.commonPool-worker-15: 53
+...(省略)</code></pre></details></li></ul><p id="9a9f41aa-7e39-4acb-ad03-b1806a2d59d5" class="">
+</p><ul id="8545e7c6-6852-407a-9400-ebb46fb0fd3c" class="toggle"><li><details open=""><summary>パラレル処理でパイプライン</summary><p id="5089ebf9-782b-425d-ab56-bea81e1e018f" class="">シーケンシャルとパラレル</p><pre id="e97f0285-8416-470f-9e47-9ff70b43ea69" class="code"><code>Arrays.asList(&quot;hana&quot;,&quot;ken&quot;,&quot;mika&quot;)
+      .stream()
+      .map(s-&gt;s.toUpperCase())
+      .forEach(s-&gt;System.out.print(s+&quot; &quot;));
+System.our.print();
+Arrays.asLit(&quot;hana&quot;,&quot;ken&quot;,&quot;mika&quot;)
+      .parallelStream()
+      .map(s-&gt; {System.out.println(s+&quot; &quot;);
+                return s.toUpperCase();})
+      .forEach(s-&gt;System.out.println(s+&quot; &quot;));
+// 実行結果
+HANA KEN MIKA
+ken hana HANA KEN mmika MIKA
+// パラレル処理では個々に処理が行われる</code></pre></details></li></ul><p id="d146ce6f-ed2d-4ceb-b5fa-b0453f51683b" class="">
+</p><ul id="c6768b29-0715-481c-bc2d-fc294cf87620" class="toggle"><li><details open=""><summary>groupingByConcurrent()、toConcurrentMap()メソッドの利用</summary><p id="a0434f91-002f-4be1-a6ec-1f493ab73d41" class="">Collectorsクラスには、パラレルストリームのみで使用されるメソッドとして以下が提供されている</p><table id="c96ec251-1723-4afd-b25a-7a229122e31a" class="simple-table"><thead class="simple-table-header"><tr id="cbb2d30c-ab01-4889-bddc-4ce1f96e5226"><th id="EZ?}" class="simple-table-header-color simple-table-header" style="width:332px">メソッド名</th><th id=":mkh" class="simple-table-header-color simple-table-header" style="width:366px">説明</th></tr></thead><tbody><tr id="3cf7174c-7e9b-4751-a5d1-76ebdb88970d"><td id="EZ?}" class="" style="width:332px">static &lt;T,K&gt; Collector&lt;T,?,ConcurrentMap&lt;K,List&lt;T&gt;&gt;&gt; groupingByConcurrent(Function&lt;? super T,? extends K&gt; classifer)</td><td id=":mkh" class="" style="width:366px">指定した関数に従って要素をグループ化し、結果をConcurrentMapに格納して返す並行Collectorを返す</td></tr><tr id="51c7e43e-e07e-4d8c-a482-bf55ed1c8c66"><td id="EZ?}" class="" style="width:332px">static &lt;T,K,U&gt; Collector&lt;T,?,ConcurrentMap&lt;K.U&gt;&gt; toConcurrentMap(Function&lt;? super T,? extends K&gt; keyMapper,Function&lt;? super T,? extends U&gt; valueMapper,BinaryOperator&lt;U&gt; mergeFunction)</td><td id=":mkh" class="" style="width:366px">ConcurrentMapに蓄積する並行Collectorを返す</td></tr></tbody></table></details></li></ul><p id="eac0728a-2cb9-4358-82c9-4308e04600b7" class="">
+</p><p id="9e693de6-68ed-4a96-a65a-b673705c2225" class="">
+</p><p id="3e36a40c-b5ad-40c1-ae1d-b59c315f195e" class="">
+</p></div></article></body></html>

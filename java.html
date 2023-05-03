@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!--Shift + Alt + F でコード整形できるよ．-->
+    <meta charset="UTF-8">
+    <title>資料一覧</title>
+
+    <!--検索で引っかからないようにする-->
+    <meta name="robots" content="noindex,nofollow,noarchive">
+
+
+    <!--jquery関連-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!--popper関連-->
+    <link href="https://unpkg.com/@popperjs/core@2">
+
+    <!--bootstrap関連-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
+    <script>
+        $(function () {
+            $("#header").load("header.html");
+        })
+    </script>
+
+
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <h1 class="TextTyping m-4 text-light">Java関連資料一覧．</h1>
+
+    <div class="container-fluid mt-3">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close m-1" data-bs-dismiss="alert" aria-label="閉じる"></button>
+            <strong>注意!</strong>　これらの資料は自分が勉強するために書いた資料です．間違いがあるかもしれませんので参考にする際は注意してください！
+        </div>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close m-1" data-bs-dismiss="alert" aria-label="閉じる"></button>
+            <strong>注意!</strong>　外部のサイトに移動します！
+        </div>
+
+        <div class="list-group mb-5">
+            <a href="java/java_silver.html" class="list-group-item list-group-item-action bg-transparent border-light">
+                <div class="d-flex w-100 justify-content-between">
+
+                    <h5 class="mb-1 text-light">
+                        <i class="bi bi-box-arrow-up-right"></i> Javaの基本
+                    </h5>
+                </div>
+                <small class="text-light">Javaの基本的な構文．</small>
+            </a>
+
+            <a href="java/java_class.html" class="list-group-item list-group-item-action bg-transparent border-light">
+                <div class="d-flex w-100 justify-content-between">
+
+                    <h5 class="mb-1 text-light">
+                        <i class="bi bi-box-arrow-up-right"></i> Javaのクラス
+                    </h5>
+                </div>
+                <small class="text-light">final・static修飾子，列挙型，インターフェース，ネストクラス．</small>
+            </a>
+
+            <a href="java/java_annotation.html"
+                class="list-group-item list-group-item-action bg-transparent border-light">
+                <div class="d-flex w-100 justify-content-between">
+
+                    <h5 class="mb-1 text-light">
+                        <i class="bi bi-box-arrow-up-right"></i> アノテーション
+                    </h5>
+                </div>
+                <small class="text-light">主なアノテーションから，カスタムアノテーション・メタアノテーションまで．</small>
+            </a>
+
+            <a href="java/java_exception.html"
+                class="list-group-item list-group-item-action bg-transparent border-light">
+                <div class="d-flex w-100 justify-content-between">
+
+                    <h5 class="mb-1 text-light">
+                        <i class="bi bi-box-arrow-up-right"></i> 例外処理
+                    </h5>
+                </div>
+                <small class="text-light">例外と例外処理．</small>
+            </a>
+
+            <a href="java/Java_collection.html"
+                class="list-group-item list-group-item-action bg-transparent border-light">
+                <div class="d-flex w-100 justify-content-between">
+
+                    <h5 class="mb-1 text-light">
+                        <i class="bi bi-box-arrow-up-right"></i> コレクション・ジェネリクス
+                    </h5>
+                </div>
+                <small class="text-light">MapやList，ジェネリクスについて．</small>
+            </a>
+
+            <a href="java/java_interface.html"
+                class="list-group-item list-group-item-action bg-transparent border-light">
+                <div class="d-flex w-100 justify-content-between">
+
+                    <h5 class="mb-1 text-light">
+                        <i class="bi bi-box-arrow-up-right"></i> 関数型インターフェース・ラムダ式
+                    </h5>
+                </div>
+                <small class="text-light">関数型インターフェース・ラムダ式について．Stream APIと関連が深い．</small>
+            </a>
+
+            <a href="java/java_stream.html" class="list-group-item list-group-item-action bg-transparent border-light">
+                <div class="d-flex w-100 justify-content-between">
+
+                    <h5 class="mb-1 text-light">
+                        <i class="bi bi-box-arrow-up-right"></i> ストリームAPI
+                    </h5>
+                </div>
+                <small class="text-light">ストリームAPIについて．コレクション・ジェネリクス・ラムダ式と関連が深い．</small>
+            </a>
+
+            <a href="java/java_module.html" class="list-group-item list-group-item-action bg-transparent border-light">
+                <div class="d-flex w-100 justify-content-between">
+
+                    <h5 class="mb-1 text-light">
+                        <i class="bi bi-box-arrow-up-right"></i> モジュール・システム
+                    </h5>
+                </div>
+                <small class="text-light">Javaのモジュールシステムについて．</small>
+            </a>
+
+            <a href="java/java_parallel.html" class="list-group-item list-group-item-action bg-transparent border-light">
+                <div class="d-flex w-100 justify-content-between">
+
+                    <h5 class="mb-1 text-light">
+                        <i class="bi bi-box-arrow-up-right"></i> 並行処理
+                    </h5>
+                </div>
+                <small class="text-light">Javaの並行処理について．</small>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

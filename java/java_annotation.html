@@ -1,0 +1,751 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>アノテーション（SE Gold）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="f7841825-e5f2-49a1-b5dc-3e6eebf08a34" class="page sans"><header><h1 class="page-title">アノテーション（SE Gold）</h1></header><div class="page-body"><h2 id="1eb40651-11d2-4a78-a05b-36f7cb7c8a9b" class="">アノテーションの使用目的</h2><ul id="cd9288fb-a0ea-4283-ba06-63d33e9a5bea" class="toggle"><li><details open=""><summary>アノテーションとは</summary><p id="4ae0dcf0-dc74-4134-883e-f507ae96c030" class="">JVMに付加情報を伝えるための注釈</p></details></li></ul><h2 id="479fc6df-a699-4910-80fa-5b39a9338541" class="">よく使用されるJavaアノテーション</h2><ul id="deba9f47-b91e-490c-aa82-16ed5961d8dc" class="toggle"><li><details open=""><summary>主なアノテーション</summary><p id="ef26c2f6-913a-4a03-ab83-40e99eb00f0d" class="">以下の表のアノテーションはjava.langパッケージで提供されるため、インポート文は不要</p><table id="68a33d15-af91-449c-b174-3a62fa48c98c" class="simple-table"><thead class="simple-table-header"><tr id="32504308-3812-4882-b0af-dd4489bed927"><th id="SWQU" class="simple-table-header-color simple-table-header" style="width:175px">アノテーション</th><th id="Gb[n" class="simple-table-header-color simple-table-header" style="width:430px">説明</th></tr></thead><tbody><tr id="5a789646-a912-45d6-b259-d70c5ed1911e"><th id="SWQU" class="simple-table-header-color simple-table-header" style="width:175px">@Override</th><td id="Gb[n" class="" style="width:430px">スーパークラスのメソッドをオーバーライドすることを明示する</td></tr><tr id="d0e8352a-ce08-4d06-9692-70b842f656ee"><th id="SWQU" class="simple-table-header-color simple-table-header" style="width:175px">@FunctionalInterface</th><td id="Gb[n" class="" style="width:430px">関数型インタフェースであることを明示する</td></tr><tr id="d90cc82a-4cda-4b6a-be08-d917421ddea1"><th id="SWQU" class="simple-table-header-color simple-table-header" style="width:175px">@Deprecated</th><td id="Gb[n" class="" style="width:430px">非推奨の要素であることを明示する</td></tr><tr id="d271e379-2f4c-4725-86ab-8b2cf0d766c5"><th id="SWQU" class="simple-table-header-color simple-table-header" style="width:175px">@SuppressWarnings</th><td id="Gb[n" class="" style="width:430px">コンパイラの警告を無効にする</td></tr><tr id="22e24f8b-5148-40fc-b12c-0f1b84967bfc"><th id="SWQU" class="simple-table-header-color simple-table-header" style="width:175px">@SafeVarargs</th><td id="Gb[n" class="" style="width:430px">安全でない可変長引数に対する警告を無効にする</td></tr></tbody></table></details></li></ul><p id="b6436a7a-ba97-4da2-9a22-a4ad12a42707" class="">
+</p><ul id="301a2e04-02ba-418d-93cf-3c174fe7ee9c" class="toggle"><li><details open=""><summary>@FunctionalInterfaceアノテーション</summary><p id="c5151efb-e43d-4faa-b959-7838991c24b9" class="">関数型インタフェースとしての役割を満たしているかをチェックする役割をもつ</p><p id="6106197e-b13d-44b3-94cc-c54c15742549" class="">要件は以下の通り</p><ul id="3ec89e46-b089-4789-8e4d-f385e564caec" class="bulleted-list"><li style="list-style-type:disc">単一の抽象メソッドをもつインタフェースとする</li></ul><ul id="efcaf12a-7d79-48cd-b303-0952c604a5b4" class="bulleted-list"><li style="list-style-type:disc">ただし、staticメソッドやデフォルトメソッドは定義可能</li></ul><ul id="fe3b36d8-a57c-4b83-9bec-5fa5b1009fa2" class="bulleted-list"><li style="list-style-type:disc">java.lang.Objectクラスのpublicメソッドは抽象メソッドとしての宣言は可能</li></ul><ul id="8f7f2bd4-9184-43d3-858a-443f1cf629a0" class="bulleted-list"><li style="list-style-type:disc">関数型インタフェースとして明示する場合は、@FunctionalInterfaceアノテーションを付与する</li></ul><pre id="86c2186b-16d8-45c0-ae67-375566963f6c" class="code"><code>interface FuncInter&lt;T&gt; {
+	void foo(T t); // 抽象メソッド
+  String toString();
+	boolean equals(Object obj);
+	static void X() {} ;
+	default void Y() {} ;
+}</code></pre></details></li></ul><p id="82874c9d-4db9-4c90-b468-6f4c42e8332a" class=""> </p><ul id="a2243ae0-355d-46cd-920d-eb1fef5c1fe5" class="toggle"><li><details open=""><summary>@Deprecatedアノテーション</summary><p id="6364b6ca-341d-4982-ba74-832793a0058e" class="">プログラマが使用することを薦められていない要素を明示する役割がある</p><p id="b43fc6b0-00c6-48e7-a433-7b9b68e62499" class="">該当する要素は、コンストラクタ、メソッド、変数など</p><p id="ee5ab4a9-fb6a-4858-b08a-a250afef9d6f" class="">JDK９以降では、補足情報として以下が追加された</p><table id="d4bcf9d6-821a-436e-9445-05a6501c6c95" class="simple-table"><thead class="simple-table-header"><tr id="c91dfa62-5ac9-42fa-812e-0b39967b59b8"><th id="Q&lt;s:" class="simple-table-header-color simple-table-header">要素</th><th id="Fw\q" class="simple-table-header-color simple-table-header">型</th><th id="]YfH" class="simple-table-header-color simple-table-header" style="width:686px">説明</th></tr></thead><tbody><tr id="6bec8349-76b0-4a01-ad00-80b1d3e1aa9d"><td id="Q&lt;s:" class="">since</td><td id="Fw\q" class="">String</td><td id="]YfH" class="" style="width:686px">非推奨になったバージョンを示す（デフォルトは空文字）</td></tr><tr id="63988cb3-c887-4765-b6a5-4650ca184843"><td id="Q&lt;s:" class="">forRemoval</td><td id="Fw\q" class="">boolean</td><td id="]YfH" class="" style="width:686px">trueは将来のバージョンで注釈付きプログラム要素を削除する意図を示す
+falseは注釈付きプログラム要素の使用が推奨されないことを示す（デフォルトはfalse）</td></tr></tbody></table></details></li></ul><p id="071b2c63-fdb8-4f03-94bb-88200f183678" class="">
+</p><ul id="fd745f29-3b75-4f63-98a3-31762f3b7f65" class="toggle"><li><details open=""><summary>@SuppressWarnings(引数)</summary><p id="cd08e187-1238-4514-a5e8-3ca734bdefac" class="">引数に抑制したい警告を指定することで、コンパイル時に表示される警告を抑制できる</p><p id="f85e4576-859d-4496-9898-d71dade67d5f" class="">抑制できる警告は以下の通り</p><table id="9d5afbc2-77d5-4e7a-898d-1a5c629c22b4" class="simple-table"><thead class="simple-table-header"><tr id="edb4e608-db17-4029-98eb-cfcbfdeaae33"><th id="o:=:" class="simple-table-header-color simple-table-header">値</th><th id="y]X&lt;" class="simple-table-header-color simple-table-header" style="width:654px">説明</th></tr></thead><tbody><tr id="7d8c6201-d79b-4905-b268-478cf7a5aba2"><td id="o:=:" class="">unchecked</td><td id="y]X&lt;" class="" style="width:654px">List&lt;String&gt;の代わりにListを使用なそ、型の使用に関連する警告を抑制する</td></tr><tr id="15a20062-0621-4c64-8ea4-f0e79c3db82e"><td id="o:=:" class="">deprecation</td><td id="y]X&lt;" class="" style="width:654px">@Deprecatedアノテーションがつけられたタイプまたはメソッドに関連する警告を抑制</td></tr></tbody></table><p id="7c44baeb-8a8d-4cae-9773-1d724c478f39" class="">いかは指定例</p><pre id="974052f6-b5bb-4f08-83cd-97ec35f20ac0" class="code"><code>@SuppressWarnings(value = {&quot;unchecked&quot;})
+@SuppressWarnings(value = {&quot;unchecked&quot;,&quot;deprecation&quot;})
+@SuppressWarnings(&quot;unchecked&quot;) // メンバが１つのみで、そのメンバがvalueのときのみ省略可能
+@SuppressWarnings({&quot;uncheked&quot;})
+@SuppressWarnings({&quot;uncheked&quot;,&quot;deprecation&quot;})</code></pre></details></li></ul><p id="6acf2ad2-5d6f-4324-b6d2-e69089aae39d" class="">
+</p><ul id="392efc02-7335-4d0b-8d60-f485f008c7db" class="toggle"><li><details open=""><summary>＠SafeVarargsアノテーション</summary><p id="61f30f34-968f-4a21-8509-3fa7edd300a1" class="">SuppressWarningsと似ているが、SafeVarargsは抑制対象メソッドの呼び出し元の警告まで抑制する</p><pre id="22119dca-d5dd-45a0-a927-cc7c33a618ca" class="code"><code>import java.util.*;
+
+public class Main {
+	public static void main(String[] args) {
+		m(new ArrayList&lt;String&gt;());
+	}
+
+	@SafeVarargs
+	// @SuppressWarnings(&quot;unchecked&quot;)でもよい
+	static void m(List&lt;String&gt;... stringLists) {
+		System.out.println(stringLists);
+	}
+}</code></pre><p id="64ebc379-6431-4af0-bb03-706a298ed3c8" class="">@SafeVarargsはfinal、static、privateのいずれかのメソッドにしかつけることができない</p></details></li></ul><p id="8863a2a6-3b61-4489-ac0c-30d23196dd8d" class="">
+</p><h2 id="f16dbb54-51ce-4c24-aa5b-8bdb11c4b919" class="">カスタムアノテーションの実装</h2><ul id="1faf7460-6d17-441a-9097-9dff2e7799ba" class="toggle"><li><details open=""><summary>カスタムアノテーションとは</summary><p id="9c3aa68f-f28d-4b97-b8bd-939878eb7dc8" class="">Javaでは独自のアノテーションを作成することが可能。</p><p id="3de592c2-ef65-484e-af81-8f893346e803" class="">アノテーション型はインタフェース型であるが、宣言時に＠interfaceを使用する</p><pre id="1fe2bc12-e32a-4207-9330-7943d35032bd" class="code"><code>public @interface MyAnnot {
+	String value();
+}</code></pre><p id="7eab4c77-d17a-48dc-9577-a56a4727e4a0" class="">メンバはいインタフェースでの抽象メソッドの定義と同じである</p><p id="98909a8c-5d31-4032-a6aa-9ccda0482177" class=""><mark class="highlight-red">暗黙でpublicとabstractが付与される</mark></p><p id="460f001d-80ef-4709-9452-365376d38bea" class="">戻り値は<mark class="highlight-red">不変タイプ</mark>（基本データ型、String型、Class型、列挙型、アノテーション型、左記の型の一次元配列）である必要がある</p><p id="c7d70db2-4e96-4385-9f03-6451ab44f444" class="">つまり、nullやnewによるインスタンス化式は使用できない</p><pre id="f170316e-ea32-49e9-a963-d143d28fdfcf" class="code"><code>//　カスタムアノテーションの実装
+
+public @interface MyAnnot {
+	public enum RANK { A, B, C, D }
+	RANK rank();
+	// RANK rank() default RANK.B;
+	String item();
+	int num();
+}</code></pre><pre id="7e551918-1084-43a2-80b7-d5646ae0aabd" class="code"><code>// カスタムアノテーションの利用
+
+public class Foo {
+
+	@MyAnnot(
+		rank = MyAnnot.RANK.C,
+		item = &quot;itemX&quot;,
+		num = 100 )
+	public void method(int a) {
+	
+	}
+}</code></pre></details></li></ul><p id="f8ab2a5e-d3d7-40fd-9920-a789da099110" class="">
+</p><h2 id="b2d32472-2bd0-4f66-b99b-32c51b4225bc" class="">メタアノテーション</h2><ul id="895eb022-4d61-45af-b5e2-d8d7163988cb" class="toggle"><li><details open=""><summary>アノテーションのアノテート</summary><p id="004c0402-d063-4591-b1cc-5c5ee65d000c" class="">カスタムアノテーションにもアノテーションをつけることが可能</p><p id="7ee9f21d-08aa-48cb-98ea-175c865581cc" class="">Java.lang.annotationパッケージには<mark class="highlight-red">メタアノテーション</mark>が提供されている</p><table id="279603df-ba6e-41ff-a779-aea073d627c6" class="simple-table"><thead class="simple-table-header"><tr id="8a9137e0-e198-4d7a-9ef4-a4de0b6a6887"><th id="me|P" class="simple-table-header-color simple-table-header" style="width:179px">アノテーション</th><th id="g{@x" class="simple-table-header-color simple-table-header" style="width:710px">説明</th></tr></thead><tbody><tr id="2b98bbae-d097-484b-b92a-57ac70779a5d"><td id="me|P" class="" style="width:179px">@Documented</td><td id="g{@x" class="" style="width:710px">Javadoc APIドキュメントの出力にも反映するようにする</td></tr><tr id="4c4d8df3-f859-4111-b483-64841a1b65a6"><td id="me|P" class="" style="width:179px">@Target</td><td id="g{@x" class="" style="width:710px">アノテーションを付与する要素を限定する</td></tr><tr id="a260f758-8a91-443e-a6f0-ffcfa897683d"><td id="me|P" class="" style="width:179px">@Retention</td><td id="g{@x" class="" style="width:710px">アノテーションをソースコードもしくはクラスファイルまで保持するかなどを抑制する</td></tr><tr id="ccf05838-17ab-43e3-9d50-c382c92af962"><td id="me|P" class="" style="width:179px">@Inherited</td><td id="g{@x" class="" style="width:710px">サブクラスにアノテーションを引き継ぐことを示す</td></tr><tr id="26b2f309-c189-4cae-9742-d56205eda2f5"><td id="me|P" class="" style="width:179px">@Repetable</td><td id="g{@x" class="" style="width:710px">同じ場所に複数回適用する</td></tr></tbody></table></details></li></ul><p id="71667f10-7566-4872-bf9a-ee150d90be08" class="">
+</p><ul id="5097bfa2-cb90-4d90-97c6-8667790ddd36" class="toggle"><li><details open=""><summary>＠Documented</summary><p id="467472d4-8370-409a-af04-4d5c777f15b1" class="">ソースコードをもとにAPIドキュメントを作成する際、アノテーション情報も含める場合に使用する</p><pre id="59b808fe-1e10-46a9-9dfe-fe11e00027f8" class="code"><code>// @Documentedの利用
+import java.lang.annotation.*;
+public @interface MyAnnot {
+	public enum RANK { A, B, C, D };
+	RANK rank();
+	String item();
+	int num();
+}
+
+// @MyAnnotを利用しているクラス
+public class Foo {
+	@MyAnnot (
+		rank = MyAnnot.RANK.C,
+		item = &quot;itemX&quot;,
+		num = 100 ) 
+	public void method(int a) {
+
+	}
+}</code></pre></details></li></ul><p id="43fdf4bc-f274-451d-a9f6-7333a31bd11e" class="">
+</p><ul id="438694c1-f986-4480-b778-06356af1f8a8" class="toggle"><li><details open=""><summary>@Target</summary><p id="ee123233-26ab-4a1a-8fee-f63000d7e512" class="">アノテーションの適用箇所を制限することが可能</p><pre id="f7e0dd36-6c26-498f-854d-fd7383d4b302" class="code"><code>@Target(ElementType.METHOD) // メソッドにのみ付与
+
+public @interface MyAnnot {
+}</code></pre><p id="6260af47-2a5e-42f3-9aa0-5d116eb0c986" class="">適用箇所が複数ある場合は、配列で指定可能</p><table id="ffa485d3-c4ab-45cd-bd34-e3da6b1c67ee" class="simple-table"><thead class="simple-table-header"><tr id="03223fd7-432d-4b92-adb6-20b8877f5dea"><th id="gnP:" class="simple-table-header-color simple-table-header" style="width:169px">定数</th><th id="[vuM" class="simple-table-header-color simple-table-header" style="width:464px">適用箇所</th></tr></thead><tbody><tr id="7863405f-a155-4982-a6a0-0630ffdba0d1"><td id="gnP:" class="" style="width:169px">TYPE</td><td id="[vuM" class="" style="width:464px">クラス、インタフェース（アノテーションを含む）、enum</td></tr><tr id="b9684b26-73dd-4713-b3f7-93c39438934b"><td id="gnP:" class="" style="width:169px">FIELD</td><td id="[vuM" class="" style="width:464px">フィールド（enum定数を含む）</td></tr><tr id="51974948-1361-480a-a4f4-c9c159a3d55b"><td id="gnP:" class="" style="width:169px">METHOD</td><td id="[vuM" class="" style="width:464px">メソッド</td></tr><tr id="1701e4ba-09eb-45b6-aa66-3701a9448126"><td id="gnP:" class="" style="width:169px">PARAMETER</td><td id="[vuM" class="" style="width:464px">メソッドパラメータ</td></tr><tr id="c86d1493-bc8e-4077-b562-1040cfa80aa2"><td id="gnP:" class="" style="width:169px">CONSTRUCTOR</td><td id="[vuM" class="" style="width:464px">コンストラクタ</td></tr><tr id="06ccc74a-583d-442d-a83a-5bc89140e278"><td id="gnP:" class="" style="width:169px">LOCAL_VARIABLE</td><td id="[vuM" class="" style="width:464px">ローカル変数</td></tr><tr id="3d3ebacb-45b4-492c-8340-f349bb020686"><td id="gnP:" class="" style="width:169px">ANNOTATION_TYPE</td><td id="[vuM" class="" style="width:464px">メタアノテーション</td></tr><tr id="00e8f061-ce40-4a79-bed2-4c001bb09c31"><td id="gnP:" class="" style="width:169px">PACKAGE</td><td id="[vuM" class="" style="width:464px">パッケージ</td></tr><tr id="276a3de6-f838-426b-86cf-a1a838967fb5"><td id="gnP:" class="" style="width:169px">TYPE_PARAMETER</td><td id="[vuM" class="" style="width:464px">型パラメータ</td></tr><tr id="3905b13a-6095-4b1c-894b-0243c5344a4f"><td id="gnP:" class="" style="width:169px">TYPE_USE</td><td id="[vuM" class="" style="width:464px">型（クラス型の変数宣言時など）</td></tr><tr id="d34b76a9-4999-4e21-b631-cabfa989acae"><td id="gnP:" class="" style="width:169px">MODULE</td><td id="[vuM" class="" style="width:464px">モジュール</td></tr></tbody></table><p id="81510882-499f-4b70-8669-b282d5202c2e" class="">なお、＠Targetはデフォルト値を持たないため、＠Targetのみを記述するとコンパイルエラー</p><p id="3ba01847-59a0-4222-af9f-9bc3a1ea9c7f" class="">また、同じターゲットを記述してもコンパイルエラー</p></details></li></ul><p id="e8a12bfd-d590-4bc5-bec8-d7c60496cf70" class="">
+</p><ul id="240e42f1-6866-4eb6-b2e4-60d0a4b1eb18" class="toggle"><li><details open=""><summary>＠Retention</summary><p id="d341ee26-be59-44db-bbc3-0b7a4f41b12a" class="">アノテーションは、ソースコードのみに存在する場合と、クラスファイルにも存在する場合がある</p><p id="cd2ffbb4-35d7-4568-913d-7a46706e2d7c" class="">さらにクラスファイルに存在する場合でも実行時に利用できる場合と利用できない場合がある</p><p id="67282a93-b5ec-4398-8ad7-eb0742d05acf" class="">＠Reterntionはこれらの挙動を制御する</p><table id="5cb9a154-fed8-4c21-91dd-5d23108c500e" class="simple-table"><thead class="simple-table-header"><tr id="a792baa3-c584-47a7-af6d-0ba61bdbf51e"><th id="bxbG" class="simple-table-header-color simple-table-header">定数</th><th id="~D|&lt;" class="simple-table-header-color simple-table-header" style="width:881.3333740234375px">適応場所</th></tr></thead><tbody><tr id="c0a91f5d-5eb8-4293-a846-40c0e8d22c1c"><td id="bxbG" class="">SOURCE</td><td id="~D|&lt;" class="" style="width:881.3333740234375px">アノテーションはコンパイラによって破棄される</td></tr><tr id="ee311184-54a3-4e99-ba5d-f6b2e38cb389"><td id="bxbG" class="">CLASS</td><td id="~D|&lt;" class="" style="width:881.3333740234375px">アノテーションはコンパイラによってクラスファイルに記@Inherited</td></tr><tr id="82e18703-50cc-4937-817e-61f9fcf9be93"><td id="bxbG" class="">RUNTIME</td><td id="~D|&lt;" class="" style="width:881.3333740234375px">アノテーションはコンパイラによってクラスファイルに記録され、実行時にVMによって読み取られる</td></tr></tbody></table></details></li></ul><p id="fac06e4f-9597-4f85-a3f7-fac3590eba1d" class="">
+</p><ul id="780eb7b0-6fb9-45d9-821d-e5b1e44d2a8b" class="toggle"><li><details open=""><summary>@Inherited</summary><p id="017f59af-9cdd-4c54-968d-42f80959ef04" class="">サブクラスにアノテーションを継承させる場合に使用</p><p id="31dcbc5f-3ce2-4af2-bf5b-9331edcea8d1" class="">スーパークラスからアノテーションを継承させるだけであり、インタフェースに対する注釈は無効である</p><p id="34d6f32e-a286-49f4-806b-42cbb92562df" class=""><mark class="highlight-red">クラスアノテーションのみ適用</mark>され、メソッドやフィールドアノテーションでは適用されない</p></details></li></ul><p id="81e3c5b3-7cc6-43db-ac46-626aacaf1385" class="">
+</p><ul id="f213ff97-da44-41c6-8a6c-0195b89d56e7" class="toggle"><li><details open=""><summary>＠Repetable</summary><p id="83a248d1-efe3-4505-9a4f-3a200d0a4fd5" class="">同じ場所に同じアノテーションを複数適用する場合に使用する</p><p id="f99878ed-a2b2-4190-b190-f5d76b3814b2" class="">その際、引数データを保持する専用（コンテナアノテーション）クラスを指定する</p><p id="8f5f97f0-59f6-4e0a-a815-d4d7d7ee9616" class="">コンテナアノテーションは、通常どおりアノテーションとして定義する（ただし、戻り値を複数回利用するアノテーション型の配列をとるメンバを定義する）</p><pre id="21f64550-c19d-4ea3-9c07-2b8df777be7c" class="code"><code>import java.lang.annotation.*;
+@Reetable(MyannotCountainer.class)
+@Retention(RetentionPilicy.RUNTIME)
+public @interface MyAnnot {
+	public String value();
+}</code></pre></details></li></ul><p id="bcdbcd4b-f9be-4a33-a3f6-50c964a37c5c" class="">
+</p><p id="5f6cd668-e9d5-4709-8581-c6ceb950e217" class="">
+</p></div></article></body></html>

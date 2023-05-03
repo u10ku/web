@@ -26,5 +26,9 @@
 /*--------------------------------------*/
 
 body {
-    background-color: white;
+    background-color: #2b2b2b;
+    font-family: 'Arial','Courier','メイリオ',sans-serif;
+    color: white;
+    padding-top:4.5rem;
 }
+

@@ -1,0 +1,1066 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Javaクラスの基本（SE Gold）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="ed7ef55d-8870-4ac4-bcdd-1c3612b0751f" class="page sans"><header><h1 class="page-title">Javaクラスの基本（SE Gold）</h1></header><div class="page-body"><h2 id="e0271636-2755-4d1b-9952-03c543841dfc" class="">final修飾子</h2><ul id="1a4b7ae3-3283-425c-824f-5c41f637b588" class="toggle"><li><details open=""><summary>final修飾子の振る舞い</summary><table id="cac057ef-3e89-4131-b6f9-4698f497c0ce" class="simple-table"><thead class="simple-table-header"><tr id="e8ba86c3-7e28-4d39-bd7f-5c3f155d2c81"><th id="wB&lt;Z" class="simple-table-header-color simple-table-header">適応箇所</th><th id="htNt" class="simple-table-header-color simple-table-header" style="width:291.3333740234375px">意味</th></tr></thead><tbody><tr id="236ed243-e1cc-4881-8b25-0c262e6bbd2e"><th id="wB&lt;Z" class="simple-table-header-color simple-table-header">クラス</th><td id="htNt" class="" style="width:291.3333740234375px">サブクラスの作成を禁止</td></tr><tr id="c59334c7-c74e-4354-b532-38df1f6b3713"><th id="wB&lt;Z" class="simple-table-header-color simple-table-header">メソッド</th><td id="htNt" class="" style="width:291.3333740234375px">サブクラス側でオーバーライドを禁止</td></tr><tr id="3df82ba8-c1b5-48d2-8db3-b9d19fc851e3"><th id="wB&lt;Z" class="simple-table-header-color simple-table-header">変数</th><td id="htNt" class="" style="width:291.3333740234375px">定数</td></tr></tbody></table></details></li></ul><p id="9f6fd64d-cec6-41c3-8f01-e967691aa583" class="">
+</p><ul id="0f098124-a4e1-40b0-8dca-d229e3788b8a" class="toggle"><li><details open=""><summary>final修飾子の構文</summary><pre id="b4ef9c4f-ece7-4994-a0b2-8d1a38fdd268" class="code"><code>//　クラスに適用
+[アクセス修飾子] final class クラス名 {}
+
+// メソッドに適用
+[アクセス修飾子] final 戻り値の型 メソッド名(引数リスト) {}
+
+// 変数に適用
+[アクセス修飾子] final データ型 定数名 = 初期値;</code></pre><p id="57188269-f482-489c-b2ce-01edf521d3fb" class="">定数は宣言時に初期化するか、<mark class="highlight-red">コンストラクタやイニシャライザで初期化することもできる</mark></p></details></li></ul><p id="dd42349f-ccd6-487b-b001-d7eca6911f83" class="">
+</p><h2 id="7e172a90-c3a5-4fa8-88ae-bd370f1145a6" class="">static修飾子</h2><ul id="e169e8ad-e894-42a2-a0a9-1831f4502bd9" class="toggle"><li><details open=""><summary>static修飾子の振る舞い</summary><p id="5fd52fec-d201-4465-9fd5-081de02b4eea" class="">static修飾子は<mark class="highlight-red">メソッド（クラスメソッド）と変数（クラス変数）</mark>に適用できる。コンストラクタやクラスには適用できない</p><p id="8a51cc6d-71e9-4320-8672-3ef305b994ab" class="">staticメンバは各オブジェクトに保持されるのではなく、別の箇所に１箇所にまとめられて用意される</p></details></li></ul><p id="00104a9d-c78d-4228-a2ec-c718437bec79" class="">
+</p><ul id="b0cba38a-312e-4514-be48-407c717c2f70" class="toggle"><li><details open=""><summary>staticメンバの呼び出し</summary><p id="1539459f-aaee-487b-a1fd-690d50aa62ae" class="">staticメンバはインスタンス化しなくとも呼び出せる（インスタンス化後の変数から他の変数同様に呼び出すことも可能）</p><pre id="f7709ff8-d97d-4bda-bdee-9f54841d2af4" class="code"><code>// クラス変数
+クラス名.static変数名
+
+// クラスメソッド
+クラス名.staticメソッド</code></pre></details></li></ul><p id="f0ad6f99-b65c-483a-88ee-1bff261292d6" class="">
+</p><ul id="fada8b51-5ec6-4349-b209-ebf62989c3fc" class="toggle"><li><details open=""><summary>オーバーライドに関する注意</summary><p id="4cae3dd2-07a5-4cbd-ae87-c73e93268e1d" class="">staticメソッドを非staticメソッドでオーバーライドすることはできない</p><p id="2914487b-982f-41bb-922e-7240d93a8a5f" class="">その逆も不可</p></details></li></ul><p id="39d5f328-46d1-41c8-afbb-fa57ff13c6f8" class="">
+</p><ul id="1823fd24-1420-405d-be93-a47b50abdc8f" class="toggle"><li><details open=""><summary>インスタンスメンバとstaticメンバのクラス内でのアクセス</summary><p id="5a4560bd-d288-46ef-bd60-07735171676b" class="">クラス内に定義したメンバ間のアクセスには、次のルールがある</p><ol type="1" id="b5b54420-dceb-4fb5-92d3-d28d216f4030" class="numbered-list" start="1"><li><mark class="highlight-red">インスタンスメンバ同士</mark>、<mark class="highlight-red">staticメンバ同士は直接アクセス可能</mark></li></ol><ol type="1" id="521d4b1d-42b4-4a6f-a564-2c55bb2aca37" class="numbered-list" start="2"><li>インスタンスメンバはstaticメンバに直接アクセス可能</li></ol><ol type="1" id="7d6a1217-216d-436a-90af-67a6d1acc822" class="numbered-list" start="3"><li>staticメンバは、クラス内で定義したインスタンスメンバに直接アクセスできない
+（インスタンス化後にアクセス可能）</li></ol><pre id="7139552c-2b68-4249-8740-4e6a25464463" class="code"><code>public class Test {
+	int instanceVal; // インスタンス変数
+	static int staticVal; // static変数
+	int methodA() { return instanceVal; }
+	int methodB() { return staticval; }
+	//static int methodC() { return instanceVal; }　// NG
+	static methodD() { return instanceVal; }
+	staitc methodE() { 
+		Test obj = new Test();
+		return obj.instanceval;
+	}
+}</code></pre><p id="fdb38361-a2d5-43bd-aa39-2043371d208e" class="">
+</p></details></li></ul><ul id="1d3b214c-a55d-4b2b-990a-30be10553379" class="toggle"><li><details open=""><summary><mark class="highlight-red">nullに対するstaticメンバ呼び出し</mark></summary><p id="a8f80f87-c0a8-4964-a01d-2f0b9223d9b3" class="">以下の様に、staticメンバはnull変数に対してもクラスが読み込まれていれさえばNullPointerExceptionは発生しない</p><pre id="211f403b-58c0-41e9-8b01-a00d61e1a819" class="code"><code>class Test {
+	static String staticVal = &quot;staticValue&quot;; // static変数
+	String instanceVal = &quot;instanceVal&quot;; // インスタンス変数
+}
+
+public class Main {
+	public static void main(String[] args) {
+		Test obj = null;
+		System.out.println(obj.staticVal);
+		System.out.println(obj.instanceVal);
+	}
+}</code></pre><p id="a7d24c80-41e4-431b-9eed-3c1565daf1c5" class="">以下、実行結果</p><pre id="31a086ae-b0f0-4c5e-84cf-98def0c4a84d" class="code"><code>staticValue
+Exception in thread &quot;main&quot; java.lang.NullPointerException
+				at Main.main(Main.java:10)</code></pre><p id="896a3904-4d20-4fd3-bdc5-a6ce3e96637b" class="">
+</p></details></li></ul><h2 id="e329fa2b-8c1d-425f-9741-8a98899ebe70" class="">列挙型（enum）</h2><ul id="15aba90b-821c-4fa3-a90b-a0ebf84c1f4a" class="toggle"><li><details open=""><summary>列挙型とは</summary><p id="f4a41ea1-3321-4f8a-ba2d-c7218b38b43f" class="">特定の値のみを持つ型</p><p id="83ca5725-6db5-4bed-8458-2b70fc89f132" class=""><mark class="highlight-red">クラス定義の中</mark>、<mark class="highlight-red">列挙型の定義だけを記述したソースファイル</mark>で定義可能</p><p id="80cce1ad-6b3b-4acb-bcbc-f438ad30d79a" class="">宣言の仕方は以下の通り
+</p><pre id="e7b0a2ad-6f50-49d7-a1b6-8190630103b1" class="code"><code>// 構文
+[修飾子] enum 列挙型名 {値１,値２,値３,...,値ｎ}</code></pre></details></li></ul><p id="d5f2d7ef-aae3-4e36-a3d7-77fb2142a69b" class="">
+</p><ul id="39d033f9-0c41-43d2-9307-359064fe5215" class="toggle"><li><details open=""><summary>Enumクラス</summary><p id="89b1e81f-67ce-4dbd-bc74-a29ec1ea2c88" class="">列挙型を定義し、コンパイルするとクラスファイルが生成される</p><p id="95d24fc8-d97f-48ec-888f-69289a23e366" class="">インスタンス化は<mark class="highlight-red">できない</mark></p><p id="30cd5c8c-3a54-41cc-acbb-00fbef216d05" class="">列挙型はjava.lang.Enumクラスを継承した<mark class="highlight-red">finalクラス</mark>となる（継承はできない、<mark class="highlight-red">インタフェースの実装は可能</mark>）</p><p id="2a2dccfa-8c6e-4800-893f-37fdbafaa959" class="">列挙した値は<mark class="highlight-red">public static final指定されたクラス定数</mark>となるため、列挙する値の前後に<mark class="highlight-red">ダブルクォーテーションはつけない</mark></p><p id="cc6aa57a-3e03-49b0-80b3-8a68f3fe3f55" class="">
+</p><p id="172dbd9e-7943-4da7-b024-9a0c32c4c73e" class="">また、以下のようなメソッドが追加される</p><table id="d4071d8f-9127-4fb3-8c8c-9eac1bb42e05" class="simple-table"><thead class="simple-table-header"><tr id="b612d262-47bf-40b2-b3c8-8dafef6e0911"><th id="j]FX" class="simple-table-header-color simple-table-header" style="width:515px">メソッド名</th><th id="S^mi" class="simple-table-header-color simple-table-header" style="width:654px">説明</th></tr></thead><tbody><tr id="d9e382bd-7e4e-433f-83fe-e11231fca31c"><th id="j]FX" class="simple-table-header-color simple-table-header" style="width:515px"><mark class="highlight-red">static </mark>列挙型[] values()</th><td id="S^mi" class="" style="width:654px">列挙した値の全てを配列で返却</td></tr><tr id="8d6d3e8f-61d2-45dd-a745-27a6719e075c"><th id="j]FX" class="simple-table-header-color simple-table-header" style="width:515px"><mark class="highlight-red">static</mark> 列挙型 valueOf(String name)</th><td id="S^mi" class="" style="width:654px">引数で指定された名前を持つ値を返却</td></tr><tr id="7ab2608b-8949-448c-9817-2fb85346598f"><th id="j]FX" class="simple-table-header-color simple-table-header" style="width:515px"><mark class="highlight-blue">final</mark> int name()</th><td id="S^mi" class="" style="width:654px">enum定数の名前を返却</td></tr><tr id="c6a29847-f09c-4ab7-8174-69be6b5aff95"><th id="j]FX" class="simple-table-header-color simple-table-header" style="width:515px">String toString()</th><td id="S^mi" class="" style="width:654px">enum定数の名前を返却（任意でオーバーライド可能）</td></tr><tr id="c8b831f8-765d-45ba-b3c0-3c532c4175c5"><th id="j]FX" class="simple-table-header-color simple-table-header" style="width:515px"><mark class="highlight-blue">final</mark> boolean equals(Object other)</th><td id="S^mi" class="" style="width:654px">指定されたオブジェクトがこのenum定数と同じ場合はtrueを返却</td></tr><tr id="b68ba484-0059-4cf4-abe0-07da8e99e720"><th id="j]FX" class="simple-table-header-color simple-table-header" style="width:515px"><mark class="highlight-blue">final</mark> int hashCode()</th><td id="S^mi" class="" style="width:654px">enum定数のハッシュコードを返却</td></tr><tr id="7e182984-7bb3-4a21-b369-8ed027e86463"><th id="j]FX" class="simple-table-header-color simple-table-header" style="width:515px">static &lt;T extends Enum&lt;T&gt;&gt; T valueOf(Class&lt;T&gt; enumTypem, String nama)</th><td id="S^mi" class="" style="width:654px">指定された名前を持つ、指定されたenum型のenum定数を返却</td></tr><tr id="8062061f-bcd6-4617-8ebb-f66418da0c4f"><th id="j]FX" class="simple-table-header-color simple-table-header" style="width:515px"><mark class="highlight-blue">final</mark> int ordinal()</th><td id="S^mi" class="" style="width:654px">列挙宣言での位置を返却</td></tr></tbody></table></details></li></ul><p id="f40184d2-f0ed-49b4-bf12-df1aa0f186b8" class="">
+</p><ul id="6b5ed6ed-2638-4801-ae54-a4ae216db635" class="toggle"><li><details open=""><summary>列挙型でのコンストラクタ・変数・メソッド定義</summary><p id="708d3320-2a2e-466e-933b-bc81f65abf19" class="">列挙型でも通常のクラスのようにコンストラクタ、変数、メソッドを定義できる</p><p id="ec7c65df-9777-4f68-aa21-42b7ecbee839" class="">EnumクラスはComparableインタフェースを実装しているため、<mark class="highlight-red">各定数は列記した順番で管理されている</mark></p><pre id="7cc587f1-9eb2-48e2-9b09-f04185e61d7e" class="code"><code>enum Card {
+	SPADES(3),CLUBS(1),
+	DIAMONDS(4),HEARTS();
+	private int a;
+	Card() { this.a = 100 } // コンストラクタ
+	Card(int a) { this.a = a; } // コンストラクタ
+	public itn getA() { return a; }
+}
+
+public class Main {
+	public static void main(String[] args) {
+		Card card = Card.SPADES;
+		System.out.println(card);
+		System.out.println(card.getA());
+		System.out.println(card.ordinal());
+		System.out.println(Card.HEARTS.getA());
+		for (Card obj : Card.value()) {
+			System.out.print(obj + &quot; &quot;);
+		}
+	}
+}</code></pre><p id="587b15bd-e48a-4334-9102-18b4519252f1" class="">実行結果</p><pre id="dd25e742-ab68-4921-9d84-c7a5e969efa2" class="code"><code>SPADES
+3
+0
+SPADES CLUBS DIAMONDS HEARTS</code></pre></details></li></ul><p id="434c2f4a-e1fd-4e89-a3e8-4a6c576eaaa2" class="">
+</p><ul id="6b22199f-3a14-48b4-96fb-5a3fa7300be9" class="toggle"><li><details open=""><summary>列挙型における抽象メソッド</summary><p id="90fb1971-121b-4be2-9557-308768e49f66" class="">列挙型では抽象メソッドを定義して、各列挙値側でオーバーライドすることが可能</p><pre id="54d2885b-0109-4e83-a549-89c38728f0a8" class="code"><code>enum Vals {
+	// A,B;　ここに書くとコンパイルエラー
+	A {
+		void foo() {
+			System.out.println(&quot;A&quot;);
+			}
+	},
+
+	B {
+		void foo() {
+			System.out.println(&quot;B&quot;);
+		}
+	};
+
+	abstract void foo(); // 抽象メソッド
+}
+
+public class Main {
+	public static void main(String[] args) {
+		Vals obj = Vals.A;
+		obj.foo(); // A
+	}
+}</code></pre></details></li></ul><p id="631f2abb-2a4d-4c31-8498-ae1338234453" class="">
+</p><h2 id="04988d03-6bbd-4ef8-86b0-5b865a1ff153" class="">Objectクラス</h2><ul id="052cc816-0aaf-4c3c-af29-b940141447ff" class="toggle"><li><details open=""><summary>Objectクラスとは</summary><p id="4c650234-e8e6-45a5-a4b1-279c011c17c6" class="">Javaクラス階層を構成するためのルートとなるクラス
+独自に定義したクラスはObjecクラスを必ず継承しており、以下のメソッドを継承している</p><table id="aab5af71-f830-4b74-85c3-4937c45d5374" class="simple-table"><thead class="simple-table-header"><tr id="6ff0d6ef-611d-4a0f-bbd4-cdb036724424"><th id="A@DH" class="simple-table-header-color simple-table-header" style="width:194px">メソッド名</th><th id="fH@{" class="simple-table-header-color simple-table-header" style="width:525.3333435058594px">説明</th></tr></thead><tbody><tr id="4e413f56-c8e2-48e4-b10e-c087c7b7e391"><th id="A@DH" class="simple-table-header-color simple-table-header" style="width:194px">boolean equals(Object obj)</th><td id="fH@{" class="" style="width:525.3333435058594px">自オブジェクトとobjectを比較し、同じオブジェクトであればtrueを返却</td></tr><tr id="4e0e38c7-79c1-4a38-b9e3-b329269076b2"><th id="A@DH" class="simple-table-header-color simple-table-header" style="width:194px">final Class&lt;?&gt; getClass()</th><td id="fH@{" class="" style="width:525.3333435058594px">このオブジェクトの実行時クラスを返却</td></tr><tr id="8d837cd5-0fd3-414e-ac6b-98dfd55cb22b"><th id="A@DH" class="simple-table-header-color simple-table-header" style="width:194px">int hashCode()</th><td id="fH@{" class="" style="width:525.3333435058594px">オブジェクトのハッシュコード値を返却</td></tr><tr id="e63f62d0-eefe-49d9-8efe-5c1d2baf1c32"><th id="A@DH" class="simple-table-header-color simple-table-header" style="width:194px">String toString()</th><td id="fH@{" class="" style="width:525.3333435058594px">オブジェクトの文字列表現を返却</td></tr></tbody></table></details></li></ul><p id="5b0c3e59-8a0f-4a9f-8774-b473f6e27b4d" class="">
+</p><ul id="dd80b3c4-6331-405b-b7a1-6aefc60f2b1b" class="toggle"><li><details open=""><summary>ObjectクラスのtoString()メソッド</summary><p id="b54dafdf-7e4d-4d3e-ad70-dc2f9e562892" class="">そのオブジェクトのクラス名、@、オブジェクトのハッシュコードの符号無し１６進数表現から構成される文字列を返却</p><p id="c1987a78-21ec-465d-8a22-5e384e310d9e" class="">通常はサブクラス側でオーバーライドする</p><p id="051c36d3-ef96-4d1d-a5fa-391c32489b22" class="">また、<mark class="highlight-red">println()メソッドに参照変数名を指定すると、内部ではそのオブジェクトのtoString()メソッドを呼び出している</mark></p><pre id="e6e71ab2-0157-4745-8315-c0582fdd69d1" class="code"><code>// 構文
+public String toString()</code></pre><p id="9b7faee0-8b83-423f-aa53-7bded494b92c" class="">
+</p></details></li></ul><ul id="5acc4086-46ea-4634-a19c-14254f1cd307" class="toggle"><li><details open=""><summary>Objectクラスのequals()メソッド</summary><p id="faad5f90-cde4-47a3-8cef-fcb6b1421589" class="">２つのオブジェクトを比較し、同じオブジェクトでればtrueを返却（==と同じ機能）</p><pre id="3f10c11d-b30e-4565-a421-536d10b4ed81" class="code"><code>// 構文
+public boolean equals(Object obj)</code></pre></details></li></ul><p id="89af0ad1-724d-439b-bd79-1274776ca776" class="">
+</p><ul id="a19fcc07-2706-48ff-8206-71a100093c0f" class="toggle"><li><details open=""><summary>ObjectクラスのhashCode()メソッド</summary><p id="878587f3-4a19-4c72-977a-c6508385fac9" class="">オブジェクトのハッシュコードを返却</p><p id="89e06edc-218a-4457-805b-3b0cac76fda1" class="">ハッシュコードとは、オブジェクトに付与された整数値で、Java実行環境がオブジェクトの識別を行うためのもの</p><p id="86f7ddf6-be6d-4c35-aae7-2a3f7889f664" class="">
+</p><p id="dbf869d0-b48f-40eb-bda1-378a4682c729" class="">独自に定義したクラスから生成されたオブジェクトにおいて、参照先は異なっていても、保持している値が同じ場合であれば等価であると
+判断したい場合もある。この場合はequals()メソッドとhashCode()メソッドをオーバーライドする</p><p id="c1e305ad-09db-4ff0-8881-76e8d7ba316f" class=""><mark class="highlight-red">各メソッドをオーバーライドするには以下の条件に従う必要がある</mark></p><table id="e16b2a30-7cd0-470d-8756-c72e3eb32b9b" class="simple-table"><thead class="simple-table-header"><tr id="4fa77e74-067b-4e64-9c9d-b8221bff8980"><th id="]JgV" class="simple-table-header-color simple-table-header" style="width:429px">条件</th><th id="Xqzw" class="simple-table-header-color simple-table-header" style="width:517px">説明</th></tr></thead><tbody><tr id="0ee6e972-462a-445d-b3ea-dfaf345cfaad"><td id="]JgV" class="" style="width:429px">object.hashCode();
+…
+object.hachCode();     (同じ値が返る）</td><td id="Xqzw" class="" style="width:517px">同一のオブジェクトに対して、hashCode()メソッドが複数回呼び出されても同一の整数値を返却する</td></tr><tr id="cc446ef1-576e-492b-b71e-56c9e0f82321"><td id="]JgV" class="" style="width:429px">object1.equals(Object2)　がtrueなら
+Object1.hashCode()==object2.hachCode()　もtrueが返る</td><td id="Xqzw" class="" style="width:517px">２つのオブジェクトをequals()メソッドで比較してtrueが返却される場合、２つのオブジェクトは同じhashCode値を持つ</td></tr><tr id="3f61ee85-6c38-4d5b-90a3-fae09da379eb"><td id="]JgV" class="" style="width:429px">Object1.equals(Object2)　がfalseなら
+Object1.hashCode()==object2.hachCode()　はどちらでも良い</td><td id="Xqzw" class="" style="width:517px">２つのオブジェクトをequals()メソッドで比較してfalseが返却される場合、２つのオブジェクトのhashCode値は同じでも異なっていてもよい
+ただし、異なる値を返却した方がパフォーマンス向上につながることがある</td></tr><tr id="cbebdddf-14cc-447e-8f1f-a30ae2217fcc"><td id="]JgV" class="" style="width:429px">Object1.hashCode()==object2.hachCode()　がfalseなら
+object1.equals(Object2)　もfalseが返る</td><td id="Xqzw" class="" style="width:517px">２つのオブジェクトのハッシュコード値が異なる場合は、２つのオブジェクトをequalsメソッドで比較してもfalseが返却される</td></tr></tbody></table><pre id="a0e96358-cee6-47f6-b244-114fc2fa2870" class="code"><code>class Foo {
+	private int num;
+	public boolean equals(Object o) {
+		if((o instanceof Foo) &amp;&amp; (((Foo) o).num == this.num)) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+	public int hashCode() {
+		return num*5;
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		Foo f1 = new Foo();
+		Foo f2 = new Foo();
+		System.out.println(&quot;f1.equals(f2) : &quot; + (f1.equals(f2) )): // f1.equals(f2) : true
+	}
+}</code></pre></details></li></ul><p id="3b49734f-f9f8-4bb0-b12d-92ea8071dc08" class="">
+</p><ul id="0d520ed3-b3eb-4e59-9c24-e3d982369721" class="toggle"><li><details open=""><summary>insatancof演算子</summary><p id="c19ce182-6e37-49ba-9f71-2ee3a0df49a8" class="">ある特定のオブジェクトが特定のクラスの型をもつかどうかを判断</p><p id="40de65de-38d9-46aa-81cd-4cf284767be3" class="">右辺がスーパークラスやインタフェースで、左辺がそのサブクラスや実装クラスであればtrueを返却</p><p id="fd24429a-97f6-4c34-a9cf-5c6e1940201e" class="">左辺と右辺に継承関係が全くない場合はコンパイルエラーが発生する</p></details></li></ul><p id="505c4217-72d0-4656-9342-0f31c053f3a2" class="">
+</p><h2 id="b1bc1d15-a942-40a7-a515-be410a342345" class="">インタフェース</h2><ul id="34b4e2a4-93b8-498a-9ac4-1399b82b42f7" class="toggle"><li><details open=""><summary>インタフェースとは</summary><p id="74647160-f159-4edc-8f1b-9542d2b239d4" class="">公開すべき必要な操作をまとめたクラスの仕様</p><p id="f3e7d206-839f-4556-86b0-11f892e94204" class="">以下はその特徴</p><ul id="77ebdc23-4f14-41cc-b6f7-a162345776d0" class="bulleted-list"><li style="list-style-type:disc">インタフェース宣言にはinterfaceキーワードを指定</li></ul><ul id="3d8c9644-473e-4007-9576-ee989e38b6df" class="bulleted-list"><li style="list-style-type:disc">インスタンス化はできない</li></ul><ul id="0cc6733f-cff8-4abc-ac6e-d65e6f0dfec2" class="bulleted-list"><li style="list-style-type:disc">実装クラスを定義するにはimplementsキーワードを使用</li></ul><ul id="84028c3b-5400-47e8-ab94-71bf0c195ba9" class="bulleted-list"><li style="list-style-type:disc">インタフェースにサブインタフェースを作成する場合はextendキーワードを使用</li></ul><ul id="07cea8f3-e97d-4c91-b591-47117d45bd84" class="bulleted-list"><li style="list-style-type:disc">インタフェースでは定数（public static final）を宣言可能</li></ul><ul id="41d7f4c9-4ce9-45a8-b2cc-80237521a274" class="bulleted-list"><li style="list-style-type:disc">デフォルトメソッドとstaticメソッドと定義可能（SE８から）</li></ul><ul id="b226b943-18b3-4daa-800a-f89aa3ae703e" class="bulleted-list"><li style="list-style-type:disc">privateメソッドを定義可能（SE９から）</li></ul></details></li></ul><p id="30897fdb-92a2-4796-a97b-502039f6864c" class="">
+</p><ul id="6f92e725-287e-4a79-a6ed-763bd62f06d0" class="toggle"><li><details open=""><summary>インタフェースの定数と抽象メソッド</summary><p id="3e8d8671-03f6-4668-9547-a83800f46b6e" class="">インタフェースで変数宣言すると、暗黙的に<mark class="highlight-red">public static final修飾子</mark>が付与される（つまり初期化必須）</p><p id="6fb013f5-f8b0-4706-88c0-ddd4f5d93b3b" class="">インタフェースで抽象メソッドを宣言すると、暗黙的に<mark class="highlight-red">public abstract修飾子</mark>が付与される（つまりfinal修飾子は付与できない）</p><p id="621670da-15a4-426c-91ab-df6f57c397b6" class="">
+</p></details></li></ul><ul id="40c68e12-cbdd-4be3-83ec-082d2764615c" class="toggle"><li><details open=""><summary><mark class="highlight-red">static具象メソッド</mark></summary><p id="4fa0af9e-b536-4938-87d9-469c68c68a71" class="">SE８以降はインタフェースにstaticな具象メソッドを定義可能</p><ul id="bdb5024c-f0a4-4b42-8a56-dbcec765f8a6" class="bulleted-list"><li style="list-style-type:disc">指定していない場合は強制的に<mark class="highlight-red">public修飾子</mark>が付与</li></ul><ul id="4482abdb-2afa-4456-a56e-6c40c2dc97d0" class="bulleted-list"><li style="list-style-type:disc">protectedは使用できない（コンパイルエラーが発生する）</li></ul><ul id="8136ba42-5747-4326-8d7c-beef431d0206" class="bulleted-list"><li style="list-style-type:disc">privateは使用可能</li></ul><pre id="a5ea2263-6134-4aba-833e-e77d56c7f93e" class="code"><code>interface Foo {
+	static void method() { //　暗黙邸にpublicが付与
+		System.out.println(&quot;Foo : method()&quot; };
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		Foo.method(); // Foo : method()
+		// Foo obj = new Foo(); obj.method(); // コンパイルエラーが発生する
+	}
+}</code></pre></details></li></ul><p id="cbaf4f81-bdb2-43c5-a121-f7b9fb953255" class="">
+</p><ul id="c2482af5-b1a9-4bc8-bcbc-f00b8606ab12" class="toggle"><li><details open=""><summary>デフォルトメソッド</summary><p id="c6e29c85-95ec-4a67-a46d-ce169eaa1055" class="">SE８以降では処理を記述したメソッドを定義可能</p><ul id="be7094a6-d218-443a-be5e-65634f19408e" class="bulleted-list"><li style="list-style-type:disc">指定しない場合は強制的に<mark class="highlight-red">public修飾子</mark>が付与</li></ul><ul id="988a473c-36d2-4a39-b973-83d11030ba89" class="bulleted-list"><li style="list-style-type:disc">protectedは使用できない（コンパイルエラーが発生する）</li></ul><ul id="45d7c5b3-e026-4c43-b9ac-be3e8b29abbd" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">Objectクラスのequals()、hashCode()、toString()の３つはデフォルトメソッドとして定義することはできない</mark></li></ul><pre id="fc8eb26b-f823-4319-8582-434b5581c2e3" class="code"><code>// 構文
+[public] default 戻り値 メソッド名(引数リスト) { 処理 }</code></pre></details></li></ul><p id="04324251-01fe-414e-a775-77b757e4762d" class="">
+</p><ul id="76852bb8-4783-48ea-8b32-f916360f9f4e" class="toggle"><li><details open=""><summary>privateな具象メソッド</summary><p id="663f9b90-ba10-41bb-8476-c014ee627fd0" class="">SE9以降では具象メソッドを定義可能</p><p id="d2949708-780f-4476-b27c-dd3c561517ba" class="">staticは使用可能</p><p id="8a868572-c2a4-4dde-ab86-5b880504c23b" class="">複数のdefaultメソッドで実装が重複する場合、privateメソッドで処理をまとめることが可能</p><pre id="4f9a1e04-9d1a-4413-9f56-4de601561d8d" class="code"><code>// 構文
+private [static] 戻り値 メソッド名(引数リスト) { 処理 }</code></pre><pre id="04934f1d-a8bf-403b-90fa-fcce08a3c2cb" class="code"><code>interface Foo {
+	private static void p1() {
+		System.out.println(&quot;Foo : p1()&quot;);
+	}
+	private void p2() {
+		System.out.println(&quot;Foo : p2()&quot;);
+	}
+	static void methodA() {
+		System.out.prinltn(&quot;Foo : methodA()&quot;);
+		p1();
+		//p2(); // コンパイルエラーが発生する
+	}
+	
+	default void methodB() {
+		System.out.pritnln(&quot;Foo : methodB()&quot;);
+		p1();
+		p2();
+	}
+}
+
+class FooImpl implements Foo { }
+
+public class Main implements Foo {
+	public static void main(String[] args) {
+		Foo.methodA();
+		new FooImpl.methodB();
+	}
+}</code></pre><p id="202f90d7-d859-47a3-8ddb-f7b6a555e782" class="">出力結果</p><pre id="3eef6e00-2d84-45bb-92b6-05da5322eeb6" class="code"><code>Foo : methodA()
+Foo : p1()
+Foo : methodB()
+Foo : p1()
+Foo : p2()</code></pre></details></li></ul><p id="fbce301a-fe20-43d3-a68e-5aed0648a8a1" class="">
+</p><ul id="8ed06d99-bff6-4ca3-9c48-93847d05f5e9" class="toggle"><li><details open=""><summary>インタフェースの継承</summary><p id="c536f7ad-d673-4685-a4ff-1d601cf7d756" class="">インタフェースも継承可能</p><p id="1f5f0fc4-8bf2-4c57-8fc7-44d4dbb7b7a7" class="">インタフェースは複数のインタフェースを継承することが可能（実装も複数可能）</p></details></li></ul><p id="5c5ebc1b-e0f4-40a1-af41-355ee81702bb" class="">
+</p><ul id="2a978103-65a1-4d68-a88c-fa84593fcf7a" class="toggle"><li><details open=""><summary>様々な実装クラス</summary><p id="0dc9eb39-ec6b-42e4-bcd7-3911f2120217" class="">実装クラスはインタフェースを実装するのと同時に他のクラスを継承することも可能</p><p id="242a5bf2-b6e5-4844-ab6c-a06b489b0a40" class="">ただし、extendsを先に記述する必要がある</p><pre id="1f7d52e0-f8c8-4dae-a9e4-313b4517d650" class="code"><code>interface MyInter1 { void methodA(); }
+class Super { void mehtodB() {} }
+class MyClass extends Super implements MyInter1 {
+	@Override
+	public void methodA() {}
+}</code></pre><p id="04067d6e-fdf5-4afd-a67a-e305d9b717b7" class="">デフォルトメソッドは実装クラスでオーバーライド可能</p><pre id="2364de8e-9971-4bae-918d-635722de0c95" class="code"><code>interface MyInter1 {
+	default void method() { System.out.pritnln(&quot;MyInter1&quot;); }
+}
+class MyClass implements MyInter11 {
+	@Override 
+	public void method() { System.out.println(&quot;MyClass&quot;); }
+}</code></pre><p id="511e386f-0144-4827-9a26-0d032f486353" class="">また、以下のようにどちらのメソッドを呼び出すか判断がつかない場合、コンパイルエラーが発生する</p><pre id="89e8d66d-28dd-4a06-90c7-cc3f5e4a853a" class="code"><code>interface A {
+	void method(); // 抽象メソッド
+}
+
+interface X extends A { // Aインタフェースのサブインタフェース
+	@Override
+	default void method() { System.out.println(&quot;X&quot;); }
+}
+
+interface Y extends B { // Aインタフェースのサブインタフェース
+	@Override
+	default void method() { System.out.println(&quot;Y&quot;); }　// ここではコンパイルエラーは発生しない
+}
+
+class MyClass implements X,Y {} // このクラスが原因でコンパイルエラーが発生する
+</code></pre><p id="77701c37-9edf-4f54-a11f-ba43b5065a7a" class="">ただし、以下のようにMyClassでmethod()をオーバライドすれば、コンパイル、実行が可能</p><pre id="038ba2a8-b74c-46f1-b629-1e5e179e12ab" class="code"><code>class MyClass implements X,Y { 
+	@Override
+	public void method() { System.out.println(&quot;MyClass&quot;); }
+}
+
+public class Main {
+	public static void main(String[] args) {
+		MyClass obj = new MyClass();
+		obj.method(); // MyClass
+	}
+}</code></pre><p id="c8241faf-290d-4926-9dc0-e1952dd0c892" class="">または、MyClass側でどちらを呼び出すか明示することで、コンパイル、実行が可能</p><pre id="40d8f544-e69a-4988-addb-720645fd561e" class="code"><code>class MyClass implements X,Y {
+	@Override
+	public void method() { X.super.method(); }
+// 親インタフェース名.super.メソッド名()　で呼び出す
+}
+
+public class Main {
+	public static void main(String[] args) {
+		MyClass obj = new MyClass();
+		obj.method(); // X
+	}
+}</code></pre><p id="f6927dde-f282-40fe-9248-3929a5a7bc02" class="">
+</p><p id="42bc4e77-04b3-4f94-b597-b43bb3a23b65" class="">片方を継承、片方を実装した場合もコンパイル、実行が可能</p><p id="790f58de-176b-4bbe-9fc8-76dbdbe6a6d3" class="">ただし、Java言語では常にクラスが優先されるので、継承された方が優先される</p><pre id="82f80cb0-894d-437a-be83-e52ccb1c08f2" class="code"><code>interface A {
+	void methodA(); //　抽象メソッド
+}
+
+	interface X extends A { //　Aインタフェースのサブインタフェース
+	@Override
+	default void method() { System.out.println(&quot;X&quot;); }
+}
+
+class Y implements A { // A インタフェースの実装クラス
+	@Override
+	default void method() { System.out.println(&quot;Y&quot;); }
+}
+
+class MyClass extends Y implements X { }
+
+public class Main { 
+	public static void main(Stirng[] args) {
+		MyClass obj = new MyClass();
+		obj.method(); // Y
+	}
+}</code></pre></details></li></ul><p id="4c1276ad-c8b5-4583-95a5-45c395c20661" class="">
+</p><h2 id="18c861c5-6482-476a-8c42-7e9e7a302384" class="">ネストクラス</h2><ul id="bb51c79e-6eeb-40df-a49d-986b1cf3a7c2" class="toggle"><li><details open=""><summary>ネストクラスとは</summary><p id="d0bb8d66-a948-457f-b5f7-a9d00b0d5c6c" class="">クラス定義の中にさらにクラスを定義したもの</p><p id="8f29ecb1-1645-4e7d-bfbb-23ab19885ca2" class="">ネストクラスにはstaticクラスと非staticクラスがあるが、非staticクラスのことを特に<mark class="highlight-red">インナークラス</mark>と呼ぶ</p><ul id="8b1f9028-b40d-45b7-bc71-18e06c3fdb0f" class="toggle"><li><details open=""><summary>ネストクラス</summary><ul id="8c9ccf20-276e-4582-aede-bfc2863af150" class="toggle"><li><details open=""><summary>インナークラス</summary><ul id="6c836862-b2f3-4fa7-babe-bde0800d97bd" class="bulleted-list"><li style="list-style-type:disc">ローカルクラス</li></ul><ul id="922abb49-e6bd-441b-9957-6f1d54f61f31" class="bulleted-list"><li style="list-style-type:disc">匿名クラス</li></ul></details></li></ul><ul id="6994f4d2-c68d-498f-9c71-9aa71ccf997d" class="toggle"><li><details open=""><summary>staticクラス</summary></details></li></ul></details></li></ul></details></li></ul><p id="19c5509c-8a57-414d-948c-7153ea78dd46" class="">
+</p><ul id="e62483a1-af50-4658-bb20-34181bc22707" class="toggle"><li><details open=""><summary>ネストクラスのルール</summary><p id="5f635988-7f45-41c1-bb57-ba7cc160ba9f" class="">ネストクラスの共通ルールは以下の通り</p><ul id="b1a5acc6-cd89-4637-b8cb-8bda179cdcc7" class="bulleted-list"><li style="list-style-type:disc">外側のクラスと同じ名前は使用できない</li></ul><ul id="69bc1159-5b8e-4fab-acb3-54e1e6cc9ba9" class="bulleted-list"><li style="list-style-type:disc">アクセス修飾子を使用可能</li></ul><ul id="75178aac-05ec-436e-88f4-88443c8a135b" class="bulleted-list"><li style="list-style-type:disc">abstract修飾子、final修飾子を使用可能</li></ul><p id="27b649ad-79ed-47ec-a57c-22556f6ec7cd" class="">
+</p><p id="ebc4b03b-3423-438d-8685-346af68d133e" class="">staticクラスのみに適用されるルールは以下の通り</p><ul id="ad160681-7e35-4367-84fd-05dbf9fd146f" class="bulleted-list"><li style="list-style-type:disc">非staticメンバ、staticメンバを持つことができる</li></ul><ul id="5210a31f-2d5e-4ede-8d1a-bc90ed0d9484" class="bulleted-list"><li style="list-style-type:disc">外側のクラスで定義したインスタンス変数にアクセスできない</li></ul><p id="2d4fb1b5-c624-4fb7-abab-a0eb1e0c2309" class="">
+</p><p id="4e2dda65-402b-4252-8da0-8373983562a0" class="">非staticクラスのみに適用されるルールは以下の通り</p><ul id="d7422cf0-6595-4ffe-8946-6f2ce8cbb28c" class="bulleted-list"><li style="list-style-type:disc">staticメンバをもつことができない</li></ul><ul id="f90b34ca-e0d3-4760-8b1f-ec68bd24f541" class="bulleted-list"><li style="list-style-type:disc">外側のクラスで定義したインスタンス変数、static変数にアクセス可能</li></ul></details></li></ul><p id="41113f16-e69f-4c45-a775-17ea3a3cad03" class="">
+</p><ul id="e4784850-1b23-4eb6-a928-d7b9f32b5203" class="toggle"><li><details open=""><summary>ネストクラスの定義とコンパイル</summary><pre id="3d3ccefc-6ef0-4789-aa0a-80450df83ff6" class="code"><code>class Outer {
+	class A { }
+	static class B { }
+}</code></pre><p id="14b19a7f-ab53-42b6-a1e6-43e90645f1d4" class="">外側のクラスをコンパイルすると、内側のクラスもコンパイルされる</p><p id="71a340b1-5b87-4e7e-b53d-2a97a3289767" class="">ネストクラスのファイル名は｢<mark class="highlight-red">外側のクラス名＄ネストクラス名.class</mark>｣となる</p><p id="35ac7916-549b-438d-9e04-0e1c49aec3ed" class="">つまり、上記のクラスをコンパイルすると、Outer.class、Outer$A.class、Outer$B.classの３っつのファイルが生成される</p></details></li></ul><p id="a189eedd-83e5-4508-8f79-fb2ebb9bd838" class="">
+</p><ul id="a4d294cc-32da-4739-9eb7-4edb50eb8017" class="toggle"><li><details open=""><summary>ネストクラスへのアクセス</summary><ul id="3ddfdf72-705a-4889-adcd-3fccabe63cd6" class="toggle"><li><details open=""><summary>外部クラスでネストクラスをインスタンス化した場合</summary><p id="ad7e2da2-7f3b-4bd7-bae3-613268173f54" class="">この場合、構文は非staticメンバかstaticメンバかによって異なる</p><pre id="87924fc0-11ab-4320-a27a-245c978ae699" class="code"><code>// 非staticクラスの場合
+外側のクラス名.非staticクラス名　変数名　＝　new 外側のクラス名().new 非staticクラス名();
+
+// 例
+Outer.A a =　new Outer().new A();</code></pre><pre id="5da8b7a4-67a3-4f32-b18a-2fa6c2637d28" class="code"><code>// staticクラスの場合
+外側のクラス名.staticクラス名　変数名　＝　new 外側のクラス名.staticクラス名();
+
+// 例
+Outer.B b = new Outer.B();</code></pre><p id="b9730cb6-e8fa-49a7-800a-e2cb44138d19" class="">また、以下はサンプルプログラム</p><pre id="e66532b1-4405-480e-aee9-20640292c38e" class="code"><code>class Outer {
+	private int val1 = 100;
+	private static int val2 = 200;
+	class A {
+		void method1() {
+			System.out.println(&quot;A#method1()#instance val1 :&quot; + val1);
+			System.out.println(&quot;A#method1()#static val2 :&quot; + val2);
+		}
+	// 非staticクラスなので、staticメンバはもつことができない
+	} 
+	
+	static class B {
+		void method1() {
+			// staticクラスなので、インスタンス変数にアクセスできない
+			System.out.println(&quot;B#method1()#static val2 :&quot; + val2);
+		}
+		static void method2() {
+			System.out.println(&quot;B#method2()#static val2 :&quot; + val2);
+		}
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		Outer.A a = new Outer().new A();
+		Outer.B b = new Outer.B();
+		a.method1();
+		b.method2();
+	}
+}</code></pre></details></li></ul><p id="2495414e-db3f-46d7-8577-10e037e5b0b4" class="">
+</p><ul id="3d6bdafc-9dc4-4129-bc55-47c6af7925aa" class="toggle"><li><details open=""><summary>外部クラスのメソッド内でネストクラスをインスタンス化した場合</summary><pre id="effd5c56-28ee-44e8-905c-01b08c8eb1f9" class="code"><code>public class Main {
+	class A {
+		void methodA() { System.out.println(&quot;methodA()&quot;); }
+	}
+
+	static class B {
+		static void methodB() { System.out.println(&quot;methodB()&quot;; }
+	}
+}
+
+public static void main(String[] args) {
+	new Main().new A().methodA(); // new A().methodA(); NG
+	new Main.B().methodB();
+	new B.methodB();
+	Main.B.methodB();
+	B.methodB();
+	}
+}</code></pre><p id="8b6dc8c7-e721-414f-bd95-8557cd3881a6" class="">また、次のことに注意する（thisの役割）</p><pre id="d3c68d22-f976-42e6-8899-fb4533accdbd" class="code"><code>class Outer {
+	private int num = 100;
+	class A {
+		public int num = 200;
+		void method(int num) {
+			num += 1;
+			this.num += 1;
+			Outer.this.num += 1;
+			System.out.println(&quot;num :&quot; + num);
+			System.out.println(&quot;this.num :&quot; + this.num);
+			System.out.println(&quot;Outer.this.num :&quot; + Outer.this.num);
+		}
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		new Outer.new A().method(300);
+	}
+}</code></pre><p id="31ca0ec2-81f6-46d7-b6d2-d0be77c35895" class="">実行結果</p><pre id="6382de22-c6ba-4ac5-8b93-744243ecaf6e" class="code"><code>num : 301
+this.num : 201
+Outer.this.num : 101</code></pre><p id="de6fa636-64f6-4830-b655-b925c28e3d31" class="">
+</p></details></li></ul><p id="023ba8f7-82b4-4f2c-9328-d20a8d14f28d" class="">また、ネストクラスではインタフェースや抽象クラスを定義することも可能</p><pre id="17b7f243-4a96-4fc7-af0d-87bd01b0d7f7" class="code"><code>class Test { 
+	abstract class A { abstract void foo(); }
+	clsss B extends A { void foo(); }
+	static interface X { void bar(); }
+	static class Y implements X { public void bar() {} }
+}</code></pre></details></li></ul><p id="8f4c8891-0e06-4833-91ce-dca3ec945ae3" class="">
+</p><ul id="efd7b503-7b4d-43a1-83e7-fc99b9b8497c" class="toggle"><li><details open=""><summary>ローカルクラスとは</summary><p id="8bf5f5d7-6858-4eed-b9e4-a4bc35b067ab" class="">ローカルクラスとは、あるクラスのメソッド内に定義したクラスのこと</p><p id="8ef75a6d-702b-465a-8040-43b71be9f62f" class="">ローカルクラスには、以下のようなルールがある</p><ul id="184da516-5989-4bac-b479-a722feeb175e" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">アクセス修飾子は使用不可</mark></li></ul><ul id="5c5c0d07-2ff4-4497-a045-bde85543fba8" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">static修飾子は使用不可</mark></li></ul><ul id="cb442150-e641-4d4e-a4e7-9afbc9a5b8a6" class="bulleted-list"><li style="list-style-type:disc">abstract修飾子、final修飾子は使用可能</li></ul><ul id="27c6f344-8c22-46f5-b98d-0f951879ef0d" class="bulleted-list"><li style="list-style-type:disc">外側のクラスのメンバにアクセス可能</li></ul><ul id="ca78a260-b80f-46ff-8c4d-157289187f22" class="bulleted-list"><li style="list-style-type:disc">ローカルクラスから外側のクラスのメソッドの引数およびローカル変数にアクセスするには、<mark class="highlight-red">各変数がfinal（定数）</mark>である必要がある
+SE８以降ではｍ暗黙的にfinalが付与されるため、明示的な付与は不要</li></ul><pre id="7d00a50b-55b6-4120-ba2d-cf2012880599" class="code"><code>class Outer {
+	private static int a = 1;
+	private int b = 2;
+	void methodOuter(final int c, int d) {
+		final int e = 5;
+		int f = 6;
+		clsss A {
+			void method() {
+				System.out.print(a + &quot; &quot;);
+				System.out.print(b + &quot; &quot;);
+				System.out.print(c + &quot; &quot;);
+				System.out.print(d + &quot; &quot;);
+				System.out.print(e + &quot; &quot;);
+				System.out.print(f);
+				// s = 100; NG
+				// f = 100; NG
+			}
+		}
+	new A().method();
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		Outer o = new Outer();
+		o.methodOuter(3,4); // 1 2 3 4 5 6
+	}
+}</code></pre></details></li></ul><p id="d573da87-c1da-4ab6-b6b8-e04e594617e7" class="">
+</p><ul id="c46411ad-71e8-4610-a5a1-7f74dd596c58" class="toggle"><li><details open=""><summary>匿名クラスとは</summary><p id="2035cfdd-e77a-4697-b0ed-a5c3c11f65ed" class="">クラス名を指定せずに、クラス定義とインスタンス化を１つの式として記述したもの</p><p id="23132e73-70b1-4d72-a62b-521a8a407586" class="">匿名クラスは、<mark class="highlight-red">あるクラスのサブクラス、もしくはあるインタフェースを実装したクラスである必要がある</mark></p><p id="4f8d68a1-3891-421a-8ac4-d61f94a7e7a6" class="">匿名クラスには、以下のルールがある</p><ul id="2e4ec99e-4984-4ebe-b650-d06c36acb716" class="bulleted-list"><li style="list-style-type:disc">アクセス修飾子は使用不可</li></ul><ul id="497520a9-56ce-43e9-a5f3-9967a54bad87" class="bulleted-list"><li style="list-style-type:disc">static修飾子は使用不可</li></ul><ul id="c332de26-fa41-49d9-98f6-f23803d36981" class="bulleted-list"><li style="list-style-type:disc">abstract修飾子、final修飾子は使用不可</li></ul><ul id="07dc60f5-1f00-4393-be1d-a6db2b87c101" class="bulleted-list"><li style="list-style-type:disc">外側のクラスのメンバにアクセス可能</li></ul><ul id="12265953-9c72-4e9e-a797-f10567233995" class="bulleted-list"><li style="list-style-type:disc">外側のクラスのメソッドの引数、ローカル変数にアクセス可能（ただし、暗黙的にfinal）</li></ul><ul id="bd3b20a2-48dd-4a7e-9ac8-e82e7c1dc0f0" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">コンストラクタを定義できない</mark></li></ul><pre id="efd1d673-9a7a-4911-b641-89fc89fdaf96" class="code"><code>interface MyInter { void methodA(); }
+
+class Outer {
+	void method() {
+		new MyInter() {
+			public void methodA() {
+				System.our.println(&quot;methodA()&quot;);
+			}
+		}.methodA(); // 匿名クラスのメソッドの呼び出し
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		new Outer().method();
+	}
+}</code></pre><pre id="9969ddb8-207a-4792-b57a-1070ac35d7ee" class="code"><code>void method() {
+	MyInter obj = new MyInter() {
+		public void methodA() {
+			System.out.println(&quot;methodA()&quot;};
+		}
+	};
+	obj.methodA();
+}</code></pre></details></li></ul><p id="6cdf8b8b-ad2a-4902-b78c-59d9a906bd47" class="">
+</p><ul id="b3bf5979-0185-4bb3-a94d-f4a1f63d10bc" class="toggle"><li><details open=""><summary></summary></details></li></ul><p id="063e6ee3-85f0-431a-abdd-afec2e36f27f" class="">
+</p><p id="0c8632ab-a6b3-4b85-9a24-d017d9a820bb" class="">
+</p></div></article></body></html>

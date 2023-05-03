@@ -1,0 +1,994 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>コレクションとジェネリクス（SE GOLD）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="df579528-969d-4c91-b605-8047968a1e12" class="page sans"><header><h1 class="page-title">コレクションとジェネリクス（SE GOLD）</h1></header><div class="page-body"><ul id="18b464db-5fab-4e5f-99c8-569610ef1c9b" class="toggle"><li><details open=""><summary>ラッパークラス</summary><p id="a55d7b0a-4374-4443-ae10-95b152ad4833" class="">基本データ型を参照型として扱う専用のクラス</p></details></li></ul><p id="bf5a26a7-5ef8-4a08-8977-0899eaae1c56" class="">
+</p><ul id="032e4e0f-fcaa-4d5b-bd48-c626365b3d03" class="toggle"><li><details open=""><summary>Boxing/Unboxing</summary><p id="8e8bddde-2267-4c26-9bcc-5d94bf7d2dac" class="">基本データ型とラッパークラス間の変換は自動で行われる</p></details></li></ul><p id="5ba71b13-6d12-42ae-937d-32ad2820107b" class="">
+</p><ul id="d7417c7e-fa8c-40fd-bcff-e30026a35ece" class="toggle"><li><details open=""><summary>コレクション</summary><p id="d2629765-33e9-43dc-9607-b34ba2788898" class="">以下が各インタフェースの特徴</p><p id="3cc7fc4e-fc90-46dc-a486-98e66237b8fd" class=""><mark class="highlight-red">Mapはコレクションインタフェースから派生したものではないことに注意</mark></p><table id="78b02f62-60c7-4852-80dd-615a608fc055" class="simple-table"><thead class="simple-table-header"><tr id="0aaf9854-9281-402c-93e1-2b16e6753c3a"><th id="rP^b" class="simple-table-header-color simple-table-header" style="width:144.46875px">インタフェース名</th><th id="@qdW" class="simple-table-header-color simple-table-header" style="width:617px">説明</th></tr></thead><tbody><tr id="518acf55-236a-4c7a-9767-6e0342657390"><td id="rP^b" class="" style="width:144.46875px">List</td><td id="@qdW" class="" style="width:617px">データ項目に順序づけをしたコレクション。
+リスト中の要素は重複可。
+Listインタフェースを実装したクラスにはArrayList、LinkedList、Vectorなどがある。</td></tr><tr id="3ba311d8-3bf7-4129-9fcc-90b86a7062bb"><td id="rP^b" class="" style="width:144.46875px">Set</td><td id="@qdW" class="" style="width:617px">ユニークな値のコレクション。
+順不同で要素を管理し、重複不可。
+Setインタフェースを実装したクラスにはHashSet、TreeSet、LinkedHashSetなどがある。</td></tr><tr id="4244d808-d6a6-45e2-9e96-5385ec118e4b"><td id="rP^b" class="" style="width:144.46875px">Queue</td><td id="@qdW" class="" style="width:617px">FIFO形式のデータ入出力を行うコレクション。
+Queueインタフェースを実装したクラスにはArrayDequeなどがある。</td></tr><tr id="b9a9cc30-6250-450d-9f5d-aa95ce92081f"><td id="rP^b" class="" style="width:144.46875px">Map</td><td id="@qdW" class="" style="width:617px">ここのキーに対応する値をマップしたオブジェクト。
+キーの重複は不可。値の重複は可。
+Mapインタフェースを実装したクラスにはHashMap、TreeMap、LinkedHashMapなどがある。</td></tr></tbody></table><p id="c1b786fc-ce54-4da7-9806-d6bddac74756" class="">また、コレクションインタフェースは以下のメソッドを持つ</p><table id="495b8dd2-e909-4308-9d20-a1ec384da3b8" class="simple-table"><thead class="simple-table-header"><tr id="7f86c05d-04c9-44a8-acc9-c4112f913466"><th id="hmcP" class="simple-table-header-color simple-table-header" style="width:275px">メソッド名</th><th id="RMTJ" class="simple-table-header-color simple-table-header" style="width:480px">説明</th></tr></thead><tbody><tr id="6939ce50-523e-465e-9c23-b2c1798a02cd"><td id="hmcP" class="" style="width:275px">boolean add(E e)</td><td id="RMTJ" class="" style="width:480px">引数の要素をコレクションに追加する。
+この結果コレクションが変更された場合、trueを返す。</td></tr><tr id="204c8682-7436-4bda-ba5e-8fb226868ca1"><td id="hmcP" class="" style="width:275px">void clear()</td><td id="RMTJ" class="" style="width:480px">このコレクションから全ての要素を削除する。</td></tr><tr id="20d89834-a119-4826-9828-1f19df39c542"><td id="hmcP" class="" style="width:275px">boolean contains(Object obj) </td><td id="RMTJ" class="" style="width:480px">指定された要素がコレクション内に存在する場合はtrueを返す。</td></tr><tr id="3ba7bdcf-19dd-4b17-b9fe-2d01718c4e05"><td id="hmcP" class="" style="width:275px">boolean contatinsAll(Collection&lt;?&gt; c)</td><td id="RMTJ" class="" style="width:480px">指定されたコレクションの要素全てが存在する場合はtrueを返す。</td></tr><tr id="94c46c9f-6dd4-4b72-b284-fd053633e3de"><td id="hmcP" class="" style="width:275px">boolean isEmpty()</td><td id="RMTJ" class="" style="width:480px">このコレクションに要素が1つも含まれていない場合はtrueを返す。</td></tr><tr id="895fb4f1-3631-4fa5-8a25-9d325897bea7"><td id="hmcP" class="" style="width:275px">boolean remove(Object o)</td><td id="RMTJ" class="" style="width:480px">引数に指定された要素を削除し、要素が削除された場合はTureを返す。</td></tr><tr id="9bac35c4-0c8a-4a55-8f21-e5cb31eba3f9"><td id="hmcP" class="" style="width:275px">boolean removeAll(Collection&lt;?&gt; c)</td><td id="RMTJ" class="" style="width:480px">引数に指定されたコレクションにある全ての要素をコレクションから削除し、その結果コレクションが変更された場合、trueを返す。</td></tr><tr id="bd2baa86-e996-4f0b-b233-a8912c1f0c5c"><td id="hmcP" class="" style="width:275px">Iterator&lt;E&gt; iterator()</td><td id="RMTJ" class="" style="width:480px">このコレクションの要素に対する反復子を返す。」</td></tr><tr id="1dd3ac3d-bf13-43d7-913f-b61ff9a4f28e"><td id="hmcP" class="" style="width:275px">Object[] toArray()</td><td id="RMTJ" class="" style="width:480px">このコレクションの要素が全て格納されている配列を返す。</td></tr><tr id="88073536-e6b5-477f-8df6-0f511e96db83"><td id="hmcP" class="" style="width:275px">&lt;T&gt; T[] toArray(T[] array)</td><td id="RMTJ" class="" style="width:480px">このコレクションの全ての要素を含む配列を返す。Tは配列要素のデータ型。</td></tr><tr id="4f60ce34-7450-4c87-a49a-6e34f067cb8a"><td id="hmcP" class="" style="width:275px">int size()</td><td id="RMTJ" class="" style="width:480px">コレクション中の要素数を返す。</td></tr></tbody></table><p id="d4cb0177-d152-4d36-967c-224fa629fb2e" class="">
+</p><p id="7910152e-4301-42f7-98e2-281b7a805434" class="">また、マップインタフェースは以下のメソッドを持つ</p><table id="f3c1b7f8-041b-4683-8785-10aad766b78e" class="simple-table"><thead class="simple-table-header"><tr id="9eb93710-abfa-473a-bfeb-70ea9e1f4c89"><th id="KEla" class="simple-table-header-color simple-table-header" style="width:339px">メソッド</th><th id="A;xT" class="simple-table-header-color simple-table-header" style="width:588px"></th></tr></thead><tbody><tr id="f6a395da-4cab-4862-9585-0972e6bb6c6c"><td id="KEla" class="" style="width:339px">void clear()</td><td id="A;xT" class="" style="width:588px">マップ中の全てのマッピングを削除する</td></tr><tr id="3d48a77b-13e7-4cd0-8f7d-3ab780ab99a9"><td id="KEla" class="" style="width:339px">boolean containsKey(Object key)</td><td id="A;xT" class="" style="width:588px">指定されたキーに対応するキー値ペアがこのマップに存在する場合はtrueを返す</td></tr><tr id="aa6a8ae6-ba07-4baf-b09f-44a4fa3f8f16"><td id="KEla" class="" style="width:339px">boolean containsValue(Object value)</td><td id="A;xT" class="" style="width:588px">指定された値に対応するキー値ペアがこのマップに1つ以上存在する場合はtrueを返す</td></tr><tr id="83748217-df8d-4579-9dbc-b2d27e87a3b5"><td id="KEla" class="" style="width:339px">V get(Object key)</td><td id="A;xT" class="" style="width:588px">指定されたキーに対応する値を返す</td></tr><tr id="51ae39bc-4b38-49b8-b01a-c60603caaee4"><td id="KEla" class="" style="width:339px">boolean isEmpty()</td><td id="A;xT" class="" style="width:588px">このマップ中にマッピングを保持していない場合はtrueを返す</td></tr><tr id="8678415b-a16d-47bb-b1d3-5d669d55a001"><td id="KEla" class="" style="width:339px">V put(K key, V value)</td><td id="A;xT" class="" style="width:588px">指定されたキー値ペアを格納する。
+指定されたキーに対して既に新しい値が割り当てられている場合は、新しい値で上書きされる。</td></tr><tr id="e75a1188-8867-49b0-8f6f-8f666d3545d3"><td id="KEla" class="" style="width:339px">void putAll(Map&lt;? extends K, ? extends V&gt; m)</td><td id="A;xT" class="" style="width:588px">指定されたマップにある全てのキー値ペアをこのマップに格納する</td></tr><tr id="d1902b2e-00a6-4c90-91b8-dc8efdc45aca"><td id="KEla" class="" style="width:339px">V remove(Object key)</td><td id="A;xT" class="" style="width:588px">指定されたキーに対応するキー値ペアが存在する場合、戻り値に値を返して削除する。
+値が存在しない場合はnullを返す。</td></tr><tr id="619de24c-8883-493d-8c18-75cbe7fac374"><td id="KEla" class="" style="width:339px">int size()</td><td id="A;xT" class="" style="width:588px">このマップ中に存在するキー値ペアの数を返す</td></tr><tr id="1e0d9c67-7118-4e63-8e8f-6bbcf210ce80"><td id="KEla" class="" style="width:339px">Collection&lt;V&gt; values()</td><td id="A;xT" class="" style="width:588px">このマップ中の値をコレクションとして返す</td></tr></tbody></table></details></li></ul><p id="262e59de-869e-45d1-9b3e-0512c1096e66" class="">
+</p><ul id="c85e750c-4d83-40a5-81e9-2097c444c59a" class="toggle"><li><details open=""><summary>リストとは</summary><p id="9d7a194e-2d56-46a7-984f-2b395c6b5188" class="">サイズ変更可能な配列のようなもの。</p><table id="b59697ce-76d7-47e1-85e1-551d4d6150d7" class="simple-table"><thead class="simple-table-header"><tr id="81776308-3e51-46cf-b185-08bbecefdaf5"><th id="D@QH" class="simple-table-header-color simple-table-header">クラス名</th><th id="oI&lt;l" class="simple-table-header-color simple-table-header" style="width:813px">説明</th></tr></thead><tbody><tr id="b4551a27-69a9-4f80-9a25-0acbbcef7e5f"><td id="D@QH" class="">ArrayList</td><td id="oI&lt;l" class="" style="width:813px">サイズ変更可能な配列。
+<mark class="highlight-red">ランダムアクセスが高速</mark>で、挿入と削除が低速。
+同期性はサポートしていない。</td></tr><tr id="d8a0326e-a130-4f02-80a7-63a4e399a290"><td id="D@QH" class="">LinkedList</td><td id="oI&lt;l" class="" style="width:813px">個々のデータ項目に加えて次のノードに対するポインタが各要素に格納されている。
+ランダムアクセスが低速で、<mark class="highlight-red">挿入と削除が高速。</mark>
+同期性はサポートしていない。</td></tr><tr id="726a7682-dd4e-49cb-b484-7468b16a0872"><td id="D@QH" class="">Vector</td><td id="oI&lt;l" class="" style="width:813px">ArrayListとほぼ同様。<mark class="highlight-red">同期性をサポートしている。</mark></td></tr></tbody></table><pre id="6c604f39-36f9-4cdb-b23d-f637761c9ee5" class="code"><code>//　例
+ArrayList&lt;integer&gt; list = new ArrayList&lt;integer&gt;();
+Integer i1 = 1;
+int i2 = 2;
+Integer i3 = i1;
+list.add(i1);
+list.add(i2);
+list.add(i3);
+System.out.println(&quot;size&quot;+list.size());
+for(int i = 0;i &lt; list.size();i++){
+ System.out.println(list.get(i)+&quot; &quot;);
+}
+System.out.println();
+for(Integer i : list){ System.out.println(i+&quot; &quot;);*}
+
+// 実行結果
+size : 4
+1 5 2 1
+1 5 2 1
+</code></pre></details></li></ul><p id="97ac52f4-ca52-4e51-ac06-b13949f8810d" class="">
+ </p><ul id="9e3d4e8d-3c66-45fa-ba1c-05bb90e36b24" class="toggle"><li><details open=""><summary>セットとは</summary><p id="805b1f2a-1ff4-47e7-904d-914e22f6d4ed" class="">データ構造体に要素の重複を許したくない場合に使用。データは順不同で管理される。</p><p id="c78a5328-dc83-4f58-9f4f-5c7877648f82" class=""><mark class="highlight-red">比較はequauls()メソッドで行われるため、独自のクラスを作成した場合は注意が必要である。</mark></p><p id="f05da6cc-e113-414a-bb26-8a30a9f8bea9" class="">equals()メソッドとhashCode()メソッドのオーバーライドが必要。</p><table id="1105b252-ae4a-4fbd-a7c5-4b3316b4f39a" class="simple-table"><thead class="simple-table-header"><tr id="7d379e06-5d44-4a4f-b13c-02c00ede61da"><th id="^pbr" class="simple-table-header-color simple-table-header">クラス名</th><th id="q|oz" class="simple-table-header-color simple-table-header" style="width:816px">説明</th></tr></thead><tbody><tr id="9c30d959-f7ba-4bcf-9db0-e1bf3e4f430c"><td id="^pbr" class="">HashSet</td><td id="q|oz" class="" style="width:816px">データ項目のアクセスは高速だが、順序づけは不可能。同期性はサポートしていない。</td></tr><tr id="460ffd87-b017-4d66-b024-be8f7be6b269"><td id="^pbr" class="">TreeSet</td><td id="q|oz" class="" style="width:816px">ソートされたデータ項目を得ることが可能。同期性はサポートしていない。</td></tr><tr id="fd8e957d-a98e-4134-977b-5a67f136cee0"><td id="^pbr" class="">LinkedHashSet</td><td id="q|oz" class="" style="width:816px">HashSetと同等の機能に加えて全てのデータ項目に対する二重リンクリストを追加したもの。
+ソートはされない。同期性はサポートしていない。</td></tr></tbody></table><pre id="081a4769-0363-4b80-9127-67f8507695c5" class="code"><code>// 例
+String[] ary = {&quot;CCC&quot;,&quot;AAA&quot;,&quot;BBB&quot;};
+
+HashSet&lt;String&gt; hashSet = new HashSet&lt;Stirng&gt;();
+hashSet.add(ary[0]);
+hashSet.add(ary[1]);
+hashSet.add(ary[2]);
+hashSet.add(ary[0]);
+System.out.println(&quot;HashSet size:&quot;+hashSet.size());
+for(String s hashSet){System.out.println(s+&quot; &quot;);}
+System.out.println();
+
+TreeSet&lt;String&gt; treeSet = new TreeSet&lt;String&gt;();
+treeSet.add(ary[0]);
+treeSet.add(ary[1]);
+treeSet.add(ary[2]);
+treeSet.add(ary[0]);
+System.out.println(&quot;TreeSet size:&quot;+treeSet.size());
+for(String s : treeSet){System.out.printkn(s+&quot; &quot;);}
+
+// 実行結果
+HashSet size:3
+AAA BBB CCC // 順番は適当
+TreeSet size:3
+AAA BBB CCC // ソートはされる</code></pre></details></li></ul><p id="565d4ffa-5a01-4496-93e9-5bb933188b71" class="">
+</p><ul id="45ceb350-fb38-465b-b270-59b00b9c4fe8" class="toggle"><li><details open=""><summary>イテレータ（反復子）とは</summary><p id="544026f4-07f1-43a6-96b1-fba993a47fb6" class="">コレクション内の要素に順番にアクセスする方法。</p><p id="1b23af60-11aa-400b-8dcf-b3b0c032f1ef" class="">目的のことなるコレクションに対して、共通の操作方法で要素へのアクセスを可能にする。
+要素の先頭から順番にアクセスする。</p><table id="c2a038fe-37cd-42ea-a105-5aa6c22fdac6" class="simple-table"><thead class="simple-table-header"><tr id="125907b0-33d5-497c-945c-e9dc567c2751"><th id="[vo~" class="simple-table-header-color simple-table-header" style="width:157.3854217529297px">メソッド名</th><th id="@WsB" class="simple-table-header-color simple-table-header" style="width:537px">説明</th></tr></thead><tbody><tr id="77e2c36b-2655-4a49-a217-041909b39b37"><td id="[vo~" class="" style="width:157.3854217529297px">Iterator&lt;E&gt; iterator()</td><td id="@WsB" class="" style="width:537px">このコレクションに対する反復子を返す。</td></tr></tbody></table><p id="ac0adbd0-0e80-4ec9-ab8f-279f80d380c1" class="">イテレータインタフェースには以下のメソッドが提供されている。</p><table id="2315ca04-00e2-4cc8-8375-a91b5cb1135b" class="simple-table"><thead class="simple-table-header"><tr id="c4ffa95f-e870-4ccf-8fe1-4ca9a8ab71a4"><th id="u|vs" class="simple-table-header-color simple-table-header" style="width:155px">メソッド名</th><th id="D}AI" class="simple-table-header-color simple-table-header" style="width:539px">説明</th></tr></thead><tbody><tr id="97efab0d-8e61-4a93-9a74-0864f81319eb"><td id="u|vs" class="" style="width:155px">boolean hashNext()</td><td id="D}AI" class="" style="width:539px">次の要素がある場合にtrueを返す</td></tr><tr id="1ab95a42-87a0-424f-95bd-59bd6218f7fb"><td id="u|vs" class="" style="width:155px">E next()</td><td id="D}AI" class="" style="width:539px">次の要素を返す。</td></tr><tr id="3aa62f18-81c6-43a1-a4af-1bff7ad683ee"><td id="u|vs" class="" style="width:155px">default void remove()</td><td id="D}AI" class="" style="width:539px">next()の呼びだしごとに1回だけ呼び出すことができ、イテレータによって最後に返された要素を削除する。</td></tr></tbody></table></details></li></ul><p id="8c8be72b-19f6-4ab0-b203-4f6c4a156576" class="">
+</p><ul id="36dbe7a8-c03a-4377-bc81-9283b9f463d3" class="toggle"><li><details open=""><summary>キューとは</summary><p id="4592e4af-5396-4b33-bf0f-9d4c70bb06fd" class="">FIFO形式によりデータの追加、削除、検査を行う場合に使用。
+格納した順にデータが取り出される。</p><p id="52af353d-12f1-4660-b118-fabaef6f10ae" class="">挿入、削除、検査するためのメソッドには、オペレーション失敗時に例外をスローするものとfalseを返却するものがある。</p><table id="4e8d26c5-f0f4-44dc-b617-240b7eae3db8" class="simple-table"><thead class="simple-table-header"><tr id="8c7c9fb0-88f8-4dd9-8933-7b5e1ad5c95f"><th id="b[zu" class="simple-table-header-color simple-table-header" style="width:65px">操作</th><th id="QqT@" class="simple-table-header-color simple-table-header" style="width:134px">メソッド名</th><th id="vFVd" class="simple-table-header-color simple-table-header" style="width:690px">説明</th></tr></thead><tbody><tr id="2e57ea38-28c8-43fd-9cbf-0f7d0ea6342f"><td id="b[zu" class="block-color-teal_background" style="width:65px">挿入</td><td id="QqT@" class="block-color-teal_background" style="width:134px">boolean add(E e)</td><td id="vFVd" class="block-color-teal_background" style="width:690px">要素が追加された場合はtrue、容量制限により追加できない場合はIllegalStateExceptionをスローする</td></tr><tr id="7df096ca-d26b-4de6-b913-3bc221d58c27"><td id="b[zu" class="block-color-teal_background" style="width:65px"></td><td id="QqT@" class="block-color-teal_background" style="width:134px">boolean offer(E e)</td><td id="vFVd" class="block-color-teal_background" style="width:690px">要素が追加された場合はtrue、それ以外はfalseを返す</td></tr><tr id="1d7e4ceb-0243-4b4d-99b8-615977b457f6"><td id="b[zu" class="block-color-brown_background" style="width:65px">削除</td><td id="QqT@" class="block-color-brown_background" style="width:134px">E remove()</td><td id="vFVd" class="block-color-brown_background" style="width:690px">キューの先頭を取得および削除する。キューが空の場合はNoSuchElementExceptionをスローする</td></tr><tr id="745d426a-19b8-4881-b752-92732a26d49b"><td id="b[zu" class="block-color-brown_background" style="width:65px"></td><td id="QqT@" class="block-color-brown_background" style="width:134px">E poll()</td><td id="vFVd" class="block-color-brown_background" style="width:690px">キューの先頭を取得および削除する。キューが空の場合はnullを返す</td></tr><tr id="384ecf1d-4eec-43a2-b7c1-5f36326ff522"><td id="b[zu" class="block-color-blue_background" style="width:65px">検査</td><td id="QqT@" class="block-color-blue_background" style="width:134px">E element()</td><td id="vFVd" class="block-color-blue_background" style="width:690px">キューの先頭を取得する。キューが空の場合はNoSuchElementExceptionをスローする</td></tr><tr id="8d700b45-604a-4d53-977b-943c1889dffa"><td id="b[zu" class="block-color-blue_background" style="width:65px"></td><td id="QqT@" class="block-color-blue_background" style="width:134px">E peek()</td><td id="vFVd" class="block-color-blue_background" style="width:690px">キューの先頭を取得する。キューが空の場合はnullを返す</td></tr></tbody></table></details></li></ul><p id="520b29fc-1212-4de7-b67c-9fcb6337ab9b" class="">
+</p><ul id="d1bbe29f-df2f-4fea-915e-73488656abda" class="toggle"><li><details open=""><summary>Dequeインタフェース（両端キュー）について</summary><p id="d630be10-6657-41d3-8b16-9b1cfd2e6d77" class="">キューのサブインタフェースであり、先頭及び末尾に対する操作が提供されている。</p><table id="e86e842d-d7f6-4505-9326-55832c2fd86b" class="simple-table"><thead class="simple-table-header"><tr id="d24733e9-c237-4f2b-b634-11a6bfbcd49f"><th id="RRi&gt;" class="simple-table-header-color simple-table-header" style="width:51px">操作</th><th id="TOIv" class="simple-table-header-color simple-table-header" style="width:156px">メソッド名</th><th id="VJvi" class="simple-table-header-color simple-table-header" style="width:251px">説明</th><th id="eD\x" class="simple-table-header-color simple-table-header" style="width:506px">返却される値及び例外</th></tr></thead><tbody><tr id="9a5fb80d-09d7-4020-9c84-4321a8c780a4"><td id="RRi&gt;" class="block-color-teal_background" style="width:51px">挿入</td><td id="TOIv" class="block-color-teal_background" style="width:156px">void addFirst(E e)</td><td id="VJvi" class="block-color-teal_background" style="width:251px">指定された要素を先頭に挿入する</td><td id="eD\x" class="block-color-teal_background" style="width:506px">IllegalStateException（容量制限による追加失敗）
+ClassCastException（指定された要素のクラスによる失敗）
+NullPointerException（指定された要素がnullで、null要素を許可しない場合）
+IllegalArgumentExcepton（指定された要素のあるプロパティによる失敗）</td></tr><tr id="f5cca6f0-afa7-437b-b1ee-3d4c854b62d5"><td id="RRi&gt;" class="block-color-teal_background" style="width:51px"></td><td id="TOIv" class="block-color-teal_background" style="width:156px">boolean offerFirst(E e)</td><td id="VJvi" class="block-color-teal_background" style="width:251px">指定された要素を先頭に挿入する</td><td id="eD\x" class="block-color-teal_background" style="width:506px">要素が追加された場合はtrue、それ以外はfalseを返す</td></tr><tr id="54d1e92d-4cb5-4886-8a00-fb66e765ad95"><td id="RRi&gt;" class="block-color-teal_background" style="width:51px"></td><td id="TOIv" class="block-color-teal_background" style="width:156px">void addLast(E e)</td><td id="VJvi" class="block-color-teal_background" style="width:251px">指定された要素を末尾に挿入する</td><td id="eD\x" class="block-color-teal_background" style="width:506px">ClassCastException（指定された要素のクラスによる失敗）
+NullPointerException（指定された要素がnullで、null要素を許可しない場合）
+IllegalArgumentExcepton（指定された要素のあるプロパティによる失敗）</td></tr><tr id="203b6c30-8955-4244-bd53-be31202c9924"><td id="RRi&gt;" class="block-color-teal_background" style="width:51px"></td><td id="TOIv" class="block-color-teal_background" style="width:156px">boolean offerLast(E e)</td><td id="VJvi" class="block-color-teal_background" style="width:251px">指定された要素を末尾に挿入する</td><td id="eD\x" class="block-color-teal_background" style="width:506px">要素が追加された場合はtrue、それ以外はfalseを返す</td></tr><tr id="9228a85d-4384-4298-88c4-3d8afe651118"><td id="RRi&gt;" class="block-color-brown_background" style="width:51px">削除</td><td id="TOIv" class="block-color-brown_background" style="width:156px">E rermoveFirst()</td><td id="VJvi" class="block-color-brown_background" style="width:251px">キューの先頭を取得および削除する</td><td id="eD\x" class="block-color-brown_background" style="width:506px">NoSuchElementException（キューが空）</td></tr><tr id="e7c2a344-7df1-44af-ae5c-0e35e0cdeccb"><td id="RRi&gt;" class="block-color-brown_background" style="width:51px"></td><td id="TOIv" class="block-color-brown_background" style="width:156px">E pollFirst()</td><td id="VJvi" class="block-color-brown_background" style="width:251px">キューの先頭を取得および削除する</td><td id="eD\x" class="block-color-brown_background" style="width:506px">両端キューが空ならnullを返す</td></tr><tr id="6709b4db-dbb8-4c99-a36c-f456b235e455"><td id="RRi&gt;" class="block-color-brown_background" style="width:51px"></td><td id="TOIv" class="block-color-brown_background" style="width:156px">E removeLast()</td><td id="VJvi" class="block-color-brown_background" style="width:251px">キューの末尾を取得および削除する</td><td id="eD\x" class="block-color-brown_background" style="width:506px">NoSuchElementException（キューが空）</td></tr><tr id="882065d5-8743-41e4-9f66-4110f6f629ce"><td id="RRi&gt;" class="block-color-brown_background" style="width:51px"></td><td id="TOIv" class="block-color-brown_background" style="width:156px">E pollLast()</td><td id="VJvi" class="block-color-brown_background" style="width:251px">キューの末尾を取得および削除する</td><td id="eD\x" class="block-color-brown_background" style="width:506px">両端キューが空ならnullを返す</td></tr><tr id="c7d1efd9-0c34-41c8-855e-ed585f92c403"><td id="RRi&gt;" class="block-color-blue_background" style="width:51px">検査</td><td id="TOIv" class="block-color-blue_background" style="width:156px">E getFirst()</td><td id="VJvi" class="block-color-blue_background" style="width:251px">キューの先頭を取得する</td><td id="eD\x" class="block-color-blue_background" style="width:506px">NoSuchElementException（キューが空）</td></tr><tr id="f8806647-d03c-4870-bfcb-871a32a6e310"><td id="RRi&gt;" class="block-color-blue_background" style="width:51px"></td><td id="TOIv" class="block-color-blue_background" style="width:156px">E peekFirst()</td><td id="VJvi" class="block-color-blue_background" style="width:251px">キューの先頭を取得する</td><td id="eD\x" class="block-color-blue_background" style="width:506px">両端キューが空ならnullを返す</td></tr><tr id="ef193195-e44f-4762-b56e-8b26b6d2cbcd"><td id="RRi&gt;" class="block-color-blue_background" style="width:51px"></td><td id="TOIv" class="block-color-blue_background" style="width:156px">E getLast()</td><td id="VJvi" class="block-color-blue_background" style="width:251px">キューの末尾を取得する</td><td id="eD\x" class="block-color-blue_background" style="width:506px">NoSuchElementException（キューが空）</td></tr><tr id="246096a2-1c92-490e-b7b3-993bdaa97594"><td id="RRi&gt;" class="block-color-blue_background" style="width:51px"></td><td id="TOIv" class="block-color-blue_background" style="width:156px">E peekLast</td><td id="VJvi" class="block-color-blue_background" style="width:251px">キューの末尾を取得する</td><td id="eD\x" class="block-color-blue_background" style="width:506px">両端キューが空ならnullを返す</td></tr></tbody></table><p id="543e8c3d-808c-4880-9c67-eb596b092ed7" class="">またこのインタフェースはスタックとしても利用できる。</p><table id="43749105-fb16-480e-91c8-db2edb77788a" class="simple-table"><thead class="simple-table-header"><tr id="020c5394-e318-4a53-b127-17c3f8694629"><th id="iP]Y" class="simple-table-header-color simple-table-header" style="width:143px">スタックメソッド</th><th id="h_xn" class="simple-table-header-color simple-table-header" style="width:173.53125px">等価なDequeメソッド</th></tr></thead><tbody><tr id="8f334b85-6e09-42ed-bb64-bd1f05a8fce3"><td id="iP]Y" class="" style="width:143px">void push(E e)</td><td id="h_xn" class="" style="width:173.53125px">void addFirst(E e)</td></tr><tr id="78474962-0905-4007-8c01-7f951f742f41"><td id="iP]Y" class="" style="width:143px">E pop()</td><td id="h_xn" class="" style="width:173.53125px">E removeFirst()</td></tr><tr id="9daa335c-0bf8-4b6c-8926-059c63ea3e4a"><td id="iP]Y" class="" style="width:143px">E peek()</td><td id="h_xn" class="" style="width:173.53125px">E getFirst()</td></tr></tbody></table></details></li></ul><p id="827e8b1d-dc27-44d8-a986-448bad63a253" class="">
+</p><ul id="8b1b40ec-0ccd-4f46-a06c-1cffee3bd0fa" class="toggle"><li><details open=""><summary>マップとは</summary><p id="25e267e0-e323-43c0-af6c-e7bf88a411fb" class="">データをキーと値のペアで管理する場合に使用する。</p><p id="a01cf2e0-9966-4b3a-a3f8-b7f113f393d1" class="">キーは重複不可。</p><table id="24a285db-6004-42eb-a04f-3bacc546565c" class="simple-table"><thead class="simple-table-header"><tr id="a1ec3d09-d337-4864-9576-2a29052891e3"><th id="XU;R" class="simple-table-header-color simple-table-header">クラス名</th><th id="SkO&gt;" class="simple-table-header-color simple-table-header" style="width:856px">説明</th></tr></thead><tbody><tr id="5fc6a09d-5138-4003-a71b-51c729f65325"><td id="XU;R" class="">HashMap</td><td id="SkO&gt;" class="" style="width:856px">各キー値ペアは順不同で管理される。nullをキーまたは値に使用できる。同期性をサポートしていない。</td></tr><tr id="8392451a-294f-46f0-a98e-f801416596cb"><td id="XU;R" class="">LinkedHashMap</td><td id="SkO&gt;" class="" style="width:856px">2重リンクリストを持つ。
+通常はマップにキーが挿入された順番を元にした繰り返す順序も規定される。
+同期性はサポートしていない。</td></tr><tr id="014b929f-455f-42de-a885-d7433916bf42"><td id="XU;R" class="">TreeMap</td><td id="SkO&gt;" class="" style="width:856px">SortedMapインタフェースを実装したクラス。
+キーの昇順による順序づけが維持される。
+同期性はサポートしていない。</td></tr></tbody></table><pre id="a0940aa5-ca0c-4409-ac5e-e7541e1aee2b" class="code"><code>//　例
+HashMap&lt;Integer,String&gt; map = nw HashMap&lt;integer,String&gt;();
+map.put(0,&quot;AAA&quot;);
+map.put(1,&quot;BBB&quot;);
+map.put(2,&quot;AAA&quot;);
+map.put(1,&quot;CCC&quot;);
+
+System.out.println(map.containsKey(2));
+System.out.println(map.containsValue(&quot;XXX&quot;));
+for(int i = 0;i &lt; map.size();i++){
+ System.out.println(map.get(i)+&quot; &quot;);
+}
+
+// 実行結果
+true
+false
+AAA CCC AAA</code></pre><p id="8a97b009-928f-4724-a8a2-22607309c6bd" class="">以下のサンプルコードにはTreeMapが使用されている。</p><pre id="c48ae86b-05ce-4aab-b67b-a972ab333d31" class="code"><code>NavigableMap&lt;String,String&gt; map = new Treemap&lt;String,String&gt;();
+map.put(&quot;1111&quot;,&quot;ItemA&quot;);
+map.put(&quot;2222&quot;,&quot;ItemB&quot;);
+map.put(&quot;3333&quot;,&quot;ItemC&quot;);
+map.put(&quot;4444&quot;,&quot;ItemD&quot;);
+
+String key =　&quot;2000&quot;;
+if(map.containsKey(key)){
+ System.out.println(&quot;get():&quot;+map.get(key));
+}else{
+//　指定されたキーに近いキーを検索
+ System.out.println(&quot;higherKey():&quot;+map.higherKey(key));
+ System.out.println(&quot;lowerKey():&quot;+map.lowerKey(key));
+}
+
+// キー範囲を指定して要素を取り出す
+NavigableMap&lt;String,String&gt; sub = map.subMap(&quot;2000&quot;,true,&quot;3500&quot;,true);
+System.out.println(&quot;2000-3500&quot;+sub);
+
+// 実行結果
+higherKey(): 2222
+lowerKey(): 1111
+2000-3500:{2222=ItemB,3333=ItemC}</code></pre></details></li></ul><p id="ada67c86-e345-4790-9c62-d17bfb1bde3c" class="">
+</p><ul id="a13a6d1e-a396-46b0-9505-9f484df2ff36" class="toggle"><li><details open=""><summary>ジェネリクスとは</summary><p id="a6e7e6ee-399f-4d02-9f09-c677172deaef" class="">クラス定義などで汎用的に型を示しておき、利用時に目的のオブジェクト型を当てはめることでより安全で再利用性の高いコードを利用できる機能</p><p id="39eb1a03-3510-43d5-8abc-43ad3ef906d6" class="">従来のコレクションでは、get()メソッドはObject型で返すため、目的の型にキャストする必要があった。</p><pre id="e13e6f46-c0e6-467b-831d-bb9c4db203d4" class="code"><code>//　従来型のコレクションの場合
+ArrayList list = new ArrayList();
+Integer i1 = 1;
+int i2 = 2;
+Integer i3 = 3;
+list.add(i1); lsit.add(i2); list.add(i3); //list.add(&quot;abc&quot;); 格納はできるが、キャストで例外が発生する
+System.out.println(&quot;size:&quot;+list.size());
+for(int i = 0;i &lt; list.size();i++){
+ Integer obj　= (Integer) list.get(i);
+ System.out.println(obj+&quot; &quot;);
+}
+
+// 実行結果
+注意：Main.javaの操作は、未チェックまたは安全ではありません。
+注意：詳細は、-Xlint:uncheckedオプションを指定して再コンパイルしてください。
+
+size:3
+1 2 1</code></pre><p id="5f6435df-faaa-4998-b58b-faedcd9ee17a" class="">
+</p><p id="7f57a225-e17e-4db8-b10d-d43bf408df7b" class=""><mark class="highlight-red">ジェネリクス対応のコレクションの場合</mark>はコレクションを生成する際に格納する要素のデータ型を指定するので、コンパイル時に型チェックが可能</p><p id="49d2bbff-dfa3-4932-a450-b9f7cd6c7cca" class="">格納要素の型が決まっているので要素の取り出し時のキャストが不要。</p><p id="141fff85-20f9-4e4e-89c7-9ea78858ef93" class="">＜E＞などの＜＞の記述は<mark class="highlight-red">型パラメータリスト</mark>と呼ばれ、格納するオブジェクトの型を指定するために使用される。</p></details></li></ul><p id="136c93f5-b1e9-441c-91a0-f9715d07f922" class="">
+</p><ul id="c28066e8-8b04-4071-8bf2-1eb2651d630a" class="toggle"><li><details open=""><summary>ダイヤモンド演算子</summary><p id="411127c3-82f7-4827-83d5-42e89a455980" class="">ArrayListクラスを利用する際は、左辺と右辺のデータ型を合わせる必要があるが、JavaSE7以降から表記を簡略化することができる。</p><pre id="709ff43c-48eb-4ae4-8a4b-7bd9ed259fd7" class="code"><code>// 従来の定義例
+ArrayList&lt;String&gt; array = new ArrayList&lt;String&gt;();
+
+// Java SE 7 以降の定義例
+ArrayList&lt;String&gt; array = new ArrayList&lt;&gt;();</code></pre><pre id="b70930e0-1512-49ff-b5d8-0325433d2078" class="code"><code>public static void main(String[] args){
+ Map&lt;Integer,String&gt; map = new HashMap&lt;&gt;();
+ map.put(10,&quot;A&quot;);
+ 
+ List&lt;String&gt; lsit1 = nw ArrayList&lt;&gt;();
+ list.add(&quot;B&quot;);
+ 
+ methodA(new ArrayList&lt;&gt;());
+ List&lt;String&gt; list2 = methodB;
+}
+
+// static void maethodA(List&lt;&gt; list){ // NG
+
+static void methodA(List&lt;String&gt; list){
+ System.out.println(&quot;methodA()&quot;);
+ list.add(&quot;B&quot;);
+}
+
+// static ArrayList&lt;&gt; methodB(){ // NG
+
+static ArrayList&lt;String&gt; methodB(){
+ System.out.println(&quot;methodB()&quot;);
+ return new ArrayList&lt;&gt;();
+}</code></pre></details></li></ul><p id="355e1db6-8388-4a58-a4b1-6ba478fb6c90" class="">
+</p><ul id="9362877d-d2b5-4b54-bdc4-93b7efb4cb0b" class="toggle"><li><details open=""><summary>ジェネリクスを用いた独自クラスの定義</summary><p id="648bd809-5a86-4d0e-8942-43935d76a554" class="">クラス定義の例</p><pre id="9a57bb19-2c41-4888-8123-0b293d2b1b43" class="code"><code>class Gen&lt;T&gt; { // Tは型パラメータ
+ private T var1;
+ public T getVar1(){
+  return var1;
+ }
+
+ public void setVar1(T var1){
+  this.var1 = var1;
+ }
+}</code></pre></details></li></ul><p id="917c0b4f-9f7c-46e6-b722-4bb1f7e7ae8a" class="">
+</p><ul id="fd02aa11-a1d3-4d94-b567-cce962406b31" class="toggle"><li><details open=""><summary>ジェネリクスを用いたインタフェース宣言</summary><pre id="5d55eb17-5ed4-40a2-8e9d-2f24bb3cc61a" class="code"><code>// インタフェース宣言
+interface MyIn&lt;T&gt; { void method(T t); }
+
+// 実装クラス1
+class Foo implements MyIn&lt;String&gt;{
+ public void method(String s){...}
+}
+
+// 実装クラス2
+class Bar implements MyIn&lt;Integer&gt;{
+ public void method(Integer s){...}
+}
+
+// 実装クラスを利用するクラス
+public static void main(String[] args){
+ new Foo().method(&quot;ABC&quot;);
+ new Bar().method(10);
+}</code></pre></details></li></ul><p id="1e69d262-9ab9-4dcf-8241-ad78def176c7" class="">
+</p><ul id="7f9d0cb0-6bed-4779-b737-5883dc2ff954" class="toggle"><li><details open=""><summary>継承を使用したジェネリクス</summary><p id="5612b3ba-0f16-4a9a-83e5-4a020b04f533" class="">あるクラス、もしくはそのサブクラスのみを扱えるようにしたい場合は以下のようにする。</p><p id="6b865b35-48a3-4fd5-8277-61a017d0a6e6" class="">なお、インタフェースの場合もextendsを使用する</p><pre id="a3419aa1-8baf-4f50-9ebf-a4bd8f07b8aa" class="code"><code>// 構文
+&lt;型パラメータ extends データ型&gt;
+
+//　例
+class Gen&lt;T extends Number&gt; {
+ private T var;
+ public Gen(T var) { this.var = var; }
+}
+
+public class Main {
+ public static void main(String[] args) {
+  Gen&lt;Integer&gt; g1 = new Gen&lt;Integer&gt;(10);
+  Gen&lt;Double&gt; g2 = new Gen&lt;Double&gt;(3.14);
+ }
+}</code></pre></details></li></ul><p id="207c52bf-b5d7-4432-bdd3-0702751951cf" class="">
+</p><ul id="72c77c88-d0df-42f5-a0df-d0f4ac247964" class="toggle"><li><details open=""><summary>ワイルドカードを使用したジェネリクス</summary><p id="78c0b65d-e868-4852-9bde-9c2f8bd4a81f" class="">型パラメータリスト内では、ワイルドカード「？」を使用できる。</p><pre id="ec6185d2-42ab-4a83-8d4e-13e224c0e95c" class="code"><code>// コード例
+Map&lt;Integer,?&gt; map = method();</code></pre><p id="687dfad4-ddf9-46c9-b244-e120cd071efd" class="">method()メソッドを呼び出した結果、キーはInteger型のマップが返るが、値の型は実行時に決まるような場合、型パラメータに？を指定する。
+</p><pre id="49f40685-1f94-42cf-9f6f-036be92d5a42" class="code"><code>//　コード例2
+
+class Gen&lt;T&gt; {
+ private T var;
+ public Gen(T var){ this.var　= var;}
+ public T getVar(){ return this.var;}
+}
+
+public class Main { 
+ public static void main(String[] args){
+  int val =　Integer.parseInt(args[0]);
+  if(val　== 1){
+   print(new Gen&lt;&gt;(100));
+  }else{
+   print(new Gen&lt;&gt;(&quot;abc&quot;));
+  }
+ }
+ static void print(Gen&lt;?&gt; obj) {
+  System.out.println(obj.getVar()); 
+ }
+}
+
+//　実行結果
+プロンプト&gt;java Main 1
+100
+
+プロンプト&gt;java Main 0
+abc</code></pre></details></li></ul><p id="7a420723-c758-44b7-a89e-49f14985bd1d" class="">
+</p><ul id="cd269338-a683-440c-b345-77b4fcc4e697" class="toggle"><li><details open=""><summary>ComparableインタフェースとComparatorインタフェース</summary><p id="6f487025-3506-48b5-a49c-37921faf1687" class="">ソート時の順序関係を独自に規定する際に使用する。</p><p id="0423bc4d-909f-42ed-8073-bdc62c85be97" class="">比較ルール</p><table id="1a54bd0f-cd2f-44dd-989a-7f87f7c99f30" class="simple-table"><thead class="simple-table-header"><tr id="2b0edcb4-6e33-4f6c-a38a-4193bad639fc"><th id=";PS=" class="simple-table-header-color simple-table-header" style="width:334px">操作</th><th id="j~^r" class="simple-table-header-color simple-table-header" style="width:61px">戻り値</th><th id="ZyIZ" class="simple-table-header-color simple-table-header" style="width:617px">説明</th></tr></thead><tbody><tr id="5a4a45ad-0973-4b9c-9e94-e0b37cd1c775"><td id=";PS=" class="" style="width:334px">自オブジェクト==比較対称オブジェクト</td><td id="j~^r" class="" style="width:61px">0</td><td id="ZyIZ" class="" style="width:617px">自オブジェクトが保持する値と比較対称オブジェクトの値が同じ</td></tr><tr id="c6a557d2-c51a-483f-872c-d1d48619ad52"><td id=";PS=" class="" style="width:334px">自オブジェクト&lt;比較対称オブジェクト</td><td id="j~^r" class="" style="width:61px">負の数</td><td id="ZyIZ" class="" style="width:617px">自オブジェクトが保持する値が比較対象オブジェクトの値より小さい</td></tr><tr id="50624929-c255-42a2-b8d9-68e21836a148"><td id=";PS=" class="" style="width:334px">自オブジェクト&gt;比較対象オブジェクト</td><td id="j~^r" class="" style="width:61px">正の数</td><td id="ZyIZ" class="" style="width:617px">自オブジェクトが保持する値が比較対象オブジェクトの値より大きい</td></tr></tbody></table></details></li></ul><p id="f7ba6469-d20d-4723-93bb-1c88480a0d79" class="">
+</p><ul id="e5a30248-7a17-4c6c-8bd7-17a47f3fd6ed" class="toggle"><li><details open=""><summary>Comparableインタフェース</summary><p id="55dc45a2-b2a3-4650-bcc7-1c182d23e0af" class="">クラスの自然順序づけを提供するためのインタフェース。</p><p id="764c0615-9ca3-44bf-95a3-38ae58bdfe53" class="">compareTo()メソッドの宣言されている。</p><pre id="04acec18-298f-43b6-8266-2407ffcb87fb" class="code"><code>//　構文
+public int compareTo(T o)</code></pre><pre id="3302fc1b-c22a-40a8-99fb-7bf8e9c6fbf6" class="code"><code>// 実装例
+public final class Integer extends Number implements Comparable&lt;Integer&gt; {
+ ...
+ public int compareTo(Integer anotherIntegere) {
+  return compare(this.value,anotherInteger.value)+
+ }
+ public static int compare(int x,int y) {
+  return (x &lt; Y) ? -1 : ((x == y ) ? 0 : 1);
+ }
+...
+}</code></pre></details></li></ul><p id="1ee0bbe7-9b99-43ac-8cac-25063b39eab6" class="">
+</p><ul id="186d3a03-f39f-4856-9e24-ec75886fe726" class="toggle"><li><details open=""><summary>Comparatorインタフェース</summary><p id="ac97a615-5a7d-4871-a5b5-bd3891318f7d" class="">ソートの対象となるオブジェクトから、比較ルールを独立したクラスとして定義する際に使用する。</p><p id="9a3c30e0-22de-4af3-9002-01ab16d6dae1" class="">compare()およびequals()メソッドが宣言されている。</p><pre id="c0a54f83-125b-4f34-8b88-25201993142a" class="code"><code>// 構文
+public int compare(T o1,T o2)</code></pre><pre id="34f10ba8-1920-4ad1-ae2f-a9448965e2c5" class="code"><code>//　実装例
+
+import java.util*;
+
+class Employee {
+ private String name;
+ private Integer id;
+ public Employee(String name,Integer id) {
+  this.name = neme; this.id = id;
+ }
+ public Integer getId() { return id;}
+ public String getName() { return name;}
+}
+
+class MyRule implements Comparator&lt;Employee&gt; {
+ public int compare(Employee e1,Employee e2) {
+  return e1.getId().compareTo(e2.getId());
+ }
+}
+
+public class Main {
+ public static void main(String[] args) {
+  Employee e1 = new Eemployee(&quot;taro&quot;,20);
+  Employee e2 = new Eemployee(&quot;takayuki&quot;,10);
+  Employee e3 = new Eemployee(&quot;hiromi&quot;,50);
+  ArrayList&lt;Employee&gt; ary = new ArrayList&lt;&gt;();
+  ary.add(e1);ary.add(e2);ary.add(e3);
+  System.out.println(&quot;ArrayListのインデックス順での表示&quot;);
+  print(ary);
+  
+  System.out.println(&quot;MyRuleで定義したid（昇順）での表示&quot;);
+  Collectons.sort(ary,new MyRule());
+  print(ary);
+
+  System.out.println(&quot;名前の文字数（昇順）での表示&quot;);
+  Collection.sort(ary, new Comparator&lt;Employee&gt;() {
+                          public int compare(Employee o1,Employee o2){
+                           return e1.getName().length() - e2.getName().length();
+                          }
+                       });
+  print(ary);
+}
+
+private static void print(ArrayList&lt;Employee ary&gt;) {
+ for(Employee obj:ary) {
+  System.out.println(obj.getId() + &quot; &quot; + obj.getName()); 
+  }
+ }
+}
+
+// 実行結果
+ArrayListのインデックス順での表示
+20 taro
+10 takayuki
+50 hiromi
+MyRuleで定義したid（昇順）での表示
+10 takayuki
+20 taro
+50 hiromi
+名前の文字数（昇順）での表示
+20 taro
+50 hiromi
+10 takayuki</code></pre><p id="caaeb6b4-68e7-4fd1-8f97-9a94649d4b2c" class="">Comparatorインタフェースの主なメソッド</p><table id="cd364f81-77b1-47e1-94e7-e636eea2a39b" class="simple-table"><thead class="simple-table-header"><tr id="034ca4b7-6b07-4f96-977e-42596ddc5880"><th id="lVby" class="simple-table-header-color simple-table-header" style="width:502px">メソッド</th><th id="&gt;vD?" class="simple-table-header-color simple-table-header" style="width:537px">説明</th></tr></thead><tbody><tr id="c9e915d2-a851-4883-89fd-2804e8169dec"><td id="lVby" class="" style="width:502px">static &lt;T extends Comparable&lt;? super T&gt;&gt; Comparator&lt;T&gt; naturalOrder()</td><td id="&gt;vD?" class="" style="width:537px">自然順序で比較するComparatorを返す
+nullを比較した場合はNullPointerExceptionをスローする</td></tr><tr id="504b6f49-ea29-4459-80a6-0d5fd292e3c8"><td id="lVby" class="" style="width:502px">static &lt;T extends Comparable&lt;? super T&gt;&gt; Comparator&lt;T&gt; reverseOrder()</td><td id="&gt;vD?" class="" style="width:537px">自然順序の逆で比較するComparatorを返す
+nullを比較した場合はNullPointerExceptionをスローする</td></tr><tr id="887b1585-26a2-4229-ba43-913f729bd167"><td id="lVby" class="" style="width:502px">static &lt;T&gt; Comparator&lt;T&gt; nullsFirsst(Comparator&lt;? super T&gt; comparator)</td><td id="&gt;vD?" class="" style="width:537px">nullを含む比較を行うComparatorを返す
+nullは先頭になる</td></tr><tr id="af799166-7068-4c3b-a9e2-0203f1a19837"><td id="lVby" class="" style="width:502px">static &lt;T&gt; Comparator&lt;T&gt; nullsLast(Comparator&lt;? super T&gt; comparator)</td><td id="&gt;vD?" class="" style="width:537px">nullを含む比較を行うComparatorを返す
+nullは末尾になる</td></tr><tr id="8b925513-6c6d-4ffd-9f89-824d10a0a399"><td id="lVby" class="" style="width:502px">default Comparator&lt;T&gt; reversed()</td><td id="&gt;vD?" class="" style="width:537px">このComparatorの逆順を義務づけるComparatorを返す</td></tr></tbody></table></details></li></ul><p id="afd2cec4-1103-4034-9e07-9aa38f7b24f3" class="">
+</p><ul id="b778d5ed-df95-4dd2-b9db-582e4dc7766b" class="toggle"><li><details open=""><summary>Collectionクラスの主なメソッド</summary><table id="f485a039-c4f7-43df-bb17-47a31090106f" class="simple-table"><thead class="simple-table-header"><tr id="7fe2b93e-9e7f-47b4-b040-c0c08acf9571"><th id="yJvZ" class="simple-table-header-color simple-table-header" style="width:505px">メソッド</th><th id="QBWW" class="simple-table-header-color simple-table-header" style="width:524px">説明</th></tr></thead><tbody><tr id="47842ead-979e-4ff3-bc07-b4e80d668b56"><td id="yJvZ" class="" style="width:505px">static &lt;T extends Comparable&lt;? super T&gt;&gt; void sort(List&lt;T&gt; list)</td><td id="QBWW" class="" style="width:524px">要素の「自然順序づけ」に従って、指定されたリストを昇順にソートする</td></tr><tr id="fdfed07d-6e78-497b-8587-68d3530a3f84"><td id="yJvZ" class="" style="width:505px">static &lt;T&gt; void sort(List&lt;T&gt; list, Comparator&lt;? super T&gt; c)</td><td id="QBWW" class="" style="width:524px">指定されたコンパレータが示す順序に従って、指定されたリストをソートするｄ第二引数にnullを指定すると自然順序になる</td></tr><tr id="c01ff122-4bd3-44d0-9b2f-8f88cd4fe857"><td id="yJvZ" class="" style="width:505px">static void reverse(List&lt;?&gt; list)</td><td id="QBWW" class="" style="width:524px">指定されたリストの要素の順序を逆にする</td></tr></tbody></table></details></li></ul><p id="6b8513e1-4490-43f6-95cb-777e2dd0297f" class="">
+</p><ul id="810c621f-2e5e-49d1-be77-faf508d54090" class="toggle"><li><details open=""><summary>Arraysクラスの主なメソッド</summary><p id="73c06523-58dd-4043-ada1-76e7ba72695a" class="">配列の操作を行うクラス。</p><p id="1a2e7214-95e6-4e82-b2e3-25fb66543cd1" class="">様々な参照型のオブジェクトを持つ配列をソートしようとすると、実行時にClassCastExceptionが発生する。</p><table id="1bf5180a-9e9d-4834-b1a2-7548a494210e" class="simple-table"><thead class="simple-table-header"><tr id="61fb7e29-57c2-4671-902d-ebe2d052ebf1"><th id="=\Of" class="simple-table-header-color simple-table-header" style="width:360px">メソッド</th><th id="Fc|&gt;" class="simple-table-header-color simple-table-header" style="width:526px">説明</th></tr></thead><tbody><tr id="226572cc-1f7c-4ddc-9927-5ef36690fdb2"><td id="=\Of" class="" style="width:360px">static &lt;T&gt; List&lt;T&gt; asList(T… a)</td><td id="Fc|&gt;" class="" style="width:526px">引数で指定された配列をもとにリストを作成する
+固定サイズのリストとして変換されるため、<mark class="highlight-red">要素の上書きは可能であるが、要素の追加や削除は不可能（UnsupportedOperationException)</mark></td></tr><tr id="bd5f756c-0fa7-488b-9eb1-996943d93729"><td id="=\Of" class="" style="width:360px">static void sort(Object[] a)</td><td id="Fc|&gt;" class="" style="width:526px">要素の自然順序づけに従って、指定されたオブジェクトの配列を昇順でソートする
+全ての要素はComparableインタフェースを実装している必要がある</td></tr><tr id="b3c394e5-6fd0-4549-b401-ecf39a8e4549"><td id="=\Of" class="" style="width:360px">static &lt;T&gt; void sort(T[] a,Comparator&lt;? super T&gt; c)</td><td id="Fc|&gt;" class="" style="width:526px">指定されたコンパレータが示す順序に従って、指定されたオブジェクトの配列をソートする
+なお、第二引数にnullを指定すると自然順序になる</td></tr></tbody></table></details></li></ul><p id="8a9e6fe9-9099-4a5b-8bd2-bad17ddf41d3" class="">
+</p><ul id="53c370b9-7aae-4516-a3a8-510464062215" class="toggle"><li><details open=""><summary>ファクトリメソッド</summary><p id="673089d6-c6e1-41a1-946b-cd9141c0326b" class="">Java SE 9以降はList、Set、Mapの各インタフェースにstaticメソッドとしてof()メソッドが提供された。</p><p id="e2f6f1b6-c4b8-4443-b401-5a922306acd8" class="">このメソッドにより変更不可能なリスト、セット、マップを作成する。</p><ul id="a36edb52-3de4-4125-9410-092bba7fdbc3" class="bulleted-list"><li style="list-style-type:disc">要素を追加、削除、置換することはできない。</li></ul><ul id="7a219387-776b-491c-919f-0e58b331c96c" class="bulleted-list"><li style="list-style-type:disc">セットとリストはnull要素を使用できない。</li></ul><ul id="88d86322-3642-4187-aa4f-74876a357bf6" class="bulleted-list"><li style="list-style-type:disc">マップはキー値どちらもnull要素を使用できない。</li></ul><ul id="a2a6b1ff-8563-46b8-9539-5902970f0c31" class="bulleted-list"><li style="list-style-type:disc">セットの場合、重複する値は使用できない。（IlligalArgumentException）</li></ul><ul id="3a484fe6-9cc7-4112-9b7f-e3fc7138a6db" class="bulleted-list"><li style="list-style-type:disc">マップの場合、重複するキーは使用できない。（IlligalArgumentException）</li></ul></details></li></ul><p id="bd7eb38b-4242-480a-891c-42061075a6a8" class="">
+</p><ul id="b3a2555d-4053-4be0-baf8-61af07e75fbc" class="toggle"><li><details open=""><summary></summary></details></li></ul><p id="6057e367-7c1d-4d4a-b9b5-81a1637cca43" class="">
+</p></div></article></body></html>

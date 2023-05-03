@@ -1,0 +1,894 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Java ストリームAPI（SE Gold）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="008e1da4-8bfb-4861-93b2-39556d065f38" class="page sans"><header><h1 class="page-title">Java ストリームAPI（SE Gold）</h1></header><div class="page-body"><ul id="dfb18dd4-4937-4c66-921c-4c590dc3e34d" class="toggle"><li><details open=""><summary>ストリームAPIとは</summary><p id="5566e17b-24c1-43b5-ba7b-520dc4dedacb" class="">コレクション、配列、I/Oリソースなどのデータ提供元となるデータソースを元に、集計操作を行うAPIである。</p><p id="2d7a17eb-348a-4e04-9f28-bcff1ff84429" class="">パイプラインの途中で行う処理を中間処理と呼び、パイプラインの最後に行う処理を終端処理と呼ぶ。</p></details></li></ul><p id="7a939172-ca75-497b-8a7d-a981c71e3251" class="">
+</p><ul id="4045e3e9-9ed1-40c9-8d7e-6256c0575e0a" class="toggle"><li><details open=""><summary>ストリーム生成用の主なメソッド</summary><table id="8bf57c5e-81e4-4935-b52f-7c707739b2b9" class="simple-table"><tbody><tr id="b653019f-264b-4cc9-8d05-12475f99c26c"><td id="A]vA" class="block-color-gray_background" style="width:315.7124938964844px">Collectionインタフェースで提供</td><td id="@&lt;Vy" class="block-color-gray_background" style="width:570px"></td></tr><tr id="fbb54225-6a92-4733-b9f5-6d903db6e874"><td id="A]vA" class="" style="width:315.7124938964844px">default Stream&lt;E&gt; stream()</td><td id="@&lt;Vy" class="" style="width:570px">List&lt;String&gt; list = Arrays.asList(””a””,””b””,””c””);
+Stream&lt;String&gt; stream = list.stream();</td></tr><tr id="da3c1e9b-3e15-4af0-bf52-46e2a21255f4"><td id="A]vA" class="block-color-gray_background" style="width:315.7124938964844px">Arraysクラスで提供</td><td id="@&lt;Vy" class="block-color-gray_background" style="width:570px"></td></tr><tr id="fe602c0e-9eab-4a85-b6f8-11fab75b42e0"><td id="A]vA" class="" style="width:315.7124938964844px">static &lt;T&gt; Stream&lt;T&gt; stream(T[] array)</td><td id="@&lt;Vy" class="" style="width:570px">String[] ary = {&quot;&quot;a&quot;&quot;,&quot;&quot;b&quot;&quot;,&quot;&quot;c&quot;&quot;};
+Stream&lt;String&gt; stream = Arrays.stream(ary);</td></tr><tr id="17677d9f-d74a-44c9-998b-2d01f3f7c240"><td id="A]vA" class="" style="width:315.7124938964844px">static IntStream stream(int[] array)</td><td id="@&lt;Vy" class="" style="width:570px">int[] ary = {1,2,3};
+IntStream stream = Arrays.stream(ary);</td></tr><tr id="398335a7-8d1d-46ce-ade5-c76c4094052f"><td id="A]vA" class="block-color-gray_background" style="width:315.7124938964844px">Streamインタフェースで提供</td><td id="@&lt;Vy" class="block-color-gray_background" style="width:570px"></td></tr><tr id="2a19818f-1844-41ed-a224-4a8450769ffd"><td id="A]vA" class="" style="width:315.7124938964844px">static &lt;T&gt; Stream&lt;T&gt; of(T t)</td><td id="@&lt;Vy" class="" style="width:570px">Stream&lt;String&gt; stream = Stream.of(&quot;abc&quot;);</td></tr><tr id="3072eb91-55c5-49cb-b00e-f9800ab727ba"><td id="A]vA" class="" style="width:315.7124938964844px">static &lt;T&gt; Stream&lt;T&gt; of(T… values)</td><td id="@&lt;Vy" class="" style="width:570px">Stream&lt;Long&gt; stream = Stream.of(1L,2L,3L);</td></tr><tr id="39238502-7d18-43f1-88ee-1f8eafae5ea6"><td id="A]vA" class="" style="width:315.7124938964844px">static &lt;T&gt; Stream&lt;T&gt; empty()</td><td id="@&lt;Vy" class="" style="width:570px">// 空のストリームを生成
+Stream&lt;String&gt; stream = Stream.empty();</td></tr><tr id="3e7ac315-cff3-4ea7-b157-3d58b5d10ba0"><td id="A]vA" class="" style="width:315.7124938964844px">static &lt;T&gt; Stream&lt;T&gt; generate(Supplier&lt;T&gt; s)</td><td id="@&lt;Vy" class="" style="width:570px">//指定したラムダ式から構成された要素をソースとするストリームを生成
+Stream&lt;String&gt; stream = Stream.generate(()-&gt;&quot;&quot;Java&quot;);</td></tr><tr id="309c191d-4fe6-4da8-a1ce-0abd13bd4b2b"><td id="A]vA" class="block-color-gray_background" style="width:315.7124938964844px">IntStreamインタフェースで提供</td><td id="@&lt;Vy" class="block-color-gray_background" style="width:570px"></td></tr><tr id="7a1722c2-e0d0-4c31-a73a-998b6a036b30"><td id="A]vA" class="" style="width:315.7124938964844px">static IntStream of(int…values)</td><td id="@&lt;Vy" class="" style="width:570px">IntStream stream = IntStream.of(1,2,3);</td></tr><tr id="cfa3a228-c441-45a5-a422-8a515a7abb85"><td id="A]vA" class="" style="width:315.7124938964844px">static IntStream iterate(
+int seed, 
+IntUnaryOperator f)</td><td id="@&lt;Vy" class="" style="width:570px">//指定された初期値とラムダ式から構成された要素をソースとするストリームを生成
+IntStream stream = IntStream.irerate(1,n-&gt;n+1);</td></tr><tr id="02cbddc9-a15f-439f-848b-52f93d8c0cfe"><td id="A]vA" class="" style="width:315.7124938964844px">static IntStream iterate(
+int seed,
+IntPredicate hasNext,
+IntUnaryOperator next)</td><td id="@&lt;Vy" class="" style="width:570px">//指定した初期値で、hasNext条件を満たす、ラムダ式から構成された要素をソースとするストリームを生成
+IntStream.iterate(1,n-&gt;n&lt;=10,n-&gt;n+1);</td></tr><tr id="8b198f29-faeb-48e7-bdec-3e3c5c421a45"><td id="A]vA" class="" style="width:315.7124938964844px">static IntStream range(
+int startInclusive,
+int endInclusive)</td><td id="@&lt;Vy" class="" style="width:570px">//引数で指定した範囲の要素をソースとするストリームを生成。（終了値は含まない）
+IntStream stream =IntStream.range(1,10);</td></tr><tr id="d1d7f03e-352d-43dd-b38d-a08d11886a35"><td id="A]vA" class="" style="width:315.7124938964844px">static IntStream rangeClosed(
+int startInclusive,
+int endInclusive)</td><td id="@&lt;Vy" class="" style="width:570px">//引数で指定した範囲を要素をソースとするストリームを生成。（終了値を含む）
+IntStream stream = IntStream.rangeClosed(1,10);</td></tr></tbody></table></details></li></ul><p id="23697ae3-49fc-4337-8a81-8f15f598a8aa" class="">
+</p><ul id="9b240f2b-5438-4bf5-8514-ba85333c4dbc" class="toggle"><li><details open=""><summary>ストリームの種類</summary><table id="1a0d2e70-73c7-461c-b4d5-514644997de8" class="simple-table"><tbody><tr id="c3e76ae6-af5d-4b34-b210-9af595b0e40f"><td id="nCH\" class="block-color-gray_background" style="width:132px">インタフェース名</td><td id="|X\@" class="block-color-gray_background" style="width:447px">説明</td></tr><tr id="4fbaf5d6-9e3e-4870-8a62-450dc9bd8262"><td id="nCH\" class="" style="width:132px">Stream&lt;T&gt;</td><td id="|X\@" class="" style="width:447px">順次および並列の集約操作をサポートする汎用的なストリーム</td></tr><tr id="897704e2-af4d-4bc9-abfa-b4b3b73f894c"><td id="nCH\" class="" style="width:132px">IntStream</td><td id="|X\@" class="" style="width:447px">順次および並列の集約操作をサポートするint値のストリーム
+short byte char型にも使用可</td></tr><tr id="d27443a3-6dc2-47ba-9c37-fb0fb61f3592"><td id="nCH\" class="" style="width:132px">LongStream</td><td id="|X\@" class="" style="width:447px">順次および並列の集約操作をサポートするlong値のストリーム</td></tr><tr id="cb2f1fba-ff4a-45ac-a2c3-a4d05e624a43"><td id="nCH\" class="" style="width:132px">DoubleStream</td><td id="|X\@" class="" style="width:447px">順次および並列の集約操作をサポートするdouble値のストリーム
+float型にも使用可</td></tr></tbody></table></details></li></ul><p id="700a9f01-cd77-447d-ae99-591c038b48c2" class="">
+</p><ul id="0edd901a-ccd3-49a2-ac49-7dd24731ff07" class="toggle"><li><details open=""><summary>終端操作</summary><p id="21006751-7cd5-4fc8-8fa2-dcad37267fd1" class="">これらのメソッドはjava.util.stream.Streamインタフェースで宣言されている</p><p id="d006c125-f6ce-4494-9896-3018a840f4a0" class=""><mark class="highlight-red">1つのストリームオブジェクトに対して、終端操作は1度しか呼び出せない</mark></p><table id="5d9b13c3-f577-4356-8163-0b71de3b3383" class="simple-table"><thead class="simple-table-header"><tr id="05f97459-1847-479e-b03b-335aa793e44b"><th id="cfRa" class="simple-table-header-color simple-table-header" style="width:278px">メソッド名</th><th id="wQeO" class="simple-table-header-color simple-table-header" style="width:442px">説明</th><th id="C:}z" class="simple-table-header-color simple-table-header" style="width:207px">リダクション操作のサポート</th></tr></thead><tbody><tr id="cc249c33-a3d5-4131-ba71-697113f5dbfc"><td id="cfRa" class="" style="width:278px">boolean allMatch(Predicate&lt;? super T&gt; prediate)</td><td id="wQeO" class="" style="width:442px">すべての要素が指定された条件に一致するかどうかを返す
+一致しているかストリームが空ならtrue</td><td id="C:}z" class="" style="width:207px">無</td></tr><tr id="9648e29e-8d4f-4267-893f-f51a332969c9"><td id="cfRa" class="" style="width:278px">boolean anyMatch(Predicate&lt;? super T&gt; predicate)</td><td id="wQeO" class="" style="width:442px">いずれかの要素が指定された条件に一致するかどうかを返す
+存在する場合はtrueを返す</td><td id="C:}z" class="" style="width:207px">無</td></tr><tr id="22d43dc9-ed95-4cd4-9772-025336e8b09f"><td id="cfRa" class="" style="width:278px">boolean noneMatch(Predicate&lt;? super T&gt; predicate)</td><td id="wQeO" class="" style="width:442px">どの要素も指定された条件に一致しないか、ストリームが空ならtrueを返す</td><td id="C:}z" class="" style="width:207px">無</td></tr><tr id="58def4bd-edb9-4bc7-b84b-039853e3b86f"><td id="cfRa" class="" style="width:278px">&lt;R,A&gt; R collect(collector&lt;? super T,A,R&gt; collector)</td><td id="wQeO" class="" style="width:442px">要素に対する可変リダクション操作を実行する</td><td id="C:}z" class="" style="width:207px">有り</td></tr><tr id="782f9ad3-cbad-4292-80ff-dde2a5837911"><td id="cfRa" class="" style="width:278px">&lt;R&gt; R collect(Supplier&lt;R&gt; supplier, BiConsumer&lt;R,? super T&gt; accumulator, BiConsumer&lt;R,R&gt; combiner)</td><td id="wQeO" class="" style="width:442px">要素に対する可変リダクション操作を実行する</td><td id="C:}z" class="" style="width:207px">有り</td></tr><tr id="df10107f-d01b-46b0-8a39-0dc636faccfe"><td id="cfRa" class="" style="width:278px">long count()</td><td id="wQeO" class="" style="width:442px">要素の個数を返す</td><td id="C:}z" class="" style="width:207px">有り</td></tr><tr id="5673076d-24cf-4e48-80f2-f91bd034e7e4"><td id="cfRa" class="" style="width:278px">Optional&lt;T&gt; findAny()</td><td id="wQeO" class="" style="width:442px">いずれかの要素を返す
+空の場合は空のOptionalを返す</td><td id="C:}z" class="" style="width:207px">無</td></tr><tr id="bf17a4ad-ca01-4a6b-b979-36c25098502d"><td id="cfRa" class="" style="width:278px">Optional&lt;T&gt; findFirst()</td><td id="wQeO" class="" style="width:442px">最初の要素を返す
+空の場合は空のOptionalを返す</td><td id="C:}z" class="" style="width:207px">無</td></tr><tr id="349baa9c-c74d-4095-9b21-13f64cea1f7e"><td id="cfRa" class="" style="width:278px">void forEach(Consumer&lt;? super T&gt; action)</td><td id="wQeO" class="" style="width:442px">各要素に対して指定されたアクションを実行する</td><td id="C:}z" class="" style="width:207px">無</td></tr><tr id="b7f87555-21a7-46f6-9186-ef0034aaa823"><td id="cfRa" class="" style="width:278px">Optional&lt;T&gt; min(Comparator&lt;? super T&gt; comparator)</td><td id="wQeO" class="" style="width:442px">指定されたComparatorに従って最小要素を返す
+空の場合は空のOptionalを返す</td><td id="C:}z" class="" style="width:207px">有り</td></tr><tr id="f8e3adac-6a36-49fd-821a-1e09d101af0b"><td id="cfRa" class="" style="width:278px">Optional&lt;T&gt; max(Comparator&lt;? super T&gt; comparator)</td><td id="wQeO" class="" style="width:442px">指定されたComparatorに従って最大要素を返す
+空の場合は空のOptionalを返す</td><td id="C:}z" class="" style="width:207px">有り</td></tr><tr id="8ef727f8-844c-417b-a802-bd291c56ed84"><td id="cfRa" class="" style="width:278px">T reduce(T identity, BinaryOperator&lt;T&gt; accumulator)</td><td id="wQeO" class="" style="width:442px">元の値と結合的な累積関数を使ってこのストリームの要素に対してリダクション操作を実行し、リデュースされた値を返す</td><td id="C:}z" class="" style="width:207px">有り</td></tr><tr id="1cea2542-a52b-46ec-8258-1332557b6565"><td id="cfRa" class="" style="width:278px">Object[] toArray()</td><td id="wQeO" class="" style="width:442px">要素を含む配列を返す</td><td id="C:}z" class="" style="width:207px">無</td></tr><tr id="6f9cee82-0e46-4e41-8d0e-6e9f2f939ceb"><td id="cfRa" class="" style="width:278px">&lt;A&gt; A[] toArray(IntFunction&lt;A[]&gt; generator)</td><td id="wQeO" class="" style="width:442px">指定された型と長さを持つ新しい配列を生成する関数を引数に指定し、配列を返す</td><td id="C:}z" class="" style="width:207px">無</td></tr></tbody></table><ul id="2be8772e-d1ed-486b-8886-0350b95939fe" class="bulleted-list"><li style="list-style-type:disc">allMatch()、anyMatch()、noneMatch()メソッド</li></ul><pre id="57d32886-9012-4839-a6ca-2b3a7ad2d175" class="code"><code>//　例
+List&lt;Stream&gt; data1 = Arrays.asList(&quot;mana&quot;,&quot;naoki&quot;,&quot;ryo&quot;);
+boolean result1 = data1.stream().allMatch(s-&gt;s.length() &gt;= 3);
+boolean result2 = data1.stream().anyMatch(s-&gt;s.length() == 4);
+boolean result3 = data1.stream().noneMatch(s-&gt;s.length() == 4);
+System.out.println(result1);
+System.out.println(result2);
+System.out.println(result3);
+
+// 実行結果
+true
+true
+false</code></pre><p id="42c410a4-ee65-43d7-a099-7bd7ef0db596" class="">
+</p><ul id="c2b208ef-e8ed-4721-bd0a-e30967964c53" class="bulleted-list"><li style="list-style-type:disc">count()、forEach()メソッド</li></ul><pre id="6d0eb7c3-ec38-4b69-bb7b-eaa6fccf0743" class="code"><code>// 例
+long result1 = Stream.of(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;).count();
+System.out.println(result1);
+Stream&lt;String&gt; stream1 = Stream.of(&quot;abc&quot;);
+stream1.forEach(System.out::print);
+
+// 実行結果
+3
+abc</code></pre><p id="7280d0da-d39f-4bfa-be6c-4eb582a51ca9" class="">
+</p><ul id="2a85639d-80d9-43e4-ae4e-158bdaab01a9" class="bulleted-list"><li style="list-style-type:disc">reduce()メソッド</li></ul><pre id="25302e11-e0d7-4873-bc70-009cfcaa0c32" class="code"><code>// 構文1
+T reduce(T identity,BinaryOperator&lt;T&gt; accumulator)
+// 構文2
+Optional&lt;T&gt; reduce(BinaryOperator&lt;T&gt; accumulator)
+// 構文3
+&lt;U&gt; U reduce(U identity,BiFunction&lt;U,? super T,U&gt; accumulator,BinaryOperator&lt;U&gt; combiner)
+
+
+//　例
+Stream&lt;Integer&gt; stream = Stream.of(10,20,30);
+int result = stream.reduce(0,(a,b) -&gt; a+b);
+// int result = stream.reduce(0,Integer::sum);
+System.out.println(result);
+
+// 実行結果
+60
+
+// 例2
+BinaryOperator&lt;Integer&gt; operator = (a,b) -&gt; a+b;
+Stream&lt;Integer&gt; stream1 = Stream.of(10,20,30);
+// int result = stream1.resduce(operator); // コンパイルエラー
+Optional&lt;Integer&gt; result = stream1.reduce(operator);
+resutl.ifPresent(Sustem.out::println);
+
+Stream&lt;Integer&gt; stream2 = Stream.empty();
+Optional&lt;Integer&gt; result2 = stream2.reduce(operator);
+result2.ifPresent(System.out::println);
+
+// 実行結果
+60
+Optional.empty
+　　　　（出力なし）</code></pre><p id="312c8159-a8f8-4d57-aadb-c364b38d3418" class="">
+</p><ul id="d128be99-3751-4e83-acf6-251f4dfe5a8d" class="bulleted-list"><li style="list-style-type:disc">toArray()メソッド</li></ul><pre id="4e77e6cc-384c-4fab-8402-e692127d5bfb" class="code"><code>// Streamインタフェースで提供
+// 構文1
+Object[] toArray()
+// 構文2
+&lt;A&gt; A[] toArray(IntFuncction&lt;A[]&gt; generator)
+
+// IntStreamインタフェースで提供
+// 構文3
+int[] toArray()
+
+// 例
+int[] ary1 = IntStream.range(1,10).toArray();
+int[] ary2 = IntStream.rangeClosed(1,10).toArray();
+Object[] ary3 = Stream.of(&quot;a&quot;,&quot;b&quot;).toArray();
+String[] ary4 = Stream.of(&quot;a&quot;,&quot;b&quot;).toArray(String[]::new);
+System.out.println(&quot;ary1:&quot;+Arrays.toString(ary1));
+System.out.println(&quot;ary2:&quot;+Arrays.toString(ary2));
+System.out.println(&quot;ary3:&quot;+ary3.getClass());
+System.out.println(&quot;ary4:&quot;+ary4.getClass());
+
+// 実行結果
+ary1:{1,2,3,4,5,6,7,8,9}
+ary2:{1,2,3,4,5,6,7,8,9,10}
+ary3:class[Ljava.lang.Object;
+ary4:class[Ljava.lang.String:</code></pre></details></li></ul><p id="2fa8bbfb-2823-4c60-bb41-78c19c281855" class="">
+</p><ul id="07fc0b22-78b2-4178-a9f1-21e27a2e380c" class="toggle"><li><details open=""><summary>Opticalクラス</summary><p id="852e16a1-8899-4a5b-839d-4c00e5b51d99" class="">1つの値を保持しているクラス。保持している値が存在するか否かによって処理が異なる。</p><p id="edc68469-74f7-41ce-9560-1736d1410dcf" class="">値が存在しない場合はemptyというオブジェクトになる。</p><table id="ce0415e5-e022-46a3-a54d-d70f83a4322d" class="simple-table"><thead class="simple-table-header"><tr id="0e4d7ab7-1b6d-45e8-82e6-96e74b68c842"><th id=":hID" class="simple-table-header-color simple-table-header" style="width:339px">メソッド名</th><th id="]XlR" class="simple-table-header-color simple-table-header" style="width:501px">説明</th></tr></thead><tbody><tr id="fb4fa9d3-367b-4b62-ad2a-7c3279e91d06"><td id=":hID" class="" style="width:339px">static &lt;T&gt; Optional&lt;T&gt; empty()</td><td id="]XlR" class="" style="width:501px">空のOptionalインスタンスを返す。（値が存在しない）</td></tr><tr id="ef24f0e1-3282-4aa3-b99f-d60746bf7656"><td id=":hID" class="" style="width:339px">static &lt;T&gt; Optional&lt;T&gt; of(T value)</td><td id="]XlR" class="" style="width:501px">引数で指定された非nul値を含むOptionalを返す。</td></tr><tr id="df6d0a8d-d4b9-4109-81dd-40be4a90fc88"><td id=":hID" class="" style="width:339px">boolean isPresent()</td><td id="]XlR" class="" style="width:501px">値が存在する場合はtrueを返す。</td></tr><tr id="0c9fb055-196c-4871-b5c5-eaad633bc196"><td id=":hID" class="" style="width:339px">boolean isEmpty()</td><td id="]XlR" class="" style="width:501px">値が存在しない場合はtrueを返す。</td></tr><tr id="4f956285-b184-4f4f-92ee-46884438741d"><td id=":hID" class="" style="width:339px">void ifPresent(Consumer&lt;? super T&gt; consumer)</td><td id="]XlR" class="" style="width:501px">値が存在する場合は指定されたコンシューマで値を処理する。</td></tr><tr id="e86a2b02-b4be-4cfc-99ab-979a44b8c911"><td id=":hID" class="" style="width:339px">T orElse(T other)</td><td id="]XlR" class="" style="width:501px">値が存在する場合は値を返し、それ以外の場合はotherを返す。</td></tr><tr id="a2042a38-2bed-48d4-b71a-cc7ea9340b50"><td id=":hID" class="" style="width:339px">T orElseGet(Supplier&lt;? extends T&gt; other)</td><td id="]XlR" class="" style="width:501px">値が存在する場合は値を返し、それ以外の場合はサプライヤを呼びだし、その呼び出し結果を返す。</td></tr><tr id="fb32bd81-52a3-40fb-8cba-46ccc4c8c101"><td id=":hID" class="" style="width:339px">&lt;X extends Throwable&gt; T  orElseThrow(Supplier&lt;? extends X&gt; exceptionSupplier) throws X extends Throwable</td><td id="]XlR" class="" style="width:501px">値が存在する場合は値を返し、それ以外の場合は指定されたサプライヤによって作成された例外をスローする。</td></tr></tbody></table></details></li></ul><p id="ecfe27cd-c9cf-4af9-9d94-410c1d627af4" class="">
+</p><ul id="fef29e59-4124-4eee-988d-7e0c74c141cc" class="toggle"><li><details open=""><summary>中間操作</summary><p id="581d1b31-fd2a-4aae-ae5d-348dc5e0622a" class="">取得したストリームに対して何らかの処理を指定し、新しいストリームを生成する。
+ただし、イテレーションは終端処理でのみ実行される。
+</p><table id="53165728-63fd-4eb7-aaf8-4da3fbf9b5e7" class="simple-table"><thead class="simple-table-header"><tr id="a3b2a689-3028-436b-8a85-b5348d630753"><th id=":Hz[" class="simple-table-header-color simple-table-header" style="width:346px">メソッド名</th><th id="CQoP" class="simple-table-header-color simple-table-header" style="width:502px">説明</th></tr></thead><tbody><tr id="b129d034-4e0b-4abf-bb7d-dd16b1478ea3"><td id=":Hz[" class="" style="width:346px">Stream&lt;T&gt; filter(Predicate&lt;? super T&gt; predicate)</td><td id="CQoP" class="" style="width:502px">指定された条件に一致するものから構成されるストリームを返す</td></tr><tr id="da78a285-030f-4779-a79d-c99f213057f3"><td id=":Hz[" class="" style="width:346px">Stream&lt;T&gt; distinct()</td><td id="CQoP" class="" style="width:502px">重複を除いた要素から構成されるストリームを返す</td></tr><tr id="821ea0b9-45b4-4c93-a308-4896c79694a9"><td id=":Hz[" class="" style="width:346px">Stream&lt;T&gt; limit(long maxSize)</td><td id="CQoP" class="" style="width:502px">maxSizeに切り詰めた結果から構成されるストリームを返す</td></tr><tr id="caf1596b-f0c7-4aa9-a577-0d72a3d32993"><td id=":Hz[" class="" style="width:346px">Stream&lt;T&gt; skip(long n)</td><td id="CQoP" class="" style="width:502px">先頭からn個の要素を破棄した残りの要素で構成されるストリームを返す</td></tr><tr id="9618ec7f-8142-4ba3-89de-a591d6ae17db"><td id=":Hz[" class="" style="width:346px">&lt;R&gt; Stream&lt;R&gt; map(Function&lt;? super T,? extends R&gt; mapper)</td><td id="CQoP" class="" style="width:502px">指定された関数を適用した結果から構成されるストリームを返す</td></tr><tr id="4f48eb3b-62bd-4e58-bec3-e37e3624f05d"><td id=":Hz[" class="" style="width:346px">&lt;R&gt; Stream&lt;R&gt; fleatMap(Function&lt;? supre T,? extends Stream&lt;? extends R&gt;&gt; mapper)</td><td id="CQoP" class="" style="width:502px">指定された関数を適用した複数の結果から構成される1つのストリームを返す</td></tr><tr id="5213d4de-a5ec-4d6c-958b-d1239497c20b"><td id=":Hz[" class="" style="width:346px">Stream&lt;T&gt; sorted()</td><td id="CQoP" class="" style="width:502px">自然順序に従ってソートした結果から構成されるストリームを返す</td></tr><tr id="d3253572-e822-4fe6-9269-a0ce6cec808c"><td id=":Hz[" class="" style="width:346px">Stream&lt;T&gt; sorted(Comparator&lt;? super T&gt; comparator)</td><td id="CQoP" class="" style="width:502px">指定されたComparatorに従ってソートした結果から構成されるストリームを返す</td></tr><tr id="07105faa-5ddd-40ad-ba3e-e9aa8a05d063"><td id=":Hz[" class="" style="width:346px">Stream&lt;T&gt; peek(Comsumer&lt;? super T&gt; action)</td><td id="CQoP" class="" style="width:502px">このストリームの要素からなるストリームを返す。要素がパイプラインを通過する際にその内容を確認するようなデバックとして使用する</td></tr></tbody></table></details></li></ul><p id="e02f3a45-a2a3-4e9c-a34d-a31f9f3e4c17" class="">
+</p><ul id="b539fce3-5cc7-4794-a022-72a35bdef327" class="toggle"><li><details open=""><summary>ストリームインタフェースの型変換を行うメソッド</summary><p id="857a2451-723e-4882-b766-ccd269686630" class="">※引数は省略</p><table id="f255537e-1a11-4cff-b4a7-9cbace31489b" class="simple-table"><thead class="simple-table-header"><tr id="75e20575-e0f9-4e3a-b693-20ba092e7b59"><th id="P|L&gt;" class="simple-table-header-color simple-table-header">インタフェース名</th><th id="[qM^" class="simple-table-header-color simple-table-header">Streamの生成</th><th id="AX`J" class="simple-table-header-color simple-table-header">DoubleStreamの生成</th><th id="fBl@" class="simple-table-header-color simple-table-header">IntStreamの生成</th><th id="T[dA" class="simple-table-header-color simple-table-header">LongStreamの生成</th></tr></thead><tbody><tr id="dcce9247-bf15-417d-93d1-7b6ce3295fa4"><td id="P|L&gt;" class="">Stream</td><td id="[qM^" class="">map()</td><td id="AX`J" class="">mapToDouble()</td><td id="fBl@" class="">mapToInt()</td><td id="T[dA" class="">mapToLong()</td></tr><tr id="83e819e5-d4a8-492c-9247-4ac3c2b942e2"><td id="P|L&gt;" class="">DoubleStream</td><td id="[qM^" class="">mapToObj()</td><td id="AX`J" class="">map()</td><td id="fBl@" class="">mapToInt()</td><td id="T[dA" class="">mapToLong()</td></tr><tr id="38619911-a70d-40cc-a5d5-bc775e0c1353"><td id="P|L&gt;" class="">IntStream</td><td id="[qM^" class="">mapToObj()</td><td id="AX`J" class="">mapToDouble()</td><td id="fBl@" class="">map()</td><td id="T[dA" class="">mapToLong()</td></tr><tr id="022505d4-e4ef-4e50-9c73-046421c79630"><td id="P|L&gt;" class="">LongStream</td><td id="[qM^" class="">mapToObj()</td><td id="AX`J" class="">mapToDouble()</td><td id="fBl@" class="">mapToInt()</td><td id="T[dA" class="">map()</td></tr></tbody></table><p id="1268b944-9ac2-4f31-89b1-7c40db85e3eb" class="">使用例</p><table id="d2876a80-c46e-41a9-b0a4-e0aaf7403590" class="simple-table"><thead class="simple-table-header"><tr id="da814cf2-bf9c-46c1-8fdf-b7f09477c464"><th id="&gt;luF" class="simple-table-header-color simple-table-header" style="width:145.078125px">元の型</th><th id="QQw|" class="simple-table-header-color simple-table-header" style="width:90px">メソッド名</th><th id="xlqR" class="simple-table-header-color simple-table-header" style="width:292.21875px">引数</th><th id="{?|{" class="simple-table-header-color simple-table-header">変換後の型（戻り値）</th></tr></thead><tbody><tr id="001e12be-c918-414e-9429-45d272367209"><td id="&gt;luF" class="" style="width:145.078125px">Stream&lt;String&gt;</td><td id="QQw|" class="" style="width:90px">map</td><td id="xlqR" class="" style="width:292.21875px">Function&lt;? super T,? extends R&gt; mapper</td><td id="{?|{" class="">Stream&lt;Integer&gt;</td></tr><tr id="7da93db8-4982-413c-9eb4-9a00d40d3b72"><td id="&gt;luF" class="" style="width:145.078125px">Stream&lt;String&gt;</td><td id="QQw|" class="" style="width:90px">mapToInt</td><td id="xlqR" class="" style="width:292.21875px">ToIntFunction&lt;? super T&gt; mapper</td><td id="{?|{" class="">IntStream</td></tr><tr id="dfc11a0a-1ae6-4eb5-a10b-196fb1c79526"><td id="&gt;luF" class="" style="width:145.078125px">Stream&lt;Integer&gt;</td><td id="QQw|" class="" style="width:90px">mapToInt</td><td id="xlqR" class="" style="width:292.21875px">ToIntFunction&lt;? super T&gt; mapper</td><td id="{?|{" class="">IntStream</td></tr><tr id="0687f357-94e2-4ec4-be90-b60e09216d16"><td id="&gt;luF" class="" style="width:145.078125px">Stream&lt;Integer&gt;</td><td id="QQw|" class="" style="width:90px">map</td><td id="xlqR" class="" style="width:292.21875px">Function&lt;? super T,? extends R&gt; mapper</td><td id="{?|{" class="">Stream&lt;String&gt;</td></tr><tr id="7afc8b45-7d1d-47ac-a54d-2c7c425c15d7"><td id="&gt;luF" class="" style="width:145.078125px">IntStream</td><td id="QQw|" class="" style="width:90px">mapToObj</td><td id="xlqR" class="" style="width:292.21875px">IntFunction&lt;? extends U&gt; mapper</td><td id="{?|{" class="">Stream&lt;String&gt;</td></tr><tr id="7fc719c1-5d72-454c-8eb8-d31740d4ce50"><td id="&gt;luF" class="" style="width:145.078125px">IntStream</td><td id="QQw|" class="" style="width:90px">boxed</td><td id="xlqR" class="" style="width:292.21875px">ナシ</td><td id="{?|{" class="">Stream&lt;Integer&gt;</td></tr></tbody></table></details></li></ul><p id="4b6f65d2-9f86-4eaa-85a0-6a04bf37f7a8" class="">
+</p><ul id="05284a30-f629-4b1b-b6de-04a2adc14f47" class="toggle"><li><details open=""><summary>暗黙の型変換を行うためのメソッド</summary><table id="bb99b11f-5cf0-4483-8bb9-e1c8af65579f" class="simple-table"><thead class="simple-table-header"><tr id="c8efd6b1-7a0c-4f82-ac03-90f268a61694"><th id="NuwY" class="simple-table-header-color simple-table-header" style="width:254px">メソッド名</th><th id="]gGv" class="simple-table-header-color simple-table-header" style="width:395px">説明</th></tr></thead><tbody><tr id="95c999a3-ab17-4bab-8fd2-7589e182ebce"><td id="NuwY" class="" style="width:254px">LongStream asLongStream</td><td id="]gGv" class="" style="width:395px">IntStreamインタフェースで提供</td></tr><tr id="1792812e-8e40-4803-946c-5c34fca7e848"><td id="NuwY" class="" style="width:254px">DoubleStream asDoubleStream</td><td id="]gGv" class="" style="width:395px">IntStreamインタフェースで提供</td></tr><tr id="4de9b0e4-49d9-4021-85c3-12c70bc558b7"><td id="NuwY" class="" style="width:254px">DoubleStream asDoubleStream</td><td id="]gGv" class="" style="width:395px">LongStreamインタフェースで提供</td></tr></tbody></table><pre id="c151e7a4-2ce3-4a30-ade2-8baecba46bba" class="code"><code>// IntStream -&gt; DoubleStream(map ToDouble()を使用）
+IntStream stream1i = IntStream.of(2,3,5);
+DoubleStream stream1d = stream1i.mapToDouble(n-&gt;n);
+System.out.println(stream1d.average().getAsDouble());
+
+// IntStream -&gt; DoubleStream(asDoubleStream()を使用）
+IntStream stream2i = IntStream.of(2,3,5);
+DoubleStream stream2d = stream2i.asDoubleStream();
+System.out.println(stream2d.average().getAsDouble());
+
+// 実行結果
+3.3333333333333333335
+3.3333333333333333335</code></pre></details></li></ul><p id="6f2e3b33-09b7-4577-b4a4-975c90a898d5" class="">
+</p><ul id="17085052-66d7-424a-b5ef-378f28591508" class="toggle"><li><details open=""><summary>Collect()メソッド</summary><p id="bf3f81a5-87ad-4f9d-97da-75d780c06302" class="">collect()メソッドは終端処理の一つで、ストリーム要素をまとめて一つのオブジェクトを取得することができる。</p><pre id="43f67a4c-97c3-4afa-9995-cfc739f8ad50" class="code"><code>// 構文1
+&lt;R,A&gt; R collect(Collector&lt;? super T,A,R&gt; collector)
+T:入力要素となるストリームの型
+A:結果を生成する際に使用される型（通常は実装詳細として隠蔽される）
+R:結果の型
+
+// 構文2
+&lt;R&gt; R collect(Supplier&lt;R&gt; supplier, BiConsumer&lt;R,? super T&gt; accumulator, BiConsumer&lt;R,R&gt; combiner)</code></pre></details></li></ul><p id="3e6ff9c0-aea9-4b46-9f56-a0cf6e37139b" class="">
+</p><ul id="2531f23a-8475-4f9d-9e84-e9722d4f5d5c" class="toggle"><li><details open=""><summary>Collectorクラス</summary><table id="a140fc2b-8042-44e1-9262-b29759217ca5" class="simple-table"><thead class="simple-table-header"><tr id="b7f63f02-2efc-4554-b21a-a46e82af9a78"><th id="&gt;gIq" class="simple-table-header-color simple-table-header" style="width:376px">メソッド名</th><th id="cl&lt;_" class="simple-table-header-color simple-table-header" style="width:526px">説明</th></tr></thead><tbody><tr id="0e30a734-d779-4015-b5b7-8da84504f09c"><td id="&gt;gIq" class="" style="width:376px">static &lt;T&gt; Collector&lt;T,?,List&lt;T&gt;&gt; toList()</td><td id="cl&lt;_" class="" style="width:526px">入力要素をListに蓄積するCollectorを返す</td></tr><tr id="2508f049-4539-421b-97fd-7b7339d4994f"><td id="&gt;gIq" class="" style="width:376px">static Collector&lt;CharSequence,?,String&gt; joining()</td><td id="cl&lt;_" class="" style="width:526px">入力要素を検出順に連結して1つのStringにするCollectorを返す</td></tr><tr id="f98eddca-7338-47ec-892c-a8b8fcc68c69"><td id="&gt;gIq" class="" style="width:376px">static Collector&lt;CharSequence,?,String&gt; joining(CharSequence delimiter)</td><td id="cl&lt;_" class="" style="width:526px">入力要素を検出順に指定された区切り文字で区切りながら連結するCollectorを返す</td></tr><tr id="26237674-5247-431a-97b9-58d5796a1d79"><td id="&gt;gIq" class="" style="width:376px">static &lt;T&gt; Collector&lt;T,?,Integer&gt; summingInt(ToIntFunction&lt;? super T&gt; mapper)</td><td id="cl&lt;_" class="" style="width:526px">int値関数を適用した結果の合計を生成するCollectorを返す
+要素がない場合、結果は0になる</td></tr><tr id="0979bd42-f7e4-4ca1-9eb2-fa8df7457749"><td id="&gt;gIq" class="" style="width:376px">static &lt;T&gt; Collector&lt;T,?,Double&gt; averagingInt(ToIntFunction&lt;? super T&gt; mapper)</td><td id="cl&lt;_" class="" style="width:526px">int値関数を適用した結果の算術平均を生成するCollectorを返す
+要素がない場合、結果は0になる</td></tr><tr id="62f0a6fd-fae6-4cce-b898-191162da58fb"><td id="&gt;gIq" class="" style="width:376px">static &lt;T&gt; Collector&lt;T,?,Set&lt;T&gt;&gt; toSet()</td><td id="cl&lt;_" class="" style="width:526px">入力要素をSetに蓄積するCollectorを返す</td></tr><tr id="9b561c00-a444-4851-b2eb-a9f0fcf36590"><td id="&gt;gIq" class="" style="width:376px">static &lt;T,K,U&gt; Collector&lt;T,?,Map&lt;K,U&gt;&gt; toMap(Function&lt;? super T,? extends K&gt; key,Function&lt;? super T,? extends U&gt; value)</td><td id="cl&lt;_" class="" style="width:526px">入力要素をMapに蓄積するCollectorを返す</td></tr><tr id="2fc8222e-e75c-482a-8299-f2ac20180ff6"><td id="&gt;gIq" class="" style="width:376px">static &lt;T,K&gt; Collector&lt;T,?,Map&lt;K,List&lt;T&gt;&gt;&gt; groupingBy(Function&lt;? super T,? extends K&gt; classifier)</td><td id="cl&lt;_" class="" style="width:526px">指定した関数に従って要素をグループ化し、結果をMapに格納して返すCollectorを返す</td></tr><tr id="8c4ec098-fa9b-4231-ab1c-f8d21271d54a"><td id="&gt;gIq" class="" style="width:376px">static &lt;T&gt; Collector&lt;T,?.Map&lt;Boolean,List&lt;T&gt;&gt;&gt; partitioningBy(Predicate&lt;? supre T&gt; predicate)</td><td id="cl&lt;_" class="" style="width:526px">指定した関数に従って要素をtrueもしくはfalseでグループ化し、結果をMapに格納して返すCollectorを返す</td></tr><tr id="925bd8ef-e67a-4865-a546-b484e9cff377"><td id="&gt;gIq" class="" style="width:376px">static &lt;T,U,A,R&gt; Collector&lt;T,?,R&gt; mapping(Function&lt;? super T,? extends U&gt; mapper, Collector&lt;? super U,A,R&gt; downstream)</td><td id="cl&lt;_" class="" style="width:526px">マッピングを行い、マップ後に指定された他のCollectorを適用し、結果をMapに格納して返すCollectorを返す</td></tr><tr id="c373788e-a9e0-4e28-ae6d-a1f8eedc74e8"><td id="&gt;gIq" class="" style="width:376px">static &lt;T&gt; Collector&lt;T,?,Optional&lt;T&gt;&gt; maxBy(Comparator&lt;? super T&gt; comparator)</td><td id="cl&lt;_" class="" style="width:526px">指定されたComparatorに従ってOptional&lt;T&gt;として記述された最大要素を生成するCollectorを返す</td></tr><tr id="b0eae513-db35-4d9f-a281-ebe8cdcbb553"><td id="&gt;gIq" class="" style="width:376px">static &lt;T&gt; Collector&lt;T,?,Optional&lt;T&gt;&gt; minBy(Comparator&lt;? super T&gt; comparator)</td><td id="cl&lt;_" class="" style="width:526px">指定されたComparatorに従ってOptional&lt;T&gt;として記述された最小要素を生成するCollectorを返す</td></tr></tbody></table><ul id="750602be-c35a-4508-be43-21b72bc62b4d" class="bulleted-list"><li style="list-style-type:disc">使用例</li></ul><pre id="8ecb6797-e3f6-4e3f-ae32-0e2fbebed177" class="code"><code>// toLsit()
+Stream&lt;String&gt; stream1 = Stream.of(&quot;naoki&quot;,&quot;akko&quot;,&quot;ami&quot;);
+List&lt;Strign&gt; result1 = stream1.collect(Collectoers.toList());
+System.out.println(result1);
+
+// 実行結果
+[naoki,akko,ami]
+
+// joining()
+Stream&lt;String&gt; stream2 = Stream.of(&quot;naoki&quot;,&quot;akko&quot;,&quot;ami&quot;);
+String result2 = stream2.collect(Collectors.joining(&quot;|&quot;));
+System.out.println(result2);
+
+// 実行結果
+naoki|akko|ami
+
+// summingInt()
+Stream&lt;String&gt; stream3 = Stream.of(&quot;naoki&quot;,&quot;akko&quot;,&quot;ami&quot;);
+Integer result3 = stream3.collect(Collectors.summingInt(t-&gt;t.length());
+System.out.println(result3);
+
+// 実行結果
+12
+
+// averagingInt()
+Stream&lt;String&gt; stream4 = Stream.of(&quot;naoki&quot;,&quot;akko&quot;,&quot;ami&quot;);
+Double result4 = stream4.collect(Collectors.averagingInt(t-&gt;t.length());
+System.out.println(result4);
+
+// 実行結果
+4.0
+
+// toSet()
+Stream&lt;String&gt; stream5 = Stream.of(&quot;naoki&quot;,&quot;akko&quot;,&quot;ami&quot;);
+Set&lt;String&gt; set = stream5.collect(Collectors.toSet());
+System.out.println(set);
+
+// 実行結果
+[naoki,akko,ami]
+
+// toMap()
+// キーが重複する場合はIlligalStateExceptionがスローされることに注意
+Stream&lt;String&gt; stream6 = Stream.of(&quot;naoki&quot;,&quot;akko&quot;,&quot;ami&quot;);
+Map&lt;String,String&gt; map1 = straem6.collect(Collectors.toMap(s-&gt;s,String::toUpperCase));
+System.out.println(map1);
+
+// 実行結果
+{naoki=NAOKI,akko=AKKO,ami=AMI}
+
+// groupingBy()
+Stream&lt;String&gt; stream7 = Stream.of(&quot;belle&quot;,&quot;akko&quot;,&quot;ami&quot;,&quot;bob&quot;,&quot;nao&quot;);
+map&lt;String,List&lt;String&gt;&gt; map2 = stream7.collect(Collectors.groupingBy(s-&gt;s.substring(0,1)));
+System.out.println(map2);
+
+// 実行結果
+{a=[akko,ami],b=[belle,bob],n=[nao]}
+
+
+// partitioningBy()
+Stream&lt;Integer&gt; stream8 = Stream.of(3,5,7,9);
+Map&lt;Boolean,List&lt;Integer&gt;&gt; map3 = stream8.collect(Collectors.partitioningBy(s-&gt;s&gt;5));
+System.out.println(map3);
+
+// 実行結果
+{false=[3,5],true=[7,9]}
+
+// mapping()
+Stream&lt;Stirng&gt; stream9 = Stream.of(&quot;naoki&quot;,&quot;akko&quot;,&quot;ami&quot;);
+String result9 = stream9.collect(Collectors.mapping(s-&gt;s.toUpperCase(),Collectors.joining(&quot;:&quot;)));
+System.out.println(result9);
+NAOKI:AKKO:AMI
+
+// minBy()
+Stream&lt;String&gt; stream10 = Stream.of(&quot;naoki&quot;,&quot;akko&quot;,&quot;ami&quot;);
+Optional&lt;String&gt; result10 = stream10.collect(Collectors.minBy(Comparator.naturalOrder());
+System.out.println(result10.get());
+
+// 実行結果
+akko
+
+// maxBy()
+Stream&lt;Stirng&gt; stream11 = Stream.of(&quot;101&quot;,&quot;105&quot;,&quot;106&quot;,&quot;203&quot;,&quot;205&quot;);
+Map&lt;String,Optional&lt;String&gt;&gt; result11 = stream11.collect(Collectors.groupingBy(s-&gt;s.substring(0,1),Collectors.macBy(Comparator.naturalOrder())));
+System.out.println(result11);
+
+// 実行結果
+{1=Optional[106],2=Optional[205]}</code></pre><p id="8e1f7866-2ee4-4e34-92a9-fea19959f365" class="">
+</p><p id="1f9d47bd-c808-4e22-98f2-387f04e24976" class="">
+</p></details></li></ul><p id="3c087fa7-de3b-4da5-aa87-9ba6a8feacd0" class="">
+</p></div></article></body></html>
