@@ -1,0 +1,1643 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Java SE Silver 11</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body>
+    <article id="942bb84c-e65f-4e17-b81e-f410ed031155" class="page mono"><header><h1 class="page-title">Java SE Silver 11</h1></header><div class="page-body"><nav id="5f858061-9229-418c-b897-de3d1de6238c" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#676aed87-b4c6-4dfb-9fe5-69af3db9a4f4">簡単なJavaプログラムの作成</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7e8d1e11-3e80-4370-a344-c50e9ca17052">Javaの基本データ型と文字列操作</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0d776b2b-ac4c-4626-8523-9cfff9154160">演算子と判定構造</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1c8f3aca-2f61-426a-8e54-b27d3dc979f8">制御構造</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5849800d-1989-49ef-b40d-ae77771e65c3">配列の操作</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3f3ca901-8e2a-413a-aa71-deb3843f5d3e">インスタンスとメソッド</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5d314e8b-46e3-4535-af0b-b7fdf004fd07">クラスの継承、インターフェイス、抽象クラス</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#6ceac59a-48c4-4e6f-891e-35a44c52ddad">関数型インタフェース、ラムダ式</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#993a6152-38ac-43aa-9b0b-8ccd65bd2117">API</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a4aad990-cae1-4403-b490-e945221abe18">例外処理</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#d97c0d80-bfa4-45d0-b401-ace0d9ba654c">モジュールシステム</a></div></nav><h1 id="676aed87-b4c6-4dfb-9fe5-69af3db9a4f4" class="">簡単なJavaプログラムの作成</h1><ul id="3ea0cdea-fb41-4171-b31f-6fd47fb44f56" class="toggle"><li><details open=""><summary>パッケージの目的</summary><ol type="1" id="be689706-5d7c-4e2a-9e4c-0400e175c6f2" class="numbered-list" start="1"><li>名前空間を提供
+<mark class="highlight-red">クラスは「パッケージ名.クラス名」の完全修飾クラス名で扱う</mark></li></ol><ol type="1" id="7f92f511-22c9-4664-9640-ff6ea33a92e0" class="numbered-list" start="2"><li><mark class="highlight-red">アクセス修飾子によるアクセス制限機能の提供</mark></li></ol><ol type="1" id="721a7414-58a7-48c0-aaf1-238c0ca59a80" class="numbered-list" start="3"><li>クラスの分類
+<mark class="highlight-red">クラスは必ず何らかのパッケージに属する
+パッケージ宣言を省略したクラスは無名パッケージに属する</mark></li></ol></details></li></ul><p id="110097c7-5eac-4405-a038-ec7174c143cf" class="">
+</p><ul id="7e095c87-39a8-4a89-a023-5222332f41c7" class="toggle"><li><details open=""><summary>パッケージ宣言</summary><p id="4e4201be-cc0e-467e-99bc-54a6ca64e48e" class="">パッケージ宣言はソースコードの先頭で行う。</p><pre id="36dfaa2f-634b-4512-8732-55c4ebbf0b0b" class="code"><code>package sample; // package name
+public class Test{
+	// any code
+}</code></pre></details></li></ul><p id="6b5b023b-7824-441e-814d-d547205c968c" class="">
+</p><ul id="b2f1c8a4-e201-4752-a3c1-cc7832396dab" class="toggle"><li><details open=""><summary>importについて</summary><p id="650cf618-83b0-4ed4-b382-5537b41d7c89" class="">インポート宣言ではクラスファイルの設置場所を記述するのではなく、完全修飾クラス名を記述する。</p></details></li></ul><p id="a106dd6f-72e8-4980-91ee-4645615fee09" class="">
+</p><ul id="eff7ca9c-c4ae-4fdf-a3e2-34f4cc13a6f1" class="toggle"><li><details open=""><summary>java.langパッケージ</summary><p id="fef5e069-b248-4f1e-bd02-5aa9dfaf3dda" class="">java.langパッケージは基本的なクラスがまとめられたパッケージであり、<mark class="highlight-red">このパッケージに所属するクラスはインポート宣言が省略できる。</mark>
+同じパッケージに所属するクラスのインポート宣言も省略可能。</p><p id="f0aa4c54-d56c-435c-beff-12d10638b6b3" class="">アスタリスク「＊」を使ってそのパッケージに属するクラスを全てインポート可能。<mark class="highlight-red">ただしパッケージ名をワイルドカードにすることはできない。</mark></p><pre id="4b0b8b1e-29ea-4ee1-b409-3329e99885aa" class="code"><code>import java.util.*;</code></pre></details></li></ul><p id="50acccf0-316e-4916-9489-9796ac27af95" class="">
+</p><ul id="f06f155b-ae5a-4acf-9f51-86d31000e5aa" class="toggle"><li><details open=""><summary>無名パッケージに属するクラス</summary><p id="35ed9528-074d-4821-bcf8-5254b9bd2337" class=""><mark class="highlight-red">無名パッケージに属するクラスは同じ無名クラスに属するクラスからしかアクセスできない。</mark></p></details></li></ul><p id="6792d3c4-f930-4263-9772-2e9b813a41d0" class="">
+</p><ul id="80bb8037-9d31-4b92-a980-cbf92e25fe07" class="toggle"><li><details open=""><summary>エントリーポイント</summary><p id="db651ecc-9d9c-4f85-b8dd-06835d31520a" class="">処理が始めるためのメソッドのことをエントリーポイントと呼ぶ。
+エントリーポイントに適応されるルールは以下のとおり。</p><ol type="1" id="d6a92478-4095-45b7-97ab-d6e5f4d63713" class="numbered-list" start="1"><li>publicであること</li></ol><ol type="1" id="9c6b5052-de0c-4a97-b126-eaf0ff48ba44" class="numbered-list" start="2"><li>staticであること（インスタンスを生成しなくても実行できること）</li></ol><ol type="1" id="dfba54e4-0537-42ec-8093-3969cdc26c60" class="numbered-list" start="3"><li>voidであること</li></ol><ol type="1" id="9008c5c4-b624-4d95-8114-8d07d6e544ff" class="numbered-list" start="4"><li>メソッド名はmainであること</li></ol><ol type="1" id="1bdfefbd-d616-48d7-9b80-f26ac6dd927b" class="numbered-list" start="5"><li><mark class="highlight-red">引数はString配列型を1つ受け取ること（これ以外は無い）</mark></li></ol><p id="e88f2c0e-ec08-4b4b-a083-80eca41e3792" class="">エントリーポイントの引数は可変長引数のString型を受け取ることもできる。</p><pre id="20cb7dab-d3d8-43ee-bf45-da04b96a700d" class="code"><code>public static void main(String... args){
+}</code></pre></details></li></ul><p id="384c07be-9a50-411e-886e-b3a8c35da3c3" class="">
+</p><ul id="e0860c65-a12d-4ca0-9135-d0fd2abb78e2" class="toggle"><li><details open=""><summary><mark class="highlight-red">javaコマンド</mark></summary><p id="b302e6bb-b131-496d-9a70-ee63b5763046" class="">JVMを起動させるためのコマンド。
+指定されたクラスをロードし、このクラスのmainメソッドを呼び出す。</p><pre id="494073a4-0a5c-409c-a1d5-71d3049f5590" class="code"><code>// 構文
+java 完全修飾クラス名 [引数 引数 ...] // コマンドライン引数</code></pre><p id="763c539e-6f40-4f28-abe0-e2d46a9a1ab7" class="">javaコマンドでは次の3つを実行することができる。</p><ol type="1" id="e2aca629-1515-4b7d-a29f-fd0d1ae03b24" class="numbered-list" start="1"><li>mainメソッドを持つクラスファイル</li></ol><ol type="1" id="8b9eab07-d06c-4ba3-ac39-d94604c2dd94" class="numbered-list" start="2"><li>jarファイル内のメインクラス</li></ol><ol type="1" id="108a4a38-f7bc-47c3-9756-219eb8440fa5" class="numbered-list" start="3"><li>モジュールに含まれるメインクラス（Java SE 9からの新機能）</li></ol></details></li></ul><p id="50a39bce-5b87-4526-839b-417d8a9a17a5" class="">
+</p><ul id="7b9a0464-d028-43f1-ac74-af5b0543a890" class="toggle"><li><details open=""><summary><mark class="highlight-red">ソースファイルモード（Java SE 11からの新機能）</mark></summary><p id="9c0b7c3a-c2e2-48e1-8aad-be2d31b7f7b7" class="">javacコマンドでコンパイルをせずにソースファイルを直接実行できる機能。</p><pre id="509f5f1d-65ef-4788-aae1-757b9664cabd" class="code"><code>// Sample.java
+public class Sample{
+	public static void main(String... args){
+		for(String arg : args){
+			System.out.println(arg)
+		}
+	}
+}
+
+// javaコマンド
+&gt; java Sample.java a b c
+a
+b
+c</code></pre></details></li></ul><p id="a52d2071-0bc4-4721-8aa1-7e15f2f351e1" class="">
+</p><ul id="03970fd9-a249-419c-97e4-220893a00749" class="toggle"><li><details open=""><summary>コマンドライン引数</summary><p id="317f3302-3b77-4b6b-85d2-4932924290bb" class="">スペースを含む文字列をコマンドライン引数に渡すにはダブルクォーテーションを使用する。</p><pre id="393d3002-9604-43d7-8627-b987bbe19d92" class="code"><code>&gt; java Sample.java Hello World &quot;Hello World&quot;
+Hello
+World
+Hello World</code></pre><p id="3ce1dcdd-ccbf-4022-8f51-3029c8683ae3" class="">注意する点は以下の3つ。</p><ol type="1" id="b45ab7df-0ef3-4760-bf2c-0051bf053aa1" class="numbered-list" start="1"><li>スペースが区切り文字として扱われる</li></ol><ol type="1" id="aa089171-ccd1-4bd3-b2dd-044548c9c670" class="numbered-list" start="2"><li>スペースを含む文字列はダブルクォーテーションで括ることで1つとして扱われる</li></ol><ol type="1" id="79fb95ba-df2b-434c-9f8c-c12a562abe99" class="numbered-list" start="3"><li>ダブルクォーテーションそのものは文字として扱わない（エスケープしないとデータとして扱われない）</li></ol><pre id="7cb08ffc-0a94-4916-ab3d-5f045080cd61" class="code"><code>&gt; java Sample a ¥&quot; a¥&quot; &quot;a &quot;b c
+a
+&quot;
+a&quot;
+a b
+c</code></pre></details></li></ul><p id="18369f72-e94f-4d51-98f8-74403b48b958" class="">
+</p><ul id="c53b774d-60f2-478d-acaa-77713b7010ff" class="toggle"><li><details open=""><summary>javaについて</summary><p id="5549025b-1c18-450c-81c2-1e7d2a4f7187" class="">javaはJVMが中間コードを読み込み、ネイティブコードにコンパイルしながらプログラムを実行する。</p><p id="4897cf7c-33e2-4516-8021-cc7391bc7378" class=""><mark class="highlight-red">このとき頻繁に利用されるネイティブコードはメモリ上にキャッシュされるためコンパイル時間が短縮される。</mark></p><p id="d0283022-7d61-4890-ba31-e24ba36fe039" class="">Javaマルチスレッドによる並列処理に対応しているが、ライブラリとして提供されているだけであり、自動的に並列処理を行う訳ではない。</p></details></li></ul><h1 id="7e8d1e11-3e80-4370-a344-c50e9ca17052" class="">Javaの基本データ型と文字列操作</h1><ul id="d4a41323-759c-45b5-a5f4-d1565fbe3c0e" class="toggle"><li><details open=""><summary>プリミティブ型</summary><p id="7ee24392-55af-4d99-a84a-234245fe1f3a" class="">値そのものを扱うデータ型</p><table id="4d761197-ac25-4a5e-ad08-5ddb11216807" class="simple-table"><thead class="simple-table-header"><tr id="0709a339-17a5-4893-8e5d-7d6345ae689e"><th id="wPq;" class="simple-table-header-color simple-table-header">データ型</th><th id="cw;F" class="simple-table-header-color simple-table-header" style="width:208px">説明</th><th id="{Sbc" class="simple-table-header-color simple-table-header" style="width:473px">範囲</th></tr></thead><tbody><tr id="815e7c47-5b7a-464c-a0f9-8e4775c3c710"><th id="wPq;" class="simple-table-header-color simple-table-header"><mark class="highlight-red">boolean</mark></th><td id="cw;F" class="" style="width:208px">true,false</td><td id="{Sbc" class="" style="width:473px"></td></tr><tr id="1044bd3c-fb76-47af-b562-1eeda8d699ab"><th id="wPq;" class="simple-table-header-color simple-table-header">char</th><td id="cw;F" class="" style="width:208px">16ビットUnidode文字</td><td id="{Sbc" class="" style="width:473px">\u0000~\uFFFF</td></tr><tr id="9e345279-a21e-4755-99e9-7610d26ec917"><th id="wPq;" class="simple-table-header-color simple-table-header">byte</th><td id="cw;F" class="" style="width:208px">8ビット整数</td><td id="{Sbc" class="" style="width:473px">-128~127</td></tr><tr id="216e8c54-8417-43bc-ae52-75fddefd18c5"><th id="wPq;" class="simple-table-header-color simple-table-header">short</th><td id="cw;F" class="" style="width:208px">16ビット整数</td><td id="{Sbc" class="" style="width:473px">-32768~32767</td></tr><tr id="c7c6f4e1-fb19-4076-9b0b-f51d36c1d2c4"><th id="wPq;" class="simple-table-header-color simple-table-header">int</th><td id="cw;F" class="" style="width:208px">32ビット整数</td><td id="{Sbc" class="" style="width:473px">-2147483648~2147483647</td></tr><tr id="c207d26a-2255-4a63-b005-85b2f12982e6"><th id="wPq;" class="simple-table-header-color simple-table-header">long</th><td id="cw;F" class="" style="width:208px">64ビット整数</td><td id="{Sbc" class="" style="width:473px"></td></tr><tr id="e4253067-96c8-4c65-9f70-34470569da41"><th id="wPq;" class="simple-table-header-color simple-table-header">float</th><td id="cw;F" class="" style="width:208px">32ビット単精度浮動小数点</td><td id="{Sbc" class="" style="width:473px"></td></tr><tr id="fba0d0e1-3cc4-47a8-85b0-2ea4fb0e10ad"><th id="wPq;" class="simple-table-header-color simple-table-header">double</th><td id="cw;F" class="" style="width:208px">64ビット倍精度浮動小数点</td><td id="{Sbc" class="" style="width:473px"></td></tr></tbody></table></details></li></ul><p id="040034db-2c9d-485d-91df-dafa2967ab90" class="">
+</p><ul id="d47a1b50-ff62-4b46-a13f-44c98d6404bf" class="toggle"><li><details open=""><summary>アンダースコア「_」</summary><p id="5a5d2028-421c-4c06-9d61-9de9a5450c37" class="">Java SE 7から導入された。
+使用するには以下のルールを守る必要がある。</p><ol type="1" id="da084160-8490-4b6d-a1c6-aba1f25efc6e" class="numbered-list" start="1"><li>リテラルの<mark class="highlight-red">先頭と末尾</mark>には記述できない</li></ol><ol type="1" id="02dbd8cd-e4b8-468e-b226-be43269c2c97" class="numbered-list" start="2"><li>記号の前後には記述できない</li></ol></details></li></ul><p id="c632f979-f8b8-454a-9441-addc14f7a0e1" class="">
+</p><ul id="7bb9e579-3175-4b01-8410-806f923426ef" class="toggle"><li><details open=""><summary>文字リテラル</summary><p id="2b55622d-20d3-4608-bc7c-303a14736d15" class="">文字リテラルは「’a’」のようにシングルコーテーションで括る必要がある。</p><p id="aae7c81b-3c5b-423e-8777-456128cb098f" class="">char型には以下の3つが代入できる。</p><ol type="1" id="43d2c1d3-2d28-4d49-9eea-d8209c0efead" class="numbered-list" start="1"><li>文字リテラル（シングルコーテーションで括った文字）</li></ol><ol type="1" id="541c55d5-2e0a-49d7-b7b2-2e6c8b2f5f7f" class="numbered-list" start="2"><li>シングルコーテーションで括った「¥u」から始まるUnicode番号</li></ol><ol type="1" id="de3f3f81-e70f-46a7-a7e8-913fda013582" class="numbered-list" start="3"><li>0~65535までの数値</li></ol><p id="9b3ceb6c-fa36-49c8-9428-b704178f0ddc" class="">nullは参照変数が何も参照しないことを表現ためのデータであり、プリミティブ型には使えない。</p><p id="4b058480-2596-4108-8b80-b92d8ee6edff" class="">
+</p><p id="80507e79-3c6e-4dfb-9ad4-2250036d01ed" class=""><mark class="highlight-red">trueやfalse、nullは予約語ではないが、リテラルとして使用されるため変数名などに使用できない。</mark></p></details></li></ul><p id="bc0f0af4-f716-465d-9401-20958764137c" class="">
+</p><ul id="a7ac31ae-96f3-4288-b83d-10dafa7971d0" class="toggle"><li><details open=""><summary>識別子</summary><p id="dc06daf0-ba76-4398-a269-f404276fdd5e" class="">変数やメソッド、クラスなどの名前のことを識別子呼ぶ。</p><p id="27a71f33-f52c-45a3-94b4-71f564c47268" class="">識別子には以下のような規則がある。</p><ol type="1" id="4439fbf5-0024-4f11-b8a4-b5ac5f97a88b" class="numbered-list" start="1"><li>予約語を識別子として使うことはできない</li></ol><ol type="1" id="c3ff3e6d-4ffc-4da5-b56a-da84f622ff15" class="numbered-list" start="2"><li>使える記号は、アンダースコアと通貨記号のみ</li></ol><ol type="1" id="9e21cb59-bc8f-420e-84e0-a02d0101d7cb" class="numbered-list" start="3"><li>数字から初めてはいけない</li></ol></details></li></ul><p id="36eeb4ac-4478-4515-ac44-fe97597c1e66" class="">
+</p><ul id="baadadc8-2279-4b89-96d6-ccceb3e73a9a" class="toggle"><li><details open=""><summary>型推論（Java SE 10からの新機能）</summary><p id="52db31a9-0264-49f0-92a2-2d9b0d7d1959" class="">変数宣言時のデータ型を推論する機能。型推論を行うには次のようにvarを使って変数宣言をおこなう。
+<mark class="highlight-red">varによる型推論はコンパイル時に行われる。
+必ず初期化する必要があり、nullは不可。</mark></p><pre id="1dfbdf08-e844-4092-b464-27ba021159c3" class="code"><code>var a = 10;
+
+var e; // 初期化忘れでエラー
+var e = null; // データ型が特定できないのでエラー</code></pre><p id="1f78b9be-bb71-45f4-8793-387b44c3483e" class="">メソッドの戻り値を受け取るのにも使える。
+ただし、ラムダ式だけではその式を扱う変数の型を推論できないため不可。</p><pre id="2b617805-f975-4c83-bd00-72bb46c61098" class="code"><code>var a = Sample();
+
+var a = ()-&gt;{};　// 型が推論できないのでエラー</code></pre><p id="cd919f00-47c4-4c03-8d54-6cb724123e3b" class="">また、配列の初期化式ではコンパイルエラーとなる。
+これは配列の初期化式は、配列型変数の宣言と同時に記述することで、変数の型で宣言されている配列インスタンスを生成し、要素を初期化しているからである。</p><pre id="8f46579f-3938-4d19-a7f3-8d3b5b387286" class="code"><code>int[] array = {1,2,3}; // 変数の型からint配列型のインスタンスを生成している
+
+var e = {1,2,3}; // 型を特定することができないのでエラー</code></pre><p id="199007f1-d2e8-4c09-8815-221ad41117a7" class="">ジェネリクスのダイヤモンド演算子による型推論では、変数宣言時のジェネリクスで指定された型パラメータを参照する。
+参照する型がなければ、Object型が型パラメータとして与えられる。</p><pre id="64cdce9d-8511-43d3-b808-46f2212f7444" class="code"><code>var a = new ArrayList&lt;&gt;(); // 以下と同じ
+var a = new ArrayList&lt;Object&gt;();</code></pre><p id="94fb9b00-ab72-4565-a882-56473b66143d" class="">
+</p><p id="4a84b3e3-c99e-4dab-9c0a-04596939faba" class="">また、varによる型推論はローカル変数の宣言にしか使用できない。
+<mark class="highlight-red">よってフィールドの宣言や、引数の型宣言には使用できない。</mark></p><pre id="b1c29846-d5b8-41dd-9f68-cd5b1b78b544" class="code"><code>public class Sample {
+	var name = &quot;name&quot;; // エラー
+	var age = 0; // エラー
+
+	public void test(var value){ // エラー
+		...
+	}
+}</code></pre><p id="aafeb313-ef42-4821-8dba-92f45e31debf" class="">
+</p><p id="d0e06256-732f-4bf4-a592-37e0dd162565" class="">finalとvarを併用するためには、以下のようにする。</p><pre id="e4e2548c-1dc0-424a-a68b-2f31e7588ae6" class="code"><code>final var point = 100; // OK finalを先に記述する
+var final point = 100; // NG</code></pre></details></li></ul><p id="0b0887cb-871f-48c3-b8b7-5cf925719a7b" class="">
+</p><ul id="d86fb01d-7b5f-4390-8c73-9e105a40ad33" class="toggle"><li><details open=""><summary>文字列</summary><p id="b9b1c8bd-6ecf-455c-8dd9-4f172b19135f" class="">文字列のインスタンスを生成するには主に以下の2つの方法がある。</p><pre id="b32fa717-7e30-471a-9120-fd1cb393a899" class="code"><code>// newを使ってインスタンス化する
+String a = new String(&quot;sample&quot;);
+
+// ダブルクォーテーションで括った文字列リテラルを記述する
+String a = &quot;sample&quot;;
+
+// 他には以下のstaticメソッドを使用する方法もある
+String a = String.valueOf(&quot;sample&quot;);</code></pre><p id="41b0fdc0-b542-47fc-b09b-d4a1325b974d" class=""><mark class="highlight-red">文字列はimmutableなオブジェクトであり、不変である。
+文字列を変更するためには新しくインスタンスを作る必要がある。(マジで気をつけろ。)</mark></p><table id="8851bc3d-44fb-4ec0-b796-bc35fd285245" class="simple-table"><thead class="simple-table-header"><tr id="7b8240a8-65e4-4adb-90d2-1e2f4a08d838"><th id="`BWu" class="simple-table-header-color simple-table-header" style="width:151px">Stringメソッド</th><th id="mQP[" class="simple-table-header-color simple-table-header" style="width:456px">説明</th><th id="tUNU" class="simple-table-header-color simple-table-header" style="width:454px">失敗した場合</th></tr></thead><tbody><tr id="93b41b1f-c794-47d1-924b-6ba32f21163a"><th id="`BWu" class="simple-table-header-color simple-table-header" style="width:151px">str.<mark class="highlight-red">replaceAll</mark>(x,y)</th><td id="mQP[" class="" style="width:456px"><mark class="highlight-red">xをyに置換後、新しいインスタンスを生成し、その参照を返す。</mark></td><td id="tUNU" class="" style="width:454px"></td></tr><tr id="b0cd4ef3-eb1b-424b-b299-b5c6ff2997f7"><th id="`BWu" class="simple-table-header-color simple-table-header" style="width:151px">str.<mark class="highlight-red">charAt</mark>(n)</th><td id="mQP[" class="" style="width:456px">nの位置にある文字を抜き出して返す。</td><td id="tUNU" class="" style="width:454px">java.lang.StringIndexOutOfBoundsExceptionがスローされる。</td></tr><tr id="ea09cf50-ecdf-4b32-a871-09fd2c3c0761"><th id="`BWu" class="simple-table-header-color simple-table-header" style="width:151px">str.<mark class="highlight-red">indexOf</mark>(x)</th><td id="mQP[" class="" style="width:456px">xがどの位置にあるかを調べ、その位置を返す。</td><td id="tUNU" class="" style="width:454px"><mark class="highlight-red">−1が返る。</mark></td></tr><tr id="94422a3b-195f-423e-8806-cba0189a0f1c"><th id="`BWu" class="simple-table-header-color simple-table-header" style="width:151px">str.<mark class="highlight-red">substring</mark>(x,y)</th><td id="mQP[" class="" style="width:456px">xからy-1までの文字列を抽出し、新しく生成されたインスタンスの参照を返す。yは省略可能。</td><td id="tUNU" class="" style="width:454px">xがyより大きい場合、IndexOutOfBoundsExceptionがスローされる。</td></tr><tr id="f9a11b74-2317-49f2-ae35-900253ec18f0"><th id="`BWu" class="simple-table-header-color simple-table-header" style="width:151px">str.<mark class="highlight-red">replace</mark>(x,y)</th><td id="mQP[" class="" style="width:456px">replaceAllとほぼ同じ。ただし正規表現が使用できない。</td><td id="tUNU" class="" style="width:454px"></td></tr><tr id="a8b03dab-e8fc-409a-ad64-e21b587c7982"><th id="`BWu" class="simple-table-header-color simple-table-header" style="width:151px">str.<mark class="highlight-red">length</mark>()</th><td id="mQP[" class="" style="width:456px">文字数を返す。半角も全角も1文字としてカウントする。</td><td id="tUNU" class="" style="width:454px"></td></tr><tr id="bc319668-3529-4e7c-ae1a-7fd6123ef588"><th id="`BWu" class="simple-table-header-color simple-table-header" style="width:151px">str.<mark class="highlight-red">startsWith</mark>(x)</th><td id="mQP[" class="" style="width:456px">文字列xで始まる場合はtrueを、そうでなければfalseを返却する。</td><td id="tUNU" class="" style="width:454px"></td></tr><tr id="5c7f1009-a9bd-4da3-8e74-faf07e26cf6c"><th id="`BWu" class="simple-table-header-color simple-table-header" style="width:151px">str.<mark class="highlight-red">endsWith</mark>(x)</th><td id="mQP[" class="" style="width:456px">文字列xで終わる場合はtrueを、そうでなければfalseを返却する。</td><td id="tUNU" class="" style="width:454px"></td></tr><tr id="c8e60477-4645-4c99-bd76-600500ab88bf"><th id="`BWu" class="simple-table-header-color simple-table-header" style="width:151px">str.<mark class="highlight-red">concat</mark>(x)</th><td id="mQP[" class="" style="width:456px">strに文字列xを連結し、新しく生成されたインスタンスの参照を返す。</td><td id="tUNU" class="" style="width:454px"></td></tr></tbody></table></details></li></ul><p id="a5354800-1e02-4742-ae46-8b52b5bd99f8" class="">
+</p><ul id="539d2fe0-73ee-48ff-8cd9-07e9cc5e159e" class="toggle"><li><details open=""><summary>immutableなクラス</summary><p id="5b275de7-52f7-4d9e-9eda-76961785b2a1" class="">内部データを変更できないように定義されたオブジェクトを使って、データを不適切に変更できないようなimmutebleなオブジェクトを作るには次の様にする。</p><ol type="1" id="ac416712-4dee-4bc6-a124-dc97b0e3cf58" class="numbered-list" start="1"><li>全てのオブジェクトをprivateで修飾する</li></ol><ol type="1" id="5d0b9312-3125-463b-bdb8-4670a93fde9a" class="numbered-list" start="2"><li>オブジェクト内部の状態を変更可能なメソッドを提供しない。（setterなど）</li></ol><ol type="1" id="286242b9-d32d-4c6a-9137-40aff5e3ed81" class="numbered-list" start="3"><li>クラスをfinalで宣言し、メソッドがオーバーライドされ無いことを保証する</li></ol><ol type="1" id="c1f4b4c2-2c95-4c12-97f7-bda6f083d000" class="numbered-list" start="4"><li>内部に可変オブジェクトを保持している場合、そのオブジェクトを外部に提供しない（getterなど）</li></ol><pre id="c8aaf154-fe88-4b8e-85c6-efadb16f7e18" class="code"><code>// immutableなクラスの例
+public final class Sample{
+	private final String name;
+	public Sample(String name){
+		this.name = name;
+	}
+
+	public void greet(){
+		System.out.println(&quot;hello,&quot;+name);
+	}
+}</code></pre></details></li></ul><p id="35084246-917f-42f8-b543-fde2dda8c254" class="">
+</p><ul id="acdbb2a4-c79e-42b5-92b7-d606d929ce70" class="toggle"><li><details open=""><summary>メソッドチェイン</summary><p id="c177bb5b-e543-4d0e-b500-8186cecd01e0" class="">メソッドの戻り値に対してさらにメソッドを呼び出すような記述のこと。</p><pre id="6967e42d-b7a0-4e16-8176-bc42019ec299" class="code"><code>String str = &quot;abcde&quot;;
+String str2 = str.substring(1,3).replace(&quot;b&quot;,&quot;c&quot;);</code></pre></details></li></ul><p id="b850b868-02bd-4201-97ec-af33fd5982ba" class="">
+</p><ul id="b23d507e-0b70-4eea-8bc7-517e71d69913" class="toggle"><li><details open=""><summary>文字列の連結について</summary><p id="1fc37027-8b8f-40c5-b79f-210e3dc8f1b7" class="">文字列の連結については、以下の3つに注意する。</p><ol type="1" id="0cfbd5cc-07d2-4f68-a4c8-56ee2a8dc833" class="numbered-list" start="1"><li>+演算子は文字列を連結する</li></ol><ol type="1" id="5ec6eabe-040f-4276-b1a4-88628660f063" class="numbered-list" start="2"><li>数値と文字列の場合は、数値が文字列に置き換わってから文字列として連結される</li></ol><ol type="1" id="0171c253-ba4c-46a8-abb1-50fbb2c8822e" class="numbered-list" start="3"><li>数値加算と文字列連結が混在する式は、左から順に実行される</li></ol><p id="26700841-2d07-4298-8298-342b05f54c6a" class=""><mark class="highlight-red">また、nullで初期化した文字列に文字を連結すると、nullは「null」という文字列に置き換えられてから連結される。</mark></p></details></li></ul><p id="b3a22d84-4aac-4ea5-b936-874846a7b88d" class="">
+</p><ul id="1fc2d099-217a-4280-8f55-9c565b191bba" class="toggle"><li><details open=""><summary><mark class="highlight-red">StringBuilderクラス</mark></summary><p id="6726565e-6f47-49ec-9cc0-3659e9c5e595" class="">内部にバッファを持った文字列を扱うためのクラス。
+Stringが文字列と同じ長さのchar配列を持つのに対し、StringBuilderは保持している文字列＋余分のバッファを持ち、デフォルトで16文字分のバッファを持っている。
+<mark class="highlight-red">ただし、文字列を引数に渡すコンストラクタを使った場合は、文字列の長さ＋16文字分のバッファを持っている。</mark></p><table id="3ce9b7dd-d18d-499d-b153-23d12a0a1e4f" class="simple-table"><thead class="simple-table-header"><tr id="1b70003a-8c17-4cf0-9788-9ccbc1e20be2"><th id="^HtQ" class="simple-table-header-color simple-table-header" style="width:153px">メソッド</th><th id="q}t@" class="simple-table-header-color simple-table-header" style="width:679px">説明</th></tr></thead><tbody><tr id="65144b24-b38f-4858-8e1a-08913167504a"><th id="^HtQ" class="simple-table-header-color simple-table-header" style="width:153px">strb.<mark class="highlight-red">append</mark>(x)</th><td id="q}t@" class="" style="width:679px">文字列xを追加する。</td></tr><tr id="f6e4111b-02e9-41b6-bdf9-05ac5474c360"><th id="^HtQ" class="simple-table-header-color simple-table-header" style="width:153px">strb.<mark class="highlight-red">reverse</mark>()</th><td id="q}t@" class="" style="width:679px">文字列を反転する。</td></tr><tr id="597697df-6ebb-461e-aaef-a1efe3ae6903"><th id="^HtQ" class="simple-table-header-color simple-table-header" style="width:153px">strb.<mark class="highlight-red">replace</mark>(a,b,x)</th><td id="q}t@" class="" style="width:679px">aからb-1までの文字列をxに置き換える。</td></tr><tr id="49cfb635-4b33-406b-9ed4-d01f543fce5e"><th id="^HtQ" class="simple-table-header-color simple-table-header" style="width:153px">strb.<mark class="highlight-red">index0f</mark>(x)</th><td id="q}t@" class="" style="width:679px">文字列xの開始位置を返却する。</td></tr></tbody></table></details></li></ul><h1 id="0d776b2b-ac4c-4626-8523-9cfff9154160" class="">演算子と判定構造</h1><ul id="3337278a-eedf-4a0b-b497-787f64c352c4" class="toggle"><li><details open=""><summary>代入演算子</summary><p id="a97f5f0c-ea64-412c-b8b2-4cae260d1385" class="">代入演算子は左右のオペランドの評価が終わっていなければ代入できない。</p><table id="95cf742c-76f8-40ee-aaa6-eedb9be96f2e" class="simple-table"><thead class="simple-table-header"><tr id="50a42999-b590-409e-8985-0ccf99320da3"><th id="[kLw" class="simple-table-header-color simple-table-header" style="width:93px">代入演算子</th><th id="Sj]|" class="simple-table-header-color simple-table-header" style="width:103px">使用例</th><th id="YAp[" class="simple-table-header-color simple-table-header" style="width:192px">意味</th></tr></thead><tbody><tr id="4f8fac5a-cece-48b9-9d32-35884a88f001"><th id="[kLw" class="simple-table-header-color simple-table-header" style="width:93px">=</th><td id="Sj]|" class="" style="width:103px">a = 10;</td><td id="YAp[" class="" style="width:192px">変数aに10を代入する</td></tr><tr id="f8bf5c47-a546-4d80-ab93-71c005252430"><th id="[kLw" class="simple-table-header-color simple-table-header" style="width:93px">+=</th><td id="Sj]|" class="" style="width:103px">a += 10;</td><td id="YAp[" class="" style="width:192px">「a = a + 10」と同じ</td></tr><tr id="8b211019-0356-4ef5-b4f9-c7ff7502ee46"><th id="[kLw" class="simple-table-header-color simple-table-header" style="width:93px">-=</th><td id="Sj]|" class="" style="width:103px">a -= 10;</td><td id="YAp[" class="" style="width:192px">「a = a - 10」と同じ</td></tr><tr id="957f6dd2-59b1-409b-9803-86b66ec6315b"><th id="[kLw" class="simple-table-header-color simple-table-header" style="width:93px">*=</th><td id="Sj]|" class="" style="width:103px">a *= 10;</td><td id="YAp[" class="" style="width:192px">「a = a * 10」と同じ</td></tr><tr id="7e5d22d6-38ca-42fc-a088-83cacf0c34e8"><th id="[kLw" class="simple-table-header-color simple-table-header" style="width:93px">/=</th><td id="Sj]|" class="" style="width:103px">a /= 10;</td><td id="YAp[" class="" style="width:192px">「a = a / 10」と同じ</td></tr></tbody></table><pre id="3ebf915a-29c2-4976-9c93-537281fd1fda" class="code"><code>public class Sample{
+	public static void main(Stirng[] args){
+		int a = 3;
+		int b = a += 5;
+		System.out.println(a+b); // 16
+	}
+}</code></pre></details></li></ul><p id="7df050cb-1090-4212-a853-36b188e42282" class="">
+</p><ul id="515cc10e-b08a-41e9-b6f2-9b9fd2dcde92" class="toggle"><li><details open=""><summary>型変換</summary><p id="fc082117-efeb-4471-93dc-742b7370d1de" class="">大きな範囲の値を小さな範囲の値に代入する時は明示的なキャストをする必要がある。</p><pre id="74b094f7-4922-4115-ae52-5846fbafdb23" class="code"><code>int a = 10;
+short b = (short) a;</code></pre><p id="7fe579bf-1e32-43a5-a52c-3373da2103e3" class="">ただし、byte型やshort型の変数に代入する<mark class="highlight-red">整数リテラル</mark>の場合、その値が型の範囲内出あれば、エラーを出さない。</p><p id="15010f90-1f0b-4b89-9ac0-b89e5fd66076" class="">浮動小数点の場合はキャストが必須。</p><pre id="516c7c94-b505-49ab-846b-16683ae83151" class="code"><code>byte a = 128; // コンパイルエラー
+byte b = 127; // byte範囲に収まるint型リテラルなのでコンパイルできる</code></pre><p id="3dac7a33-4d5b-48f0-8f76-3d8c041fd17d" class=""><mark class="highlight-red">また、boolean型と整数型には互換性がない。</mark></p></details></li></ul><p id="4c8a004d-057e-4543-b999-b24eed713255" class="">
+</p><ul id="53ec0474-e4e3-49de-90a0-c6cdd1470ef2" class="toggle"><li><details open=""><summary><mark class="highlight-red">暗黙の型変換とキャストについて</mark></summary><p id="83edb24a-f8a5-4ed7-9156-da023c9b798d" class="">暗黙の型変換は以下の様に行われる。</p><pre id="41782c96-2c74-4c9c-ab25-7bcdfa220549" class="code"><code>byte-&gt;short-&gt;int-&gt;long-&gt;float-&gt;double
+			char-&gt;int</code></pre><p id="9f7720b6-c8c8-41be-9c99-bd24e555b6de" class=""><mark class="highlight-red">ただし、以下の場合は暗黙の型変換はできず、キャストによって明示的に型変換する必要がある。</mark></p><ol type="1" id="93d7c863-d646-4086-887a-aac8e2dd88c5" class="numbered-list" start="1"><li>byte-&gt;char</li></ol><ol type="1" id="132ba704-88dc-42db-8fdc-9c0d50a8c952" class="numbered-list" start="2"><li>short-&gt;char</li></ol><ol type="1" id="8fa03268-1500-4ca5-b1c5-00ce6c465bdb" class="numbered-list" start="3"><li>char-&gt;short</li></ol><ol type="1" id="78e3032e-7731-4b1e-a88a-f95c4b5e86af" class="numbered-list" start="4"><li>char-&gt;byte</li></ol><p id="529850b4-5beb-44ca-bc57-b923f9f49f65" class=""><mark class="highlight-red">また、互換性がないキャストは、コンパイルエラーになる。</mark></p></details></li></ul><p id="19f66c40-9731-4cbc-8e09-2b7b3c2c98e9" class="">
+</p><ul id="ac4367c5-8277-4fe1-bbd4-4535f585ba69" class="toggle"><li><details open=""><summary>インクリメント</summary><p id="6f09f952-9c9e-4c1e-b24a-18e44c77ca30" class="">インクリメントには前置インクリメントと後置インクリメントがある。</p><pre id="101552a9-b5de-497f-b7e7-1b4c1eec1ee8" class="code"><code>int a = 10;
+int b = ++a; // int b = 1 + 10と同じ
+int c = a++; // 元の値である11が戻されてcに代入されてから、aが12になる</code></pre></details></li></ul><p id="da53a1d7-ebb8-4316-968d-060ecb1b95e7" class="">
+</p><ul id="95f1908e-71d2-4fd5-a9f0-c3240a5f62c3" class="toggle"><li><details open=""><summary>関係演算子</summary><table id="35374f6f-7e14-4fdf-9d9a-f9c93da5564b" class="simple-table"><thead class="simple-table-header"><tr id="bffe2cc3-006e-4979-8387-0e733f8526f6"><th id="y_nt" class="simple-table-header-color simple-table-header" style="width:96px">演算子</th><th id="Y{hL" class="simple-table-header-color simple-table-header">使用例</th><th id="~dq_" class="simple-table-header-color simple-table-header" style="width:354px">意味</th></tr></thead><tbody><tr id="53312bd5-f312-4f18-bac9-e11095fdc752"><th id="y_nt" class="simple-table-header-color simple-table-header" style="width:96px">==</th><td id="Y{hL" class="">a == b</td><td id="~dq_" class="" style="width:354px">aとbが等しければtrue</td></tr><tr id="cc1f7715-0445-463c-b488-ad8d822ddcd9"><th id="y_nt" class="simple-table-header-color simple-table-header" style="width:96px">!=</th><td id="Y{hL" class="">a != b</td><td id="~dq_" class="" style="width:354px">aとbが等しく無ければtrue</td></tr><tr id="af53f262-c703-455d-b952-f41985f2df6a"><th id="y_nt" class="simple-table-header-color simple-table-header" style="width:96px">&gt;</th><td id="Y{hL" class="">a &gt; b</td><td id="~dq_" class="" style="width:354px">bがaよりも小さければtrue</td></tr><tr id="4f6ae57b-4ad5-40ef-8c16-e9f0224fc8c3"><th id="y_nt" class="simple-table-header-color simple-table-header" style="width:96px">&gt;=</th><td id="Y{hL" class="">a &gt;= b</td><td id="~dq_" class="" style="width:354px">bがa以下であればtrue</td></tr><tr id="d0dae86e-03e5-4f67-a635-9d1b1a2ca0f9"><th id="y_nt" class="simple-table-header-color simple-table-header" style="width:96px">&lt;</th><td id="Y{hL" class="">a &lt; b</td><td id="~dq_" class="" style="width:354px">bがaより大きければtrue</td></tr><tr id="7a1cf5bb-cdf4-4789-8f04-4afcfa52ba1d"><th id="y_nt" class="simple-table-header-color simple-table-header" style="width:96px">&lt;=</th><td id="Y{hL" class="">a &lt;= b</td><td id="~dq_" class="" style="width:354px">bがa以上であればtrue</td></tr><tr id="d5a04a92-74d1-425f-876a-dc46d2c33f3c"><th id="y_nt" class="simple-table-header-color simple-table-header" style="width:96px">instanceof</th><td id="Y{hL" class="">a instanceof b</td><td id="~dq_" class="" style="width:354px">aがbと同じクラスかbのサブクラスのインスタンスであればtrue</td></tr></tbody></table></details></li></ul><p id="ac8bbd80-67f5-418a-bf48-49b80b5a05d6" class="">
+</p><ul id="d1791afb-5f8f-41d3-acd1-8a70edc83ce0" class="toggle"><li><details open=""><summary>論理演算子</summary><table id="eabe93cb-580e-45f1-bc03-3b7c34b1dab6" class="simple-table"><thead class="simple-table-header"><tr id="429e1dbd-ada5-4b56-a61f-deee6a1b85dc"><th id="Syo{" class="simple-table-header-color simple-table-header" style="width:70px">演算子</th><th id="S}Bd" class="simple-table-header-color simple-table-header" style="width:71px">使用例</th><th id="Y^TM" class="simple-table-header-color simple-table-header" style="width:569px">意味</th></tr></thead><tbody><tr id="c4f83cf0-100e-430b-a664-782497307c89"><th id="Syo{" class="simple-table-header-color simple-table-header" style="width:70px">&amp;</th><td id="S}Bd" class="" style="width:71px">a &amp; b</td><td id="Y^TM" class="" style="width:569px">aとbの両方がtrueであればtrue（左右のオペランドを評価）</td></tr><tr id="ed826e1b-b491-41a5-a800-92c24faf4ae2"><th id="Syo{" class="simple-table-header-color simple-table-header" style="width:70px">&amp;&amp;</th><td id="S}Bd" class="" style="width:71px">a &amp;&amp; b</td><td id="Y^TM" class="" style="width:569px">aとbの両方がtrueであればtrue（右オペランド評価を省略する可能性）</td></tr><tr id="d80464ae-1a21-41a0-9f86-7f9cf621c943"><th id="Syo{" class="simple-table-header-color simple-table-header" style="width:70px">|</th><td id="S}Bd" class="" style="width:71px">a | b</td><td id="Y^TM" class="" style="width:569px">aもしくはbのいずれかがtrueであればtrue（左右のオペランドを評価）</td></tr><tr id="1a7b7acb-78a0-441b-b392-fd39fdd28c4f"><th id="Syo{" class="simple-table-header-color simple-table-header" style="width:70px">||</th><td id="S}Bd" class="" style="width:71px">a || b</td><td id="Y^TM" class="" style="width:569px">aもしくはbのいずれかがtrueであればtrue（右オペランド評価を省略する可能性）</td></tr><tr id="7283cf53-ea65-4d6c-bb9b-82e7ce8a6e7e"><th id="Syo{" class="simple-table-header-color simple-table-header" style="width:70px">!</th><td id="S}Bd" class="" style="width:71px">!a</td><td id="Y^TM" class="" style="width:569px">aがtrueであればfalse、aがfalseであればtrue</td></tr></tbody></table><p id="3d7eecbc-fc1d-49e6-a2ae-402fc22a64f4" class=""><mark class="highlight-red">左オペランドの結果によって右オペランドの評価が省略される演算子をショートサーキット演算子と呼ばれる。</mark></p><pre id="2ac7388e-c988-4bd2-bf94-7f6a4a30954b" class="code"><code>public class Main {
+	public static void main(String[] args){
+		int a = 10;
+		int b = 10;
+		if(10 &lt; a &amp;&amp; 10 &lt; b++){ // 右オペランドの評価はされない
+			a++;
+		}
+		System.out.println(a+b); // 20
+	}
+}</code></pre></details></li></ul><p id="32a1dded-db05-4710-90ef-6ca648cce7cf" class="">
+</p><ul id="9634844b-6cb1-4a4e-a0cd-59729b1fd383" class="toggle"><li><details open=""><summary><mark class="highlight-red">ビット演算子</mark></summary><p id="ce7daa5b-c6ce-4762-af30-a0c5aef92475" class="">論理演算子によく似たビット演算子が紛れていることがある。注意せよ。</p><p id="29b6bedb-85a0-4a31-8c66-8229ca22fe97" class="">
+</p></details></li></ul><p id="4ceeb0f7-ae94-4f2b-92e0-0ca2b3e56dec" class="">
+</p><ul id="01ad910d-fefe-43d6-a3d8-29b024f0d610" class="toggle"><li><details open=""><summary>同一（同一性）</summary><p id="6a2319da-6fe6-4cf6-b702-a57e5fc098db" class="">複数の変数が同じインスタンスを参照していることを指す。</p><pre id="8e4ccbb2-23ec-48cc-85c2-fd5f918d87b2" class="code"><code>Object a = new Object();
+Object b = a; // aとbは同一である。このような性質を同一性と呼ぶ</code></pre></details></li></ul><p id="1291678d-e347-4723-8b7a-60b11ec37177" class="">
+</p><ul id="e7144568-0f50-408d-a4fe-ae40902ef7be" class="toggle"><li><details open=""><summary>同値（同値性）</summary><p id="6809211a-f083-4d9f-a72c-c352a5aa695b" class="">インスタンスは異なるが、同じ値を持っている性質を指す。
+<mark class="highlight-red">==演算子で同値性は判定できない。
+比較にはequalsメソッドをオーバーライドして実装する必要がある。（実装しない場合は同一性が判定される。）</mark></p><pre id="555e3834-2045-4cc1-8b58-d0c2257e13de" class="code"><code>public boolen equals(Object obj){
+	if(obj == null){
+		return false;
+	}
+
+	if(obj instanceof Sample){
+		Sample s = (Sample) obj;
+		return s.num == s.num; // numだけ比較
+	}
+	return false;
+}</code></pre></details></li></ul><p id="2074b06c-bfd8-4c83-a78d-7094c0be28c3" class="">
+</p><ul id="376cc13a-2332-4302-be8f-2210b1d8ec4d" class="toggle"><li><details open=""><summary>シグニチャ</summary><p id="3e471002-ff06-4861-8018-fc35400ff708" class="">メソッド名、引数の型、引数の数の3つの要素のこと。</p><p id="20f55522-131e-4fb6-b743-ee312a5e4cc7" class="">equalsメソッドはオーバーライドを前提としている。
+シグニチャが異なるequalsメソッドを実装するとオーバーロードになってしまう。こうなるとObjectクラスのequalsメソッドが実行されることがある。</p></details></li></ul><p id="05dc6069-892d-44b2-9d1e-6fa5c10b0a13" class="">
+</p><ul id="89d9e411-b31e-442a-8b75-37776073c1f4" class="toggle"><li><details open=""><summary>epualsメソッドのオーバライドするときの条件</summary><ol type="1" id="f3635bb5-9c3b-46a8-8d54-71d99d9d26cb" class="numbered-list" start="1"><li>null以外の参照値xがあったとき、x.equals(x)はtrueを返すこと。</li></ol><ol type="1" id="9af5cbd9-adbd-4b76-bb0c-1a24f649bde7" class="numbered-list" start="2"><li>null以外の参照値xとyがあったとき、y.equals(x)がtrueを返す場合はx.equals(y)はtrueを返すこと。</li></ol><ol type="1" id="d3176cd5-8b9f-4eee-b3fd-0b0139cc0e0d" class="numbered-list" start="3"><li>null以外の参照値xとy、zがあったとき、x.equals(y)がtrueを返し、y.equals(z)がtrueを返す場合、x.equals(z)はtrueを返すこと。</li></ol><ol type="1" id="63288c91-668b-4b2b-bf37-24e8080d962c" class="numbered-list" start="4"><li>null以外の参照値xとyがあったとき、x.equals(y)がtrueを複数回呼び出しても、比較で使われた情報が変更されていなければ、一貫してtrueまたはfalseを返す。</li></ol><ol type="1" id="4967f568-b9da-40bc-8654-07b2c679a276" class="numbered-list" start="5"><li><mark class="highlight-red">null以外の参照値xについて、x.equals(null)はfalseを返すこと。</mark></li></ol><p id="55612d5d-9170-45fa-878c-ae659fbb0776" class="">
+</p><p id="09910f1f-1c9f-4c74-a689-59a47aab657e" class="">また、Objectクラスのequalsメゾットの定義は次の通りであるから、<mark class="highlight-red">シグニチャが異なるものはオーバーロードになるため注意が必要である。</mark></p><pre id="3ca398c0-602b-4f4e-98d2-a691ac307bdc" class="code"><code>public boolean equals(Object obj){
+ return (this == obj);
+}</code></pre></details></li></ul><p id="1f64d857-79d2-4aa9-b430-e71f5963deaf" class="">
+</p><ul id="305792e6-29f4-4c6d-a0b1-834a6643d175" class="toggle"><li><details open=""><summary>コンスタントプール</summary><p id="301c3475-5e43-4f19-8278-372c423744b9" class="">文字リテラルは、定数値としてインスタンスとは異なる定数用のメモリ空間に作られ、そこへの参照がString型変数に代入されれいる。よって以下の二つの変数は同じ参照を持っている。</p><pre id="cab50e68-8d08-4db6-9394-fcb2d829c3a7" class="code"><code>String a = &quot;sample&quot;;
+String b = &quot;sample&quot;;
+System.out.println(a == b); // true</code></pre><p id="e2f4bcc0-3666-4ed2-a931-ee15305c6c7d" class="">ただし、new演算子などを使って新しいインスタンスを生成することを明示的に記述した場合は異なる参照を持つことになる。</p><pre id="4ac91176-dce0-4a2e-b453-c76a3f68e144" class="code"><code>String a = new String(&quot;sample&quot;);
+String b = &quot;sample&quot;;
+System.out.println(a == b); // false</code></pre></details></li></ul><p id="460927a8-2748-447b-a604-2f2dd1c02f3c" class="">
+</p><ul id="ee49d493-f98d-4543-b239-5c14b458decb" class="toggle"><li><details open=""><summary><mark class="highlight-red">internメソッド</mark></summary><p id="56f63713-c2a7-460b-8d08-33fa0fc5b08d" class="">コンスタントプールを含むメモリ内の文字列を探して再利用するためのメソッド。</p><p id="9e476fa2-af88-4d89-9a65-ccd46cbce7bb" class="">以下のように同じ文字列で異なるインスタンスを作っても、internメソッドを使用すれば既にメモリ内にある文字列への参照を戻すため、同じ参照を返す。</p><pre id="dc4b571b-5889-4d5e-bf1f-a92f4afff534" class="code"><code>String str1 = new Sring(&quot;def&quot;);
+String str2 = new Sring(&quot;def&quot;);
+System.out.println(str1 == str2); // false
+System.out.println(str1.intern() == str2.intern()); // true</code></pre><p id="af2a7531-6713-4142-bb4d-08650f82aa78" class="">なお、以下の様な仕様であるから注意せよ。</p><pre id="148f3df8-5bdb-4435-85c0-261e138cc964" class="code"><code>String str1 = new String(&quot;Java&quot;); // 新しくインスタンス化
+String str2 = &quot;Java&quot;; // コンスタントプールに文字列が配置される
+String str3 = str1.intern(); // コンスタントプールに一致する文字列があれば、それを返す
+
+System.out.println(str1 == str2); // false もちろん違う
+System.out.println(str1 == str3); // false 上と同じ理由
+System.out.println(str2 == str3); // true コンスタントプールにはJavaの文字があるので</code></pre></details></li></ul><p id="829f461b-662c-4f3c-a636-517032c2a407" class="">
+</p><ul id="2db5bdae-ef97-4a49-92ce-b4a9f3dd3f58" class="toggle"><li><details open=""><summary>if文に関する注意</summary><ul id="782b65b4-4ac6-4d2c-909d-f48aa7ed2f6c" class="bulleted-list"><li style="list-style-type:disc">thenやend ifは使用できない</li></ul><ul id="e22d4a04-aa42-451b-87fd-829a0cc4c6c4" class="bulleted-list"><li style="list-style-type:disc">中括弧は省略できるが、した場合は次の一文しか適用されない</li></ul><ul id="49d2578b-ea68-4448-b905-0d1c31f44b63" class="bulleted-list"><li style="list-style-type:disc">else ifを途中で改行すると意図しない挙動をすることがある</li></ul><pre id="78540358-2eb9-4e13-9b7e-cbaf91c3dbda" class="code"><code>// ifとelseの間で改行した場合
+if(条件式A)
+	// 条件式Aに合致したときの処理
+else
+if(条件式B)
+	//　条件式Bに合致したときの処理
+else
+	// 条件式Bに合致しなかったときの処理
+
+// 上記のコードに中括弧をつけた場合
+if(条件式A){
+	// 条件式Aに合致したときの処理
+}else{
+	if(条件式B){
+		// 条件式Bに合致したときの処理
+	}else{
+		// 条件式Bに合致しなかったときの処理
+	}
+}</code></pre></details></li></ul><p id="a18b5359-4f65-417e-9e6f-d5154dab5aa6" class="">
+</p><ul id="9e5942dd-ec04-4ada-bfe0-8594849ecfda" class="toggle"><li><details open=""><summary>switch文</summary><p id="3b76c750-cd5e-44c7-ab73-4b31bcbb5c85" class="">switch文の条件式が戻す値は以下の三つ以外は認められない。</p><ol type="1" id="04e3b163-6d08-4ff3-ab66-4573635e3edd" class="numbered-list" start="1"><li><mark class="highlight-red">int型以下の整数値とそのラッパークラス</mark></li></ol><ol type="1" id="146b2196-3d2c-463c-82fe-66fc750f2ca0" class="numbered-list" start="2"><li><mark class="highlight-red">文字と文字列</mark></li></ol><ol type="1" id="f22c9e74-e9cd-4b92-ba71-7968bc04145f" class="numbered-list" start="3"><li><mark class="highlight-red">列挙型</mark></li></ol><p id="19c5eb90-f1bb-46d2-9875-63b537b5289d" class=""><mark class="highlight-red">nullを指定するとNullPointerExceptionが発生する</mark></p></details></li></ul><p id="959a1138-1557-486b-a212-f5a5acf09855" class="">
+</p><ul id="790451ba-46fa-4a24-b523-5874fe7c7761" class="toggle"><li><details open=""><summary>ラッパークラスとは</summary><p id="ad3608d0-f35d-4deb-918d-eb0a5ae64d9f" class="">プリミティブ型を参照型（オブジェクト）として扱えるようにしたもの。</p></details></li></ul><p id="3491ebce-e042-4f0b-90f8-8c70f4c93a01" class="">
+</p><ul id="ee79abb2-9446-4005-bfc4-0ba7ea4f099d" class="toggle"><li><details open=""><summary>case値</summary><p id="3d1e9d5c-32a0-4dd2-8554-d131df00c942" class="">case値として利用できる値は次の3つの条件を満たす必要がある。</p><ol type="1" id="fc7bd2bc-b8dd-4b1d-9605-fae57a216431" class="numbered-list" start="1"><li><mark class="highlight-red">条件式が戻す値を同じ型か互換性がある型であること</mark></li></ol><ol type="1" id="c97514b5-ccb5-4714-8fe5-dd93eabe0e17" class="numbered-list" start="2"><li><mark class="highlight-red">定数であるか、コンパイル時に値を決めることができる（final宣言された変数）こと</mark></li></ol><ol type="1" id="0ba74144-56f5-4e7c-8afa-06d2a08de0ac" class="numbered-list" start="3"><li><mark class="highlight-red">nullでないこと</mark></li></ol><p id="e3aaf14d-a8e6-435d-a898-248234a55ce0" class="">また、以下のように記述することはできない。</p><pre id="f8dfbf73-3db3-42c3-b0db-dc95a98c9b80" class="code"><code>case 1:2: // NG
+
+// 以下のように記述する必要がある
+case 1: case 2:</code></pre></details></li></ul><p id="90836e5b-eb01-4da3-b5af-4765c511cb63" class="">
+</p><ul id="38f0748e-d4af-4598-8c21-732a05e00bda" class="toggle"><li><details open=""><summary>break文とdefault文</summary><p id="55889d92-437c-4906-b4bd-c2c1501bba30" class="">switch文はbreak文が出現する文までの全てのcase式が処理される。それはdefault文も例外ではない。</p><p id="e2647054-3439-4e0a-b795-e2b8fd8828f3" class="">また、<mark class="highlight-red">case値とdefault文はどのような順番で記述しても良い。</mark></p></details></li></ul><p id="287a51d1-4160-4a01-9e4e-b054edee112e" class="">
+</p><ul id="4335db5c-c2eb-4de8-9a4a-61f44c26dfc3" class="toggle"><li><details open=""><summary>ローカル変数の初期化</summary><p id="73ac198a-3f75-4eb9-822a-acfdbe61e68f" class=""><mark class="highlight-red">ローカル変数は他の変数とは異なり、初期化しない限りは使用することはできない。初期値などはない。</mark></p><p id="e5bb7cfd-39da-4cc6-a367-626a0fe2c6b7" class="">初期化されない可能性がある限りコンパイルエラーになる。</p></details></li></ul><h1 id="1c8f3aca-2f61-426a-8e54-b27d3dc979f8" class="">制御構造</h1><ul id="733ffa81-b863-417e-ba46-c18b033d7e93" class="toggle"><li><details open=""><summary>do-while文</summary><p id="4eb877e0-6c0e-4566-b74d-a73de7fbda69" class="">do-while文を使用するときは以下に気をつける。</p><ul id="80359a97-23cb-4374-8b9d-490235c713fa" class="bulleted-list"><li style="list-style-type:disc">doの後ろにはかっこ（）がつかない</li></ul><ul id="b524fe67-fbce-43b2-9913-a1c721692fea" class="bulleted-list"><li style="list-style-type:disc">whileの後ろに条件式を記述する</li></ul><ul id="d9bd3623-b55a-4476-b97c-9811dcb5fce3" class="bulleted-list"><li style="list-style-type:disc">セミコロンで終了する</li></ul><pre id="e8708d69-1bea-4679-86b6-bf4c3c2bd904" class="code"><code>do {
+	// 繰り返し処理
+} while (条件式);</code></pre></details></li></ul><p id="948dd144-a248-47ae-a7bd-10abd171fbdc" class="">
+</p><ul id="86440c9c-9d33-4cc6-ad5c-f085868a3ff3" class="toggle"><li><details open=""><summary>中括弧を省いた時</summary><p id="92b7196c-bec7-48fa-ad8a-cc11af3bb9ae" class="">中括弧を省くと、次の一文だけ適応されるが、doの後ろに複数文を記述するとコンパイルエラーになる。</p><pre id="0a1778c8-2c2a-41ab-9c9f-babdec9eaa0e" class="code"><code>int cnt =　0;
+do
+	System.out.println(&quot;A&quot;);
+	System.out.pirntln(&quot;B&quot;); // コンパイルエラー
+while(cnt++&lt;5);</code></pre></details></li></ul><p id="0618a409-9635-4b1f-827b-b34b94d64a10" class="">
+</p><ul id="81f049ba-276a-43f6-b833-7d9c84bf8994" class="toggle"><li><details open=""><summary>for文の構文</summary><p id="f14c6aa6-cdf2-431c-a01a-e552fb7cea50" class="">for文の構文は以下の通り。</p><pre id="0b37002f-c479-403a-bdad-d3a4bf291c9f" class="code"><code>for(初期化文; 条件文; 更新文){
+	//　繰り返す処理
+}</code></pre><p id="983b2228-a1ff-4c80-8e33-c9b5715ae310" class="">初期化文では、繰り返し処理内で使用する一時変数の宣言と初期化を行う。</p><p id="4669913f-74bb-44ad-a1dd-b8e0c97677ff" class="">初期化文は同時に複数の変数を宣言、初期化できるが、<mark class="highlight-red">その変数の型は同じである必要がある。</mark></p><p id="e3489cfe-6973-48a9-9ca9-aa5951dce19a" class=""><mark class="highlight-red">また、複数記述できるのは初期化文と更新文のみ。条件文は論理演算子を使う必要がある。</mark></p></details></li></ul><p id="252489fa-c20d-438d-8328-5eccfc4480af" class="">
+</p><ul id="ad9401d5-2698-4921-ab7f-a9f6a2365b67" class="toggle"><li><details open=""><summary>無限ループの作り方</summary><p id="be386cc8-6b4e-475b-a457-83bd85daabe9" class="">無限ループを作るには以下の様にする。</p><pre id="8060c6f5-5967-4f0e-93dd-33d4c96397b0" class="code"><code>// 例1
+while(true){
+	// do something
+}
+
+// 例2
+for(int i = 0; true; i++){
+	// do something
+}
+
+// 例3
+for(int i = 0; ; i++){
+	// do something
+}</code></pre></details></li></ul><p id="be4f1572-e9e2-4c5c-b19a-b68bcce55a0f" class="">
+</p><ul id="6642e345-8d09-4dba-b14d-da5fed05b333" class="toggle"><li><details open=""><summary>拡張for文</summary><pre id="a83497b4-0d8d-47c5-812b-29fb3e6dc438" class="code"><code>// 拡張for文の構文
+for( 型 変数名 : 集合){
+	// 繰り返し処理
+}</code></pre><p id="6b81b13d-c2fd-4bec-bf5b-a86f0b231e10" class=""><mark class="highlight-red">集合には配列の他java.lang.Iterableを実装するクラスが使用できる。java.util.ArrayListなど。</mark></p><p id="3623a939-8572-472a-8348-adecb4dd2c9f" class=""><mark class="highlight-red">ここで使用される変数は一時的なものであり、集合には影響しない。</mark></p><pre id="71ca9d38-702b-467a-bf49-b85dcc182edc" class="code"><code>public class Main {
+	public static void main(String[] args){
+		String[] array = {&quot;A&quot;,&quot;B&quot;,&quot;C&quot;};
+		for(String str: array) {
+			str = &quot;D&quot;; // 元のarrayの要素には関係が無い
+		}
+		for(String str: array) {
+			System.out.println(str); // ABC
+		}
+	}
+}</code></pre><p id="f9d5f70e-f1f3-4ae4-bb7f-c2664b3f4925" class=""><mark class="highlight-red">変数名に既に使用されている変数は使用できない。</mark></p><p id="9575c92d-4e99-4f59-8c8a-5e64423fbc16" class="">ただし、変数の参照先のオブジェクトを変更した場合は影響が及ぶ。</p><pre id="af2d7446-0753-48f7-89ed-1370dde6d8c0" class="code"><code>public class sample{
+	public static void main(String[] args){
+		sample2[] sam = {new sample2()};
+	
+		for(sample2 array: sam){
+			array.number = 3; // 影響する
+		}
+		for(sample2 array: sam){
+			array = new sample2(5); // 影響しない
+		}
+		
+		System.out.println(sam[0].number); // 3
+	}
+}
+
+class sample2{
+	int number = 2;
+	sample2(){}
+	sample2(int num){
+		this.number = num;
+	}
+}</code></pre></details></li></ul><p id="5679af1f-8be7-4ad3-a787-669a31ff87f0" class="">
+</p><ul id="d7ec387e-674e-4ab7-bb0a-3622e61c2db2" class="toggle"><li><details open=""><summary>ラベル</summary><p id="c6bce9bf-24b1-4b6a-9145-08106a87f9a9" class="">ラベルはループにつけられることが多いが、他にも様々な箇所につけることが可能。</p><pre id="db1477f0-fb85-4dec-aac2-665a75941b42" class="code"><code>// コードブロックにラベルをつけたコード
+a: {
+	int i = 10;
+}
+
+// ループ文と分岐にラベルをつけたコード
+b: for(int i = 0; i&lt;5; i++){
+		System.out.println(i);
+}
+
+c: if(true){
+	// do something
+}
+
+// 代入と式にラベルをつけたコード
+int x = 0;
+d: c =　2;
+e: System.out.pirntln(x);
+
+// return文にラベルをつけたコード
+private static int Sample(){
+	f: return 0;
+}
+
+// tryとthrow文にラベルをつけたコード
+g: try{
+			System.out.pirntln(&quot;hello&quot;);
+} fainally {
+			h: throw new RuntimeException();
+}</code></pre><p id="ac81fc42-bf7d-4932-9442-752d248246f0" class=""><mark class="highlight-red">だからといってwhile内でもないのにcontinueを使ったりしてはいけない！</mark></p></details></li></ul><h1 id="5849800d-1989-49ef-b40d-ae77771e65c3" class="">配列の操作</h1><ul id="c26fadca-2aef-4036-8355-b79b55bdb128" class="toggle"><li><details open=""><summary>配列とは</summary><p id="d95ce36a-0255-45df-98bd-59a3ff26600b" class="">配列は値の集合を扱うためのインスタンスである。配列には以下の特徴がある。</p><ol type="1" id="c476d80a-0918-4cdc-8788-d0fcec77b2dd" class="numbered-list" start="1"><li>同じ型、もしくは互換性のある型の値しか扱えない</li></ol><ol type="1" id="bcf695ba-b4a0-408a-b850-e6decbedefd3" class="numbered-list" start="2"><li>扱える要素数はインスタンス生成時に決定し後の変更はできない</li></ol><pre id="b2382666-6d94-4db1-8334-fce1589ccb11" class="code"><code>// 配列インスタンスの生成
+new int[3];
+
+// 配列型変数の宣言
+int[] array;
+
+// インスタンスの生成と配列型変数の宣言を同時に行う
+int[] array = new int[3];</code></pre><p id="76eca881-ab94-487d-83f1-641293c39319" class="">printlnメソッドにオブジェクトの参照を渡すと、参照先にあるインスタンスのtoStringメソッドを呼び出し、その結果を表示する。
+配列クラスは、他のクラス同様にObjectクラスを継承しており、toStringメソッドもobjectクラスから引き継いでいる。</p><p id="655fe66b-5556-451c-99b4-826ebdf629ea" class="">objectクラスのtoStirngメソッドは、クラス名とインスタンスを一意に見分けるためのハッシュコードを組み合わせた値を戻す。</p></details></li></ul><p id="571084b9-c220-43c4-a3d7-51056431e495" class="">
+</p><ul id="d30f9ddc-4c78-40ec-b338-8af6a4c44b71" class="toggle"><li><details open=""><summary><mark class="highlight-red">配列はObjectクラスのサブクラスである</mark></summary><p id="bcd9ade3-6108-4a8e-b1f2-d575b0c5630c" class="">配列はObjectクラスのサブクラスなので、配列をObject型として受け取ることが可能である。</p><p id="7a914b56-4d5c-4051-9b99-d99edc1cee29" class="">一方、Object型の配列は、プリミティブ型の配列とは互換性がない。</p><pre id="eb7f9a34-8aa5-4cad-84c5-a17ac4e7ef81" class="code"><code>public class Sample{
+	public void test(Object[] val){
+		System.out.println(&quot;A&quot;);
+	}
+
+	public void test(long[] val){
+		System.out.println(&quot;B&quot;);
+	}
+
+	public void test(Object val){
+		System.out.println(&quot;C&quot;);
+	}
+}
+
+public class Main{
+	public static void main(String[] args){
+		new Sample().test(new int[3]);
+	}
+}</code></pre></details></li></ul><p id="1424ede7-a306-441a-9d69-878f730a1b61" class="">
+</p><ul id="f3638999-dfe0-454b-be0e-fc09a519e291" class="toggle"><li><details open=""><summary>配列型変数の宣言について</summary><p id="5809e35a-7c3c-422b-8aaf-fc38049b8f48" class="">通常、配列型変数は以下の様に宣言する。</p><pre id="06c5fa44-f3e7-44c5-9a97-6fa621c3c34c" class="code"><code>int[] array;</code></pre><p id="5c701092-4048-4b80-9080-e323a981a6cf" class="">ただし、他のプログラミング言語同様変数の後ろに大括弧を記述することも可能。</p><pre id="f43ee755-d37c-4377-8992-fdf533eb32c4" class="code"><code>int array[];</code></pre><p id="09d0f74f-17e1-4aac-80fb-48729ded1fd4" class=""><mark class="highlight-red">これにより、多次元配列を宣言する際、大括弧の位置を分けることができる。</mark></p><pre id="2c81f006-0f07-4dff-96fd-694b6a3ea4d0" class="code"><code>int[][] arrayA; // 2次元配列型変数の宣言
+int arrayB[][][]; // 3次元配列型変数の宣言
+
+int[] arrayA[]; // 2次元配列型変数の宣言
+int[][] arrayB[]; // 3次元配列型変数の宣言</code></pre><p id="4cc6d826-dca7-40f8-9345-254d0b85e63b" class="">また、配列の要素数指定について、
+<mark class="highlight-red">配列を宣言する時点では要素数を指定することはできない。</mark></p><pre id="c754d4a5-28ec-47d2-a2b8-3354df01f48a" class="code"><code>int[2] array; // コンパイルエラー</code></pre></details></li></ul><p id="db679888-dd62-4593-82c2-d86b86676777" class="">
+</p><ul id="54695a1c-f15c-450d-84d8-b557e00bb5c2" class="toggle"><li><details open=""><summary>配列インスタンスの生成方法について</summary><p id="4fea0da0-d3e8-467f-8f32-3fb2d7edbabb" class="">配列インスタンスの生成には必ず扱える要素数を指定する必要がある。</p><p id="38b7b107-dd9f-4aaa-b536-abc67b7a7061" class="">よって以下の様なコードはコンパイルエラーになる。</p><pre id="a2d5c706-5eac-4b86-b4c0-78ddc2ea326c" class="code"><code>int[] array = new int[]; //　要素数を指定していないのでコンパイルエラー
+int[] aaray = new int[2.3]; // 要素数に浮動小数点を記述することはできない</code></pre><p id="23487efa-1fcd-4e9a-9c2d-474f6c181940" class="">変数や式は値が確定していれば使用可能。</p><pre id="5f34e176-82fc-465b-a3c3-9f7c3502686f" class="code"><code>int c[] = new int[2*3];
+int x = 2, y = 3;
+int[] d = new int[x+y];</code></pre><p id="d9ffe084-69ee-40ab-ae0b-aa3e0f127aee" class="">2次元以上の配列のインスタスを生成する場合、2次元以降の要素数は省略することが可能である。
+ただし、<mark class="highlight-red">１次元目の要素数は省略できない。</mark></p><pre id="1a2ebf72-4c67-4031-b28b-0e09317100b6" class="code"><code>int[][] array = new int[3][];
+array[0] = new int[3];　
+array[1] = new int[3];
+array[2] = new int[3];</code></pre><p id="19e26a7b-ef35-4f70-b5b1-f6e561ad4aa0" class=""><mark class="highlight-red">このとき、2次元目の要素数がそろっていなくてもよい。</mark></p><pre id="4c0a1444-8a57-47b9-8cf8-6f92f21a72cb" class="code"><code>int[][] array = new int[3][1];
+array[0] = new int[]{1}; // OK
+array[1] = new int[]{1,2}; // OK
+array[2] = new int[]{1,2,3}; // OK</code></pre></details></li></ul><p id="ba71b53f-d83e-4399-8c1d-2345aa57749f" class="">
+</p><ul id="11539a68-e1f1-49ed-85a7-bb5c539de557" class="toggle"><li><details open=""><summary>配列インスタンスの生成について</summary><p id="8be3c9ec-6b80-40d9-8399-2458d4bc4ab6" class="">配列インスタンスを生成しただけの場合はデフォルトで０などの値で初期化されている。以下がデフォルト値の例。</p><table id="b79790dc-4e4a-46fc-8000-983c300fb08c" class="simple-table"><thead class="simple-table-header"><tr id="6a4dc829-9513-442e-9e28-e02220719a7d"><th id="~Lvj" class="simple-table-header-color simple-table-header">型</th><th id="AuYU" class="simple-table-header-color simple-table-header">デフォルト値</th></tr></thead><tbody><tr id="0590e3f8-19b5-43da-8531-b63b0612e59d"><th id="~Lvj" class="simple-table-header-color simple-table-header">整数型</th><td id="AuYU" class="">0</td></tr><tr id="f18d70ef-117d-4c90-838e-573f40186b9d"><th id="~Lvj" class="simple-table-header-color simple-table-header">浮動小数点型</th><td id="AuYU" class="">0.0</td></tr><tr id="08d3e602-3dff-4b70-9d65-978c1a237c7c"><th id="~Lvj" class="simple-table-header-color simple-table-header">真偽値</th><td id="AuYU" class="">false</td></tr><tr id="c3447413-ab0e-4ad5-bf60-0a6095e82c5f"><th id="~Lvj" class="simple-table-header-color simple-table-header">文字型</th><td id="AuYU" class="">\n0000</td></tr><tr id="49627411-7497-4848-9d98-9bb36ed63bf9"><th id="~Lvj" class="simple-table-header-color simple-table-header">オブジェクト</th><td id="AuYU" class=""><mark class="highlight-red">null</mark></td></tr></tbody></table><p id="f7ebe683-eb08-4c9c-9d67-fa8adc4a3085" class=""><mark class="highlight-red">ここで注意する必要があるのは、以下の様なインスタンス生成を行うと配列の中のオブジェクトまでは生成されないことである。</mark></p><pre id="4dfb5b24-251c-4568-a2dd-968ae35652b2" class="code"><code>public class Item {
+	String name;
+	int price = 100;
+}
+
+public class Main {
+	public static void main(String... args){
+		Item[] items = new Item[3]; // Itemインスタンスは生成されない
+		// Iremしか扱わない配列インスタンスを生成しているだけ
+	}
+}</code></pre></details></li></ul><p id="1f20be6d-4a08-4395-9713-74f6401bf2e8" class="">
+</p><ul id="f8545843-feb1-410a-9141-1ae766229124" class="toggle"><li><details open=""><summary>配列インスタンスの要素の初期化</summary><p id="717d56b0-fd22-4da2-a4bd-fc41580ddda1" class="">配列インスタンスの生成と同時に値を初期化したい場合は初期化子「{ }」を使用する。</p><p id="d8d66dce-8c48-461b-9955-a82138142d30" class=""><mark class="highlight-red">初期化子は変数宣言時にしか使用できないことに注意！</mark></p><pre id="1527517a-f3ff-45b3-a4ae-391f5a6a5f7d" class="code"><code>int[] array = {10,20,30};</code></pre></details></li></ul><p id="f9ba6294-0272-44d8-94fb-d3d7f9ed7805" class="">
+</p><ul id="02ba4611-c77d-4266-a562-587df2ba3b9d" class="toggle"><li><details open=""><summary>配列インスタンスの生成と初期化、配列型変数の宣言と参照の代入</summary><p id="17dba410-7eef-4065-b609-d863b7966b23" class="">配列インスタンスの生成、初期化、配列型変数の宣言と参照の代入の４つのステップは一度に行うことできる。</p><pre id="76c1a482-3bd6-4cf0-b421-3a15c1286a5f" class="code"><code>//　例１
+int[] array = {2,3};
+
+// 例２
+int[] array = new int[]{2,3}; // 要素数は勝手に計算されるので指定しない
+
+// コンパイルエラー
+int[] array = new int[2]{2,3};</code></pre><p id="6e9868d2-7b97-44c3-a59b-9490c92317dc" class=""><mark class="highlight-red">だたしこの初期化子は変数宣言と同時にしか使用できない。</mark></p><pre id="d5225f2d-0d21-4e0a-8c09-58ad51c66a71" class="code"><code>// OK
+int[] d;
+d = new int[]{2,3};
+
+// コンパイルエラー
+int e[];
+e = {2,3};</code></pre></details></li></ul><p id="054a05c8-e248-4acc-88bc-f63772e214d6" class="">
+</p><ul id="c0698931-7f53-4024-b510-1f2d98d7c3cf" class="toggle"><li><details open=""><summary>nullが含まれている配列</summary><p id="33842cb3-7e3f-4d7d-8e61-e154802f2161" class="">nullはどこも参照していないため、lengthなどで配列の長さなどを取得することはできない。エラーが発生する。</p></details></li></ul><p id="87eaa556-9edc-40b7-ac38-24dd884143eb" class="">
+</p><ul id="84f236ae-7fba-424e-8165-6c9b13772522" class="toggle"><li><details open=""><summary>Objectクラス</summary><p id="38f85ecb-7ab5-4a11-a9de-94c92963b4d2" class="">全てのクラスはObjectクラスを継承しているので、次のコードは問題無くコンパイル、実行できる。</p><pre id="821c72ca-074b-4c42-b2ed-b16788065f5a" class="code"><code>public interface A {}
+
+public abstract class B implements A {}
+
+public class C extends B {}
+
+public class D extends C {}
+
+
+public class Main {
+		public static void main(String{} args){
+			A[] array =　{new C(), null, new D()};
+					Object[] objArray =　array;
+		}
+}</code></pre></details></li></ul><p id="7ac2d245-a52d-4526-b73e-efca43d179f3" class="">
+</p><ul id="1d5dc85f-8604-4911-ba70-4d5198e668bf" class="toggle"><li><details open=""><summary>cloneメソッド</summary><p id="0628f1ec-8526-4039-9e9b-a00035088b7f" class="">cloneメソッドを使用すると、同じ値を持った配列インスタンスが生成される。</p><p id="88450dbf-407f-4839-8c6d-c5a27ebc9956" class="">cloneメソッドは変数の参照先にあるインスタンスをそのままコピーするため、浅いコピーが行われる。
+<mark class="highlight-red">多次元配列の場合、２次元目以降の要素は元の配列と共有することになるので注意。</mark></p></details></li></ul><h1 id="3f3ca901-8e2a-413a-aa71-deb3843f5d3e" class="">インスタンスとメソッド</h1><ul id="72000c6a-20ef-4e3c-a6f1-fd665c643ab7" class="toggle"><li><details open=""><summary>クラスとは</summary><p id="35500a0f-7a32-405e-a50c-ef7e9bf0fe05" class="">オブジェクト指向プログラミングでは、クラスを定義し、クラスからインスタンスを生成して、インスタンスが動作することでプログラムを動作させる。</p><p id="3325c899-e7bb-4fb5-bae5-864e95ee442f" class="">クラスとインスタンスの関係はコピー元とコピーの関係と同じである。<mark class="highlight-red">ただしstaticな変数などはインスタンスにコピーされない。</mark></p><p id="198575b7-0c32-467a-8153-9b254d53a3ce" class="">また、クラスはオブジェクトであり、プリミティブ型は代入できない。</p></details></li></ul><p id="a50e912a-03b5-4613-8038-ada97f3c739f" class="">
+</p><ul id="533d57ff-152e-48b5-b2ba-498ac8400601" class="toggle"><li><details open=""><summary>ガーベッジコレクション</summary><p id="64051f64-507a-452e-aebe-960858b0e4d1" class="">自動メモリ管理機能のこと。ガーベッジコレクタが行う。</p><p id="4f5bfb17-0e36-492f-bc4c-e57f8ea19187" class="">ガーベッジコレクションが起るタイミングはプログラマが制御することはできず、gcメソッドで実行を促す程度しかできない。</p><p id="a05f1f11-ca08-4323-9803-c55d27cb1bd4" class=""><mark class="highlight-red">ガーベッジコレクションの対象はどこからも参照されなくなったインスタンスであり、代表的なものは変数にnullが代入されたものや、インスタスの参照を保持している変数に他のインスタンスへの参照を代入した場合など。</mark></p><pre id="75d996c3-914d-4cfd-a8a8-1be5029b9612" class="code"><code>// 例１
+Object obj =　new Object();
+oどっそ</code></pre></details></li></ul><p id="2ecc0512-17c6-4e5e-a855-ce22a878c18b" class="">
+</p><ul id="55f2247b-3811-421c-8960-e05fc88e99c7" class="toggle"><li><details open=""><summary>staticなフィールド</summary><p id="bd5e4a8e-826b-47ea-8834-cdf099c66e12" class="">クラスファイルを読み込むことをロードと呼ぶが、ロード後にクラスファイルの内容はstaticな部分とそれ以外に分離され、それぞれ異なるメモリ空間に配置される。</p><p id="a33bd8ca-f381-4950-95ce-90a06e6eb573" class="">具体的にはstaticで修飾されたフィールドやメソッドはstatic領域、それ以外の部分はヒープ領域と呼ばれる領域に配置される。</p><p id="c9d491fb-f978-4917-93ce-5b3f832d58dc" class=""><mark class="highlight-red">インスタンスが生成されるときは、ヒープ領域にあるクラス定義によってインスタンスが生成される。</mark></p><p id="ea31771a-7bf8-434b-a84d-3d9820e09bbf" class="">staticなフィールドへのアクセス方法は以下の通りである。</p><pre id="0b214130-7fa3-43e5-a54d-ecf3e43d8a62" class="code"><code>// クラス名.フィールド名
+Sample.num = 10;
+
+// その２（ただしコンパイル時に以下のその３のコードに書き換えられる）
+Sample s = new Sample();
+s.num =　20;
+
+// その３
+Sample s = new Sample();
+Sample.num = 20;
+// つまりstaticなフィールドは「クラス名.フィールド名」もしくは「参照.フィールド名」でアクセス可能</code></pre></details></li></ul><p id="22b7754f-505c-4f7e-9202-7f5ed8c5cae9" class="">
+</p><ul id="f1a2f6d6-9fd9-4e73-8548-5032d8e65484" class="toggle"><li><details open=""><summary><mark class="highlight-red">staticメソッドの呼び出しについて</mark></summary><p id="74b5353c-d058-4e41-9d1c-5b5737bf4b50" class="">変数がnullでも、staticメソッドなら呼び出すことができる。</p><pre id="470e592f-6e7a-491c-8806-f98f6e3e4dd9" class="code"><code>public class Main {
+	public static void foo() {
+		Systme.out.println(&quot;hello&quot;);
+	}
+	
+	public static void main(String... args) {
+		Main obj = null;
+		obj.foo(); // 呼び出し可能
+	}
+}</code></pre></details></li></ul><p id="d04fc37c-99a9-40fc-a509-6486ce692264" class="">
+</p><ul id="609a12fe-a9c3-4339-88ed-969915bf7472" class="toggle"><li><details open=""><summary>staticメンバ</summary><p id="bf91eadd-3473-493e-a0a7-28365e20a343" class=""><mark class="highlight-red">staticなメソッドはstaticなメンバにしかアクセスできない。</mark></p></details></li></ul><p id="671680c9-b525-4980-afc6-b086c26b0083" class="">
+</p><ul id="765edcc7-5700-4665-a7d5-579f72a14c00" class="toggle"><li><details open=""><summary>メソッドの呼び出し</summary><p id="1e8fa7c8-7860-4935-b225-97441610c010" class="">メソッドの呼び出しの書式は以下の通り。</p><pre id="ad045bd6-156d-48a2-806b-263f9670e399" class="code"><code>// 同じメソッドに定義されているメソッドの場合は
+メソッド名(引数);
+
+// インスタンスに定義されているメソッドの場合は
+変数.メソッド名(引数);
+
+// staticなメソッドの場合は、
+クラス名.メソッド名(引数);</code></pre></details></li></ul><p id="91c8c3e1-ed86-4604-ade3-b0a5530ec4a4" class="">
+</p><ul id="11fefb62-9d04-4d59-95cc-8fa9b7878b43" class="toggle"><li><details open=""><summary>メソッドの戻り値について</summary><p id="8c6b3e64-bc2a-4990-a1d4-1835ce5460c3" class="">戻り値を戻さないメソッドに対して、戻り値を受け取る変数を宣言して、受け取ることはできずコンパイルエラーになる。</p><p id="ffe6c04a-d3c8-4b1d-8f8f-94af5bbed0ad" class="">何らかの戻り値を戻すメソッドを呼び出しても、必ずその戻り値を受け取る必要はない。</p><p id="c4174d58-f7f7-405b-97ff-f0aecf7d7d63" class="">また、戻り値を受け取る変数は、<mark class="highlight-red">戻り値と同じ型もしくは互換性のある型</mark>にする必要がある。</p></details></li></ul><p id="c19560e7-949a-402c-adba-aaf55a52b431" class="">
+</p><ul id="8d9cb3ad-1cff-4df0-8ca5-14c4bea07122" class="toggle"><li><details open=""><summary>可変長引数（Java SE 5からの新機能）</summary><p id="78212a27-9098-4ddd-9e89-9604d5e20c9b" class="">引数の数を自由に変更できる引数のこと。<mark class="highlight-red">可変長引数は配列として扱われている。</mark></p><p id="6a50f22a-0b78-42e7-8edb-c34820c89a6e" class="">使用するには以下の２点に注意する必要がある。</p><ol type="1" id="e901c2ff-34b1-4b00-acb2-4ce81286d1b8" class="numbered-list" start="1"><li>同じ型で数の可変な引数をまとめられるだけで、<mark class="highlight-red">異なる型はまとめられない</mark></li></ol><ol type="1" id="161e488a-b262-49b7-90ad-a8a57b0ef6f9" class="numbered-list" start="2"><li>可変長引数以外の引数を受け取る必要がある場合は、<mark class="highlight-red">可変長引数を最後の引数にすること</mark></li></ol><pre id="9a79c1d4-f9c9-4eb2-8e53-bd0327397002" class="code"><code>void sample(int... num){
+	for(int i = 0; i &lt; num.length; i++){
+		System.out.pirntln(num[i]);
+	}
+}</code></pre><p id="0ad5cf1c-b29f-4f97-bec5-c84256095cea" class=""><mark class="highlight-red">また、Javaでは何も引数を受け取らない場合にvoidを引数に記述することはできない。</mark></p><pre id="c1ff44d3-1786-4d6c-adb8-87cbadcac3b4" class="code"><code>void sample(void){} // コンパイルエラー</code></pre></details></li></ul><p id="4d3b88d4-712b-4eb3-a00f-65faac4cd112" class="">
+</p><ul id="1cc4ad9b-024e-4fe4-b944-4d1b6db30465" class="toggle"><li><details open=""><summary>到達不可能なコード</summary><p id="bcf81aa9-a095-460d-ba99-d5ffbff9c94f" class="">return文は呼び出し元に制御を戻す役割を持っており、return文以降に記述されたコードは実行されない場合がある。
+<mark class="highlight-red">確実に実行されないコードがreturn文の後にある場合はコンパイルエラーになる。</mark></p><pre id="018e0efc-db62-4dc8-a2c7-5cbc25a81bd9" class="code"><code>void sample(int num){
+	return;
+	System.out.pirntln(num); // 実行されない。コンパイルエラー
+}</code></pre></details></li></ul><p id="9d50723b-8858-4e42-98f1-85305084dd9d" class="">
+</p><ul id="f4e08485-b3db-42f0-9b82-a8cb12ca6066" class="toggle"><li><details open=""><summary>オーバーロード</summary><p id="340cef14-c95d-4e9d-9960-2ef9b7d6523a" class="">引数の数、型、順番が異なる同名のメソッドを定義すること。</p><p id="671a6d7d-1e61-4c0a-b1d9-387eaaac8373" class=""><mark class="highlight-red">戻り値だけが異なるメソッドや、引数の変数名だけか異なるメソッドはオーバーロードとはいえない上に、コンパイルエラーになる。</mark></p><p id="413b6003-5800-4a07-8486-17a6dd653e92" class=""><mark class="highlight-red">また、アクセス修飾子が異なるだけの場合も、オーバーロードにはならない。</mark></p><p id="ba5ee045-ab65-4202-aad8-21728a8397dd" class="">
+</p><p id="3d11494e-796c-476b-920c-ce3e12a15aed" class=""><mark class="highlight-red">ちなみに、ポリモーフィズムが使用されるのは、一致する方がなかったときのみである。</mark></p><pre id="d451f8d9-f6de-496c-a874-20b582682344" class="code"><code>public class Main {
+	public void test(Object[] array){
+		System.out.println(&quot;A&quot;);
+	}
+
+	public void test(String[] array){
+		System.out.println(&quot;B&quot;);
+	}
+
+	public static void main(String[] args){
+		new Main().test(args); // B
+	}
+}</code></pre></details></li></ul><p id="bbaa9075-d5d2-4463-b062-845f961ab541" class="">
+</p><ul id="1011c933-7795-4448-99e7-0ceee701aec2" class="toggle"><li><details open=""><summary>曖昧なメソッド呼びだし</summary><p id="61566cb5-1410-4308-ab13-867a1dcd312e" class="">以下のようなオーバーロードを行い、呼びだしを行うと、コンパイルエラーが発生する。</p><pre id="23df01a7-6a6c-4de8-aa5b-88c846372cce" class="code"><code>public class Main{
+	public static void main(String[] args){
+		Main m = new Main();
+		System.out.pirntln(m.calc(2,3)); // どちらを呼び出すか明確に決定できないためコンパイルエラー
+	}
+	private double calc(double a,int b){　// オーバーロードの条件は満たしているためエラーにはならない
+		return (a+b)/2;
+	}
+	private double clac(int a,double b){
+		return (a+b)/2;
+	}</code></pre></details></li></ul><p id="b87ef28e-f37b-4b2f-8f64-6bfdc54f3361" class="">
+</p><ul id="23b9acd6-494c-44c9-b1dd-91e2e9974d8c" class="toggle"><li><details open=""><summary>コンストラクタ</summary><p id="186d7e7e-a33e-4bb4-b2d6-539cbf3d610d" class="">コンストラクタには以下の３つの条件がある。</p><ol type="1" id="630f8e4b-83e9-44cb-a56b-a36621d1227f" class="numbered-list" start="1"><li>メソッド名をクラス名と同じにすること</li></ol><ol type="1" id="986d38dd-1976-41fa-ae2b-0e6f85912fe5" class="numbered-list" start="2"><li>戻り値は記述できない<mark class="highlight-red">（記述した場合はただのメソッドとして解釈される）</mark></li></ol><ol type="1" id="313f5c04-f1a9-417a-88d6-04913b6916fe" class="numbered-list" start="3"><li>newと一緒にしか使えない</li></ol><p id="563674e9-c945-45e1-a4ee-3cf9bf007a53" class="">以上３つの条件さえ守れば自由にコンストラクタを定義することができる。</p><p id="1039c00a-a388-4ddc-9422-ee0304577a00" class=""><mark class="highlight-red">コンストラクタが存在しない場合、デフォルトコンストラクタが自動的に追加される。
+逆に言えば他にコンストラクタが存在する場合は追加されることはない！</mark></p><p id="00b79173-2f02-4cd9-a153-d25e5e8eeed3" class="">
+</p><p id="007f9001-9c17-4ef1-b2a0-dcb5cf51497e" class="">また修飾子を用いて以下のような特徴を持つコンストラクタを設定できる。</p><ul id="fc4ec6a1-a210-4691-a2e9-7b0f682622d8" class="bulleted-list"><li style="list-style-type:disc">publicなコンストラクタは、どのクラスからインスタンス化できる</li></ul><ul id="f5826754-c2b7-4d44-b2e1-695b8de5031f" class="bulleted-list"><li style="list-style-type:disc">protectedやデフォルトは継承関係にあるサブクラスやパッケージ内のクラスだけがインスタンス化できる</li></ul><ul id="ce9522f1-439c-4b55-a29f-6bb73c10df8d" class="bulleted-list"><li style="list-style-type:disc">privateなコンストラクタは他のクラスがインスタンス化することを制限する</li></ul><p id="f5cc11f4-36e7-4dd6-be0e-4a0198c78c9e" class="">以下のクラスは、コンストラクタが非公開であるため、他のクラスがnewを使用してインスタンス化することができない。</p><p id="33241ea7-b39c-4013-9f19-f8f130dad47f" class="">もしインスタンスを取得したければ、staticなgetInstance()を使用するしかない。</p><pre id="a34a6603-3750-4336-b927-1d61c48e2a98" class="code"><code>// 非公開なコンストラクタを使ったクラス定義
+public class Sample{
+	private Sample() {
+		public static Sample getInstance(){
+			return new Sanple();
+		}
+}</code></pre><p id="f029738d-bebd-406f-aae8-d2dc6e38f421" class="">これを以下の様に書き換えれば、そのアプリケーション内でインスタンスが１つしかないことを保証できる。</p><pre id="2cae40af-7e74-4359-b3d0-d7d25c082503" class="code"><code>public class Sample {
+	private static Sample instance = null;
+	private = Sample() {}
+	public staitc Sample getInstance(){
+		if(instance == null) {
+			instance = new sample();
+		}
+		return instance;
+	}
+}</code></pre></details></li></ul><p id="d8a702f8-43b1-40fc-bcb0-e1384c949994" class="">
+</p><ul id="be1dcf8f-dfda-46e3-8c1f-755f93b2d190" class="toggle"><li><details open=""><summary>コンストラクタと初期化子</summary><p id="b8a78d35-c9bc-45dc-8390-6b7d3b17a09d" class="">初期化子を使えば、オーバーロードされた全てのコンストラクタで共通の前処理を宣言することができる。</p><p id="04ec2de9-211a-47cb-bd38-07ee4d17b82e" class=""><mark class="highlight-red">初期化子は、コンストラクタよりも先に処理される。</mark></p><pre id="81730850-ad9b-4b0a-93ab-0eeb9ea63bb3" class="code"><code>public class Sample(){
+	Sample() {
+		System.out.println(&quot;A&quot;);
+	}
+
+	{
+		System.out.println(&quot;B&quot;); // こちらが先に処理される
+	}
+}
+
+
+public class Main {
+	public static void main(String[] args) {
+		Sample s = new Sample(); // B A の順に表示される
+	}
+}</code></pre><p id="cc344d1e-d6d3-4f69-95a6-f80f2e869bd3" class=""><mark class="highlight-red">また、初期化子にstaticを修飾すれば、クラスをロードしたタイミングで実行される。（修飾無しの場合はクラスをインスタンス化した時になる）</mark></p><p id="3071fd6c-dd0f-4a71-8379-d3f6a2a4c300" class="">ちなみに複数記述可能。</p><pre id="7d837437-6367-45d3-a0fc-ff87a81ae463" class="code"><code>public class Sample {
+	static int num;
+	static {
+		num = 10;// staticなメンバにしかアクセスできない
+	}
+	public Sample(){
+		num = 100;
+	}
+}
+
+public class Main{
+	public static void main(String[] args){
+		System.out.println(Sample.num); // 10
+		Sanple s = new Sample();
+		System.out.println(Sample.num); // 100
+	}
+}</code></pre></details></li></ul><p id="8ec6bfd7-33d0-4ce4-97a2-8d1671afb415" class="">
+</p><ul id="1b14d274-552a-420a-ad9a-0304e9f5778c" class="toggle"><li><details open=""><summary>コンストラクタのオーバーロード</summary><p id="bf573cb2-68f7-4a35-bb89-2ee75b3e65aa" class="">コンストラクタはオーバーロードして複数定義することも可能。</p><p id="c95aa9c5-0f92-4e4f-89f0-b0370ba66731" class="">オーバーロードされたコンストラクタから別のコンストラクタを呼び出すにはthisを使用する。</p><p id="ffbd7974-ed98-457e-b6ac-48acef19eecd" class=""><mark class="highlight-red">thisで呼び出す場合は、thisを最初に記述する必要がある。</mark></p><p id="0c00e910-31cd-4bc8-a99b-c0a1a2996515" class="block-color-red">thisとsuperは同時に使用できない！</p><pre id="e5736f49-e96a-447b-90a8-01470e309753" class="code"><code>public class Sample {
+	public Sample(){
+		this(null,0); // これより前に処理を記述することはできない！
+	}
+
+	public Sample(String str, int num){
+		System.out.println(&quot;Ok&quot;);
+	}
+}</code></pre></details></li></ul><p id="140521bb-d4d0-4684-af68-019a939bd94a" class="">
+</p><ul id="34fb331a-694e-435f-bb35-9598bc957a87" class="toggle"><li><details open=""><summary><mark class="highlight-red">final修飾子とコンストラクタ</mark></summary><p id="d8aad5b8-a0d2-4241-a29a-a5c976bf715a" class="">final修飾子で修飾した変数は、定数として扱われ、初期化後は変更することができない。</p><p id="95ba4728-f83c-422f-abc2-aef49fa12a9b" class="">フィールドで宣言して、コンストラクタで初期化することができる。<mark class="highlight-red">ただし全てのコンストラクタで初期化を行う必要がある。</mark></p><pre id="720ed73e-d003-405d-bfbc-03660aa43eb1" class="code"><code>public class Main {
+	final int a;
+	Main(int x){a = x;}
+}</code></pre></details></li></ul><p id="977e4b60-64c6-463b-88eb-82eb4a2c4dcb" class="">
+</p><ul id="21b705a5-8f1e-4770-a394-98d94a27fe48" class="toggle"><li><details open=""><summary><mark class="highlight-red">アクセス修飾子</mark></summary><p id="86d0b0ea-c7c1-48df-b3bc-1dda2214cbdd" class="">アクセス修飾子には以下の４つがある。</p><table id="a242d5cb-41f3-4a1a-97fd-57eb348e4441" class="simple-table"><thead class="simple-table-header"><tr id="38301b91-137a-4903-bb96-0a2839ca1b37"><th id="AumB" class="simple-table-header-color simple-table-header">修飾子</th><th id="BvT]" class="simple-table-header-color simple-table-header" style="width:482px">説明</th></tr></thead><tbody><tr id="d7e9d847-6b36-4934-9d2c-35888fe8bf68"><th id="AumB" class="simple-table-header-color simple-table-header">public</th><td id="BvT]" class="" style="width:482px">全てのクラスからアクセス可能</td></tr><tr id="81b718e5-10ab-42b8-8175-d2be75bc3ec8"><th id="AumB" class="simple-table-header-color simple-table-header">protected</th><td id="BvT]" class="" style="width:482px">同じパッケージに属するクラス、もしくは継承しているサブクラスからのみアクセス可能</td></tr><tr id="0c9d86b7-ad9b-4744-9667-7b3b3c60bda6"><th id="AumB" class="simple-table-header-color simple-table-header">なし（default）</th><td id="BvT]" class="" style="width:482px"><mark class="highlight-red">同じパッケージに属するクラスのみからアクセス可能</mark></td></tr><tr id="ae96f4a3-b540-4ba7-8359-58ec79c4a836"><th id="AumB" class="simple-table-header-color simple-table-header">private</th><td id="BvT]" class="" style="width:482px">クラス内からのみアクセス可能</td></tr></tbody></table></details></li></ul><p id="e34ecbfd-79fc-4d35-9610-7844636be547" class="">
+</p><ul id="a8ff0b26-45a6-4b01-bb03-f60188a045c1" class="toggle"><li><details open=""><summary>Javaのアクセス修飾子とUMLの可読性</summary><p id="99295458-72f5-4b57-ab30-63dc2ad7561f" class="">UMLとはUnified Modeling Languageの略で、オブジェクト指向技術に基づき、分析や設計などのシステム開発の上流工程を実行するためのモデリング言語を指す。統一モデリング言語とも呼ぶ。</p><table id="95401b53-c8d2-4205-8c32-c98f0f958397" class="simple-table"><thead class="simple-table-header"><tr id="d93c8da6-771e-4170-b69a-f89952a75693"><th id="D{nO" class="simple-table-header-color simple-table-header">アクセス修飾子</th><th id="BJGa" class="simple-table-header-color simple-table-header">可読性</th></tr></thead><tbody><tr id="35499cba-650a-44ac-bea6-672aa4a49ae1"><th id="D{nO" class="simple-table-header-color simple-table-header">public</th><td id="BJGa" class="">+</td></tr><tr id="3539376a-b5eb-4317-900c-040d90178ded"><th id="D{nO" class="simple-table-header-color simple-table-header">protected</th><td id="BJGa" class="">#</td></tr><tr id="ba6a7012-b299-4070-a70d-5fbde528781d"><th id="D{nO" class="simple-table-header-color simple-table-header">なし</th><td id="BJGa" class="">~</td></tr><tr id="ca277cc6-14ad-4f5a-b793-77d571a5e239"><th id="D{nO" class="simple-table-header-color simple-table-header">private</th><td id="BJGa" class="">-</td></tr></tbody></table></details></li></ul><p id="cff860b0-784f-4bcb-9f91-9f3d8f51d703" class="">
+</p><ul id="a0b42205-86e5-466b-bab7-7fce81d9f4ba" class="toggle"><li><details open=""><summary>カプセル化とは</summary><p id="937f7822-2449-4a8f-8bd6-0f706311a130" class="">ソフトウェアを分割する際に、関係するデータとそのデータを必要とする処理を一つにまとめ、無関係なものや関係性が低いものをクラスから排除することでクラスの目的を明確化するために行い、ほかのクラスに重複するデータや処理がない状態をめざすもの。</p></details></li></ul><p id="25b677c3-3ea1-47f6-91b3-1aa141e5c05f" class="">
+</p><ul id="578b46e4-7f4e-4d06-b07f-0cf31b54db18" class="toggle"><li><details open=""><summary>データ隠蔽</summary><p id="b5929259-297f-4921-b64a-f511b86907a1" class="">アクセス修飾子を用いて他のクラスに定義されているメソッドからフィールドを守ること。</p></details></li></ul><p id="d3464d2a-a3e5-4497-b082-e2890f482b5b" class="">
+</p><ul id="1613cc9d-e898-4955-a56a-c9fe051b4266" class="toggle"><li><details open=""><summary><mark class="highlight-red">System.out.println(null);</mark></summary><p id="f02bea6e-89cd-49c4-aa9d-cedae5c2381a" class="">nullを出力すると、「null」となる。</p></details></li></ul><p id="2bce2913-acfd-40f6-81ad-bcd5c8bbb62e" class="">
+</p><ul id="b78e49e4-f3bf-4c9e-b230-cbecdc17abee" class="toggle"><li><details open=""><summary>ジェネリクスをオーバーロードするときの注意点</summary><p id="9e6aa1a3-bdc9-42fc-b09a-bdac8aa53451" class="">以下の様なオーバーロードは認められない。なぜなら、ジェネリクスの持つ型情報がコンパイル時のみ存在し、実行時に消滅するからである。</p><pre id="2b5e6e53-7241-486d-b909-f2b19e7d74d6" class="code"><code>public List&lt;Number&gt; test(set&lt;CharSequence&gt; a){...}
+
+public List&lt;Stirng&gt; test(set&lt;String&gt; s){...} // NG</code></pre></details></li></ul><p id="1d6a4d3b-55c8-45c4-b3d4-f970408d55b6" class="">
+</p><h1 id="5d314e8b-46e3-4535-af0b-b7fdf004fd07" class="">クラスの継承、インターフェイス、抽象クラス</h1><ul id="bf9e8b69-10f6-48a2-8eea-c0061ca41640" class="toggle"><li><details open=""><summary>継承とは</summary><p id="73aa01ec-4811-4de7-a865-00888394c245" class="">継承することでサブクラスはスーパークラスの特徴を引き継ぐが、以下の２つは引き継がれない。</p><ol type="1" id="724bdcdf-5922-4739-a7a9-2308f58e2d6b" class="numbered-list" start="1"><li><mark class="highlight-red">コンストラクタ</mark></li></ol><ol type="1" id="22d30d32-fc4d-4444-9a16-d4d60f0a09df" class="numbered-list" start="2"><li><mark class="highlight-red">privateなフィールドやメソッド</mark></li></ol></details></li></ul><p id="2bc63285-0647-48fb-890e-85682f700b3e" class="">
+</p><ul id="005a4953-2994-415e-891b-4eead2157eba" class="toggle"><li><details open=""><summary><mark class="highlight-red">インタフェース</mark></summary><p id="88a5ec9f-e82a-4fbb-87b9-3188de392766" class="">イインタフェースの主な特徴は以下の通り。</p><ol type="1" id="4c1bcad8-74f1-4c2a-8f0b-f80628205b4c" class="numbered-list" start="1"><li><mark class="highlight-red">規定する抽象メソッドはすべてpublicであると解釈される。（privateやprotectedは不可）</mark></li></ol><ol type="1" id="2051d921-740d-480a-a8f9-df7f73d4a903" class="numbered-list" start="2"><li><mark class="highlight-red">多重実現が可能</mark></li></ol><ol type="1" id="0274943a-102a-4205-8e0a-0b75161f86b2" class="numbered-list" start="3"><li><mark class="highlight-red">抽象メソッドは実装を持つことができない</mark></li></ol><ol type="1" id="ceb04241-1bd1-4da7-9142-d6e66b347608" class="numbered-list" start="4"><li><mark class="highlight-red">finalもしくはstaticで修飾されたフィールドしか持てない</mark></li></ol><ol type="1" id="fe3f38cd-7b52-4d74-b0ce-1af95ba98b0f" class="numbered-list" start="5"><li><mark class="highlight-red">インタフェースもインタフェースを継承できる</mark></li></ol></details></li></ul><p id="ecdcddfd-edc8-4c05-a874-b9f60e0817e3" class="">
+</p><ul id="1dea6059-8307-455a-bfac-9e75af799e3d" class="toggle"><li><details open=""><summary>デフォルトメソッド（Java SE ８からの新機能）</summary><p id="9ebd6b3a-3a71-43f1-a8a6-aa466092bffb" class="">インタフェースを実現したクラスが持つべきデフォルトの処理を定義するもの。</p><p id="64a84f02-3b8a-4277-b283-60c2d2e971d5" class="">これにより共通処理をすべての実現クラスで実装したり、抽象クラスを間に挟む必要がなくなる。</p><pre id="ae7c4d0d-c51b-4c2e-bac7-684f3cf6eeb8" class="code"><code>// 構文
+default 戻り値型 メソッド名(引数の型 引き数名){
+	// 処理内容
+}</code></pre><p id="f34a9b19-1abf-4db9-a370-07ae5c10aa17" class="block-color-red">インタフェースはデフォルトメソッド以外にもsteticなメソッドも定義できる。</p><pre id="c79ce99e-b0fb-497d-9771-597589904859" class="code"><code>public interface Foo{
+	public static a(){}
+	private static b(){} // staticなら可能
+}</code></pre></details></li></ul><p id="5ff8a268-2ae8-481a-916c-46a013a59720" class="">
+</p><ul id="519cfb25-b88b-43c6-9da9-a20501d56433" class="toggle"><li><details open=""><summary>インタフェースでのオーバーライドについて</summary><p id="bbb7a5ca-e2a2-47f3-94cf-34bf84fdf2b1" class=""><mark class="highlight-red">java.lang.Objectクラスで定義されているメソッドは、インタフェースでデフォルトメソッドとしてオーバーライドしようとするとコンパイルエラーになるので注意が必要である。</mark></p></details></li></ul><p id="2d6fcf07-1bed-4ba3-b4e6-ca7e6a4a6a4a" class="">
+</p><ul id="a3f4cbe0-5837-4f20-b6bb-402f643d7114" class="toggle"><li><details open=""><summary><mark class="highlight-red">元のデフォルメメソッドの呼び出し</mark></summary><p id="9cff5bc2-79a8-4e7d-804f-1550d1bac7a0" class="">デフォルトメソッドをsuperによって呼び出す際、さらにインタフェース名が必要となる。</p><p id="e987165e-5d92-457c-b02e-7a7c7987cc2f" class="">構文は以下の通りだが、<mark class="highlight-red">サブインタフェースやインタフェースを直接実現したクラスでしか使用できない。</mark></p><pre id="8df19cdf-b7e5-4851-a557-720e8b14e49e" class="code"><code>//　構文
+A.super.sample(); // Aはインタフェース名</code></pre></details></li></ul><p id="4370b416-7da7-4127-8077-d74e7f5d53a5" class="">
+</p><ul id="b9adebb6-6845-42c1-b7c1-287ed4c232f9" class="toggle"><li><details open=""><summary>多重実現における注意点</summary><p id="c3ae9694-8a88-41c6-b2e5-96a1638ae43d" class=""><mark class="highlight-red">多重実現を行った際に、異なるインタフェースに同じシグニチャのデフォルトメソッドがあった場合、どちらを呼び出すか明確にしなければコンパイルエラーとなる。</mark></p><p id="367bf281-4539-4228-abef-9161d10c8927" class="">これはインタフェースの多重継承でも同じことが言える。</p><pre id="cf68dd65-b640-41c0-9f24-5cb2dcc968a1" class="code"><code>// インタフェースA
+public interface A {
+	default void test() {
+		System.out.println(&quot;A&quot;);
+	}
+}
+
+
+// インタフェースB
+public interface B {
+	default void test() {
+		System.out.pirntln(&quot;B&quot;);
+	}
+}
+
+// クラスMain
+public class Main implements A,B {
+	public static void main(String args){
+		new Main().test();
+	}
+	@Override
+	public void test(){
+		A.super.test(); // どちらを使うか特定する
+	}
+}</code></pre></details></li></ul><p id="09fd03bf-5b25-499f-885c-8b9b5c0f4170" class="">
+</p><ul id="ac79a3c1-fd02-4c4a-8d12-67a525cc5c5b" class="toggle"><li><details open=""><summary>抽象クラスとは</summary><p id="1497bad1-965a-4bb2-988c-ffcaa0d220cd" class="">抽象クラスはインタフェースとクラスの両方の性質を持ったクラスであり、具象メソッドと抽象メソッドの両方をもつことができる。</p><p id="13633987-ae4b-4537-b2fc-205df29a6246" class="">インスタンス化はできない。</p><p id="822bc63f-f23b-49af-9579-73b73745b383" class="">のこりの抽象メソッドはこれを継承した具象クラスがすべて実装する必要があるが、継承した抽象クラスはこの限りではない。</p><p id="0751dbcf-f003-44ab-ac97-3e7116d8302a" class=""><mark class="highlight-red">抽象メソッドは必ずabstractで修飾する必要がある。</mark></p><pre id="57f0bc1f-90c2-4a20-b00d-afdae06211b2" class="code"><code>//　抽象クラス
+public abstract class AbstractSample {
+	// 具象メソッド（サブクラスが引き継ぐ）
+	public void methodA() {
+		// any code
+	}
+	// 抽象メソッド（サブクラスで実装する）
+	public abstract void methodB();
+}</code></pre></details></li></ul><p id="e513f175-1fa0-4caa-ba5c-c0c0ffff8d3f" class="">
+</p><ul id="4bb1a0aa-9bcd-4c6b-af22-053e10ab493c" class="toggle"><li><details open=""><summary>オーバーライド</summary><p id="3d709c47-e0fc-4912-8dde-a96b1279b89b" class="">オーバーライドでは、メソッドを再定義するため、<mark class="highlight-red">メソッドのシグニチャは同じである必要がある。</mark></p><p id="583a268a-ceac-4952-b36f-2deb8a130ebf" class="">以下の条件を守る必要がある。</p><ol type="1" id="a1e5661f-a3d5-4062-ad14-18090b269aaa" class="numbered-list" start="1"><li>シグニチャが同じである</li></ol><ol type="1" id="333697ae-bcd3-4382-87fc-696f8bfc47b7" class="numbered-list" start="2"><li>戻り値は同じ型か、サブクラス型である</li></ol><ol type="1" id="35f265c0-4414-4d56-8903-3ef2a1b445c3" class="numbered-list" start="3"><li><mark class="highlight-red">アクセス修飾子は同じか、より緩いもの</mark></li></ol><p id="fb1db5b4-fbc8-4652-9fab-fbac38c9aaed" class=""><mark class="highlight-red">Java SE 5から共変戻り値が導入され、同じ型かそのサブクラスであれば、オーバーライドしたメソッドの戻り値型に指定することができる。</mark></p><p id="c5b20308-8e61-4caf-87e6-89b376a841d0" class="">また、オーバーロードされたメソッドは元のメソッドと全く異なるものであるため、サブクラスでオーバーライドすることは可能である。</p></details></li></ul><p id="d44001ec-f2d8-4a80-bc34-1dc86eb5b936" class="">
+</p><ul id="e259b0b0-aff8-4510-a59a-e154ff1f193b" class="toggle"><li><details open=""><summary><mark class="highlight-red">オーバーライドとprivateメソッド</mark></summary><p id="e12eb77e-97c6-4023-9055-df4f4f619815" class="">privateメソッドをサブクラスでオーバーライドしても、オーバーライドされることはない。</p><pre id="a451d3d1-d7ac-479c-9c3b-33788333b8d5" class="code"><code>class Foo {
+	private void a() {
+		System.out.println(&quot;X &quot;);
+	}
+	public void b() {
+		a();
+		System.out.println(&quot;Y &quot;);
+	}
+}
+class Bar extends Foo {
+	public void a() {
+		System.out.println(&quot;Z &quot;);
+	}
+}
+public class Main {
+	public static void main(String[] args) {
+		new Bar().b(); // X Y
+	}
+}</code></pre></details></li></ul><p id="6342f567-db6a-4348-88ff-98bd3a2220a2" class="">
+</p><ul id="aa1bd8be-63c5-4ce3-b083-c5119709b5ff" class="toggle"><li><details open=""><summary>リスコフの置換法則（参考程度に）</summary><p id="015191d1-eb7e-4445-a9bf-c6219cfcc48e" class="">「サブクラスは、スーパークラスと置き換え可能でなければいけない」という原則。</p></details></li></ul><p id="6b38d4ff-9724-4f59-aabc-47f8b03ec114" class="">
+</p><ul id="cbd15c1b-4e10-42e8-b832-63f1846be2a1" class="toggle"><li><details open=""><summary>継承におけるフィールドの扱い</summary><p id="14ace55c-1e45-42e9-8a8e-f55d357a2fb2" class=""><mark class="highlight-red">サブクラスで、スーパークラスに定義されているフィールドと同じ名前のフィールドを定義するのことは可能である。</mark></p><p id="242b2099-ea4c-4280-8fff-a90718b1fc83" class="">どちらのフィールドが使われるかは次のルールで決まる。</p><ol type="1" id="b14435a3-ff16-411f-bd1e-5d441821f20c" class="numbered-list" start="1"><li>フィールドを参照した場合は、変数の型で宣言されたほうを使う</li></ol><ol type="1" id="7878fdf0-4b47-484e-acea-e04ba7c83ce8" class="numbered-list" start="2"><li>メソッドを呼び出した場合は、メソッド内の指示に従う</li></ol><pre id="71db90f1-86b0-416a-a8fb-7a4b77fefe1c" class="code"><code>class A {
+	String val = &quot;A&quot;;
+	void pirnt() {
+		System.out.println(val);
+	}
+}
+
+class B extends A {
+	String val = &quot;B&quot;;
+}
+
+public class Main {
+	public static void main(String[] args) {
+		A a = new A();
+		A b = nwe B();
+		System.out.pirnt(a.val); // A
+		System.out.pirnt(b.val); // A
+		a.print(); // A
+		b.print(); // A
+	}
+}</code></pre></details></li></ul><p id="4307261c-1a1c-4c93-b3f8-17e06d2fbe16" class="">
+</p><ul id="7196a0ab-02d5-46eb-846d-853a579ef539" class="toggle"><li><details open=""><summary>ポリモーフィズム</summary><p id="dbdb54ba-37b6-4de8-b28b-7695018e3e0e" class="">ポリモーフィズムは、継承関係にあるクラス同士だけで無く、インタフェースとの実現の関係でも成立する。</p><pre id="3dd3d4ab-701d-46d0-bde8-de2661141588" class="code"><code>interface Worker {
+	void work();
+}
+
+class Employee {
+	public void work() {
+		System.out.println(&quot;work&quot;);
+	}
+}
+
+class Engineer extends Employee implements Worker { } // worker()は実装される</code></pre><p id="816dd4ab-6593-4642-bdc1-c665ef0027d8" class="">ポリモーフィズムを使用するときは以下の２点に注意する</p><ol type="1" id="ec1341ea-550a-4a01-8dca-a9579eeff9ec" class="numbered-list" start="1"><li>継承関係や実現関係があり、ポリモーフィズムが成立する条件を備えているかどうか</li></ol><ol type="1" id="b17ae49c-42ee-462a-8927-f97508bda7ae" class="numbered-list" start="2"><li>インスタンスを扱っている型に、呼び出しているメソッドが定義されているかどうか</li></ol></details></li></ul><p id="35f5149d-30cc-43bc-90d2-8b6e835a65d4" class="">
+</p><ul id="dccf39b9-f6d7-4e5f-bb2e-fce83cc627a0" class="toggle"><li><details open=""><summary>アップキャスト・ダウンキャスト</summary><p id="e97119e2-1d54-41d5-be0e-6aba448e6fbd" class="">継承関係にある場合、サブクラスのインスタンスをスーパークラス型の変数で扱うことができる。このような型変換を行うことをアップキャストと呼ぶ。</p><p id="f98eaaf5-1d25-451e-ba63-2afb5a178181" class="">一方、スーパークラス型で扱っていたインスタンスをもとの型に戻すことをダウンキャストと呼ぶ。</p><p id="cde447ae-0286-4900-9cc1-ffc7b4875294" class="">ダウンキャストはキャスト式によって行う必要がある。</p><pre id="c8e930fa-2cf9-491c-a837-15e26ecec811" class="code"><code>// キャスト式
+A a = new B();
+B b = (B) a; // 互換性の保証</code></pre></details></li></ul><p id="f30e45b6-1f4a-407b-b1bf-18e8e9798e7e" class="">
+</p><ul id="2e8d16b5-bb5a-4220-a5fa-03077578623f" class="toggle"><li><details open=""><summary>互換性の保証について</summary><p id="baabbb06-a4cd-454f-bee9-e879466a09a3" class="">以下の様なコードを考えてみる。</p><pre id="726e9ee7-512a-4c4e-a1a0-19a95752b958" class="code"><code>class A {
+	void hello() {
+		System.out.pirntln(&quot;A&quot;);
+	}
+}
+
+class B extends A {
+	void hello() {
+		System.out.pirntln(&quot;B&quot;);
+	}
+}
+
+public class Main {
+	public static void main(String[] args){
+		A a = new A(); // 変数aの参照先のインスタンスはAのインスタンスである
+		B b = (B) a; // AのインスタンスにはBの差分が含まれていない
+		b.hello();
+	}
+}</code></pre><p id="81e2a327-0698-4cbe-aa7a-c7fc37e113d5" class="">このコードはコンパイルエラーは発生しないが、実行すると例外がスローされる。</p><p id="75fddab2-6a63-4847-9811-4ac43805df43" class="">これは、キャストが変数の型を返るだけで、参照先にあるインスタンスの種類を変更できるものではないからである。</p></details></li></ul><p id="7fda9773-e313-42f6-a536-ba2face7d93f" class="">
+</p><ul id="4cecea2f-e512-4bd9-8e43-625daf56ad00" class="toggle"><li><details open=""><summary>継承関係にあるクラスのコンストラクタについて</summary><p id="ff71ab66-d733-45fb-b0ce-fe97e76af01d" class="">継承関係にあるクラスのインスタンスは、スーパークラスと差分のインスタンスで構成されているため、サブクラスにおけるコンストラクタは以下の様になる。</p><pre id="757355cf-cce6-4971-870d-e6f97e32bbad" class="code"><code>// 実際のコード
+class B extends A {
+	public B() {
+		System.out.println(&quot;B&quot;);
+	}
+}
+
+// コンパイル後のコード
+class B extends A {
+	public B() {
+		supre(); // コンパイラによって自動追加される
+		System.out.println(&quot;A&quot;);
+	}
+}</code></pre></details></li></ul><p id="69849935-7401-450b-8bfb-a3b10ca1a24e" class="">
+</p><ul id="6a18813a-6230-47c4-a695-93fbcdb67bf0" class="toggle"><li><details open=""><summary>staticなメンバとポリモーフィズム</summary><p id="f57a0aa1-a975-4220-9a16-c112e692b711" class="">staticなメンバにポリモーフィズムは適応されない。</p><pre id="99edfb4c-23b6-4563-9834-c5ca582ac25d" class="code"><code>public class PurpleBase_17 {
+    public static void main(String[] args) {
+        A a = new B();
+        B b = new B();
+
+        System.out.println(a.str); // A
+        System.out.println(b.str); // B
+        a.method(); // A
+        b.method(); // B
+
+        System.out.println();
+        System.out.println(a.strIns); // A
+        System.out.println(b.strIns); // B
+        a.methodIns(); // B
+        b.methodIns(); // B
+
+        System.out.println();
+        a.methodUseIns(); // B
+        a.methodUseSta(); // A
+        b.methodUseIns(); // B
+        b.methodUseSta(); // A
+    }
+}
+
+class A {
+    static String str = &quot;A&quot;;
+    static void method() {
+        System.out.println(&quot;A&quot;);
+    }
+
+    String strIns = &quot;A&quot;;
+    void methodIns() {
+        System.out.println(&quot;A&quot;);
+    }
+
+    void methodUseSta() {
+        method();
+    }
+
+    void methodUseIns() {
+        methodIns();
+    }
+}
+
+class B extends A {
+    static String str = &quot;B&quot;;
+    static void method() {
+        System.out.println(&quot;B&quot;);
+    }
+
+    String strIns = &quot;B&quot;;
+    void methodIns() {
+        System.out.println(&quot;B&quot;);
+    }
+}</code></pre></details></li></ul><h1 id="6ceac59a-48c4-4e6f-891e-35a44c52ddad" class="">関数型インタフェース、ラムダ式</h1><ul id="393b8545-a725-4150-b8e3-9126a3220e09" class="toggle"><li><details open=""><summary>ラムダ式</summary><pre id="f79c90c4-a167-48ff-820f-9ffd25b7b9bd" class="code"><code>// 構文
+(引数) -&gt; {処理};
+
+// 例
+Runnable r = () -&gt; {
+	System.out.println(&quot;Hello!&quot;);
+};</code></pre></details></li></ul><p id="76f55b95-5b2e-4dc3-b219-5af9e858be9e" class="">
+</p><ul id="aee32d28-75d0-46f2-a9bb-e50dc4f4b96d" class="toggle"><li><details open=""><summary>関数型インタフェース</summary><p id="2da8024d-c1f3-487b-8777-6ece6237b242" class="">ラムダ式を使えば、実装が必要なメソッドを１つだけもつインタフェース型変数に、実行したいコードを代入できる。この実装が必要なメソッドを１つだけもつインタフェースを関数型インタフェースと呼ぶ。</p><pre id="c3d37382-2ed8-4b6a-bc6e-72aedec7a1c8" class="code"><code>interface Algorithm { // 関数型インタフェース
+	void perfom(Stirng name);
+}
+
+class Service { 
+	private Algorithm logic; // インタフェース型変数
+	public void setLogic(Algorithm logic) {
+		this.logic = logic;
+	}
+	public void doProcess(Stirng name){
+		this.logic.perform(name);
+	}
+}
+
+
+public class Main {
+	public static void main(String[] args){
+		Algorithm algorithm = (name) -&gt; {
+			System.out.println(&quot;hello,&quot;+name);
+		};
+		Service s = new Service();
+		s.setlogic(algorithm);
+		s.doProcess(&quot;Lambda&quot;);
+	}
+}</code></pre></details></li></ul><p id="89f2bd23-1ff0-487b-9eb7-b29c89031edf" class="">
+</p><ul id="f32e049b-3dcc-47fd-b5c4-381b128c4d7e" class="toggle"><li><details open=""><summary>ラムダ式の宣言</summary><p id="a5b8a1ae-58f1-4319-aad6-a7d7224ae82f" class="">ラムダ式の引数宣言時、型名を省略可能である。</p><p id="2f54d536-3382-47d6-aee8-5a4b67598445" class=""><mark class="highlight-red">このとき、他のローカル変数と同じ名前を使用するともちろんコンパイルエラーとなる。</mark></p><pre id="302f1ac3-eb8f-4fad-8720-fcf58f87d8da" class="code"><code>// ラムダ式の宣言方法
+関数型インタフェースの型 変数名 = (引数) -&gt; {処理};
+
+// 引数が１つならば（）を省略できる
+関数型インタフェースの型 変数名 = 引数１つ -&gt; {処理};
+
+// 実行した処理が１つならば｛｝を省略できる
+関数型インタフェースの型 変数名 = (引数) -&gt; 処理;
+
+// 処理が１つしかなく、かつ｛｝を省略した場合はreturnキーワードを省略する必要がある
+// 例
+Test t = () -&gt; &quot;hello&quot;;</code></pre></details></li></ul><p id="e95c71e9-93b7-4f25-b85e-f5627884c652" class="">
+</p><ul id="fe68ebf5-3c8a-4d65-b420-b55fdfb253c3" class="toggle"><li><details open=""><summary>クロージャ</summary><p id="f8c5c74f-8dc0-48c5-9fda-a2443f48207f" class="">ラムダ式は、それを囲むブロックと同じスコープを持つため、ラムダ式を宣言しているブロックで宣言した変数と同じ名前の変数はラムダ式内で宣言できない。</p><pre id="73f8d84c-883e-4fc1-866c-7080d3d2d3bf" class="code"><code>public class Main {
+	public static void main(String[] args){
+		String val = &quot;A&quot;;
+		Function f = (val) -&gt; { // コンパイルエラー
+			System.out.println(val);
+		};
+		f.test(&quot;B&quot;);
+	}
+}</code></pre></details></li></ul><p id="1e765677-ebf3-4d76-9a27-4945cc1c35ae" class="">
+</p><ul id="bbf80060-2b2a-49b5-b2bf-c4cc401669d1" class="toggle"><li><details open=""><summary>実質的にfinalな変数</summary><p id="c9310acd-ba5f-4819-ac7a-9abc23160966" class="">ラムダ式は式を宣言しているメソッドのローカル変数にアクセスできるが、それは<mark class="highlight-red">実質的にfinalなローカル変数として扱える変数</mark>である必要がある。</p><pre id="ae6bf5c3-0711-48bc-bfe5-59926f334ab2" class="code"><code>public class Test { 
+	public static void main(Stirng[] args) {
+		String val = &quot;hello&quot;;
+		Function f = () -&gt; {
+			val = &quot;test&quot;; // コンパイルエラー(ローカル変数の値は変更できない)
+			System.out.println(val);
+		};
+		val = &quot;test2&quot;; // コンパイルエラー(実質的にfinalな変数を変更しようとしている)
+
+		f.test();
+	}
+}</code></pre></details></li></ul><p id="ac635b22-0088-473e-b6dc-e4643fb6b696" class="">
+</p><ul id="0d867907-a613-4ad3-b7c2-f08912e180f2" class="toggle"><li><details open=""><summary>java.util.function</summary><p id="90e5be17-947a-4855-8177-e34879e7a9c7" class="">頻繁に使用される関数型インタフェースの型については、java.util.functionパッケージに定義されている。</p><table id="d97626c8-17b3-4a81-9fed-fb2c360e35ce" class="simple-table"><thead class="simple-table-header"><tr id="980e5a11-9053-4db0-815e-5444754a0f8a"><th id="=D&gt;X" class="simple-table-header-color simple-table-header">関数型インタフェース</th><th id="ilK]" class="simple-table-header-color simple-table-header">メソッド</th><th id="_Jw|" class="simple-table-header-color simple-table-header" style="width:435px">説明</th></tr></thead><tbody><tr id="276fd0b9-5e47-4cdc-965d-cf56cd51f9e2"><th id="=D&gt;X" class="simple-table-header-color simple-table-header">Consumer&lt;T&gt;</th><td id="ilK]" class="">void accept(T)</td><td id="_Jw|" class="" style="width:435px">引数を受け取って処理し、結果を返さない。（引数の消費者）</td></tr><tr id="694bc17b-cb5d-4514-a14a-7a0a19936848"><th id="=D&gt;X" class="simple-table-header-color simple-table-header">Supplier&lt;T&gt;</th><td id="ilK]" class="">T get()</td><td id="_Jw|" class="" style="width:435px">何も受け取らずに結果だけ返す。（供給者）</td></tr><tr id="323ed647-6b2b-4dd3-8f14-b577ab5736fb"><th id="=D&gt;X" class="simple-table-header-color simple-table-header">Predicate&lt;T&gt;</th><td id="ilK]" class="">boolean test(T)</td><td id="_Jw|" class="" style="width:435px">引数だけ受け取ってそれを評価する。（断定）</td></tr><tr id="1c4fae6b-27b1-45a8-b5e9-d26222122553"><th id="=D&gt;X" class="simple-table-header-color simple-table-header">Function&lt;T,R&gt;</th><td id="ilK]" class="">R apply(T)</td><td id="_Jw|" class="" style="width:435px">引数を受け取って、指定された型（R）の結果を返す。（処理）</td></tr></tbody></table></details></li></ul><h1 id="993a6152-38ac-43aa-9b0b-8ccd65bd2117" class="">API</h1><ul id="6063602b-12d4-4d94-9ba6-3954b1e1126e" class="toggle"><li><details open=""><summary>Matnクラス</summary><p id="4b408026-fc13-4646-a050-2ee7ee098c13" class="">累乗をするためにはMathクラスのpowメソッドを、平方根を求めるにはsqrtメソッドを使用する。</p><p id="c82c11ba-6401-4fd8-b184-1ef557eabe0f" class=""><mark class="highlight-red">roundメソッドは四捨五入が行われる。</mark></p></details></li></ul><p id="c4f30f16-29f7-4923-acdc-f01fd8358c7c" class="">
+</p><ul id="5b0c090c-651c-42bf-935e-4a0aa742a23e" class="toggle"><li><details open=""><summary>java.util.Comparatorインタフェース</summary><p id="a2213761-3b80-4294-925d-fb3faa1670dc" class="">java.util.Comparatorインタフェースとはコレクション内のオブジェクトを並べ替える歳の並び順を決めるアルゴリズムを決定するもの。</p><p id="94531f46-ff46-4d0a-8de0-38597985630c" class="">まずjava.util.Comparatorインタフェースを実装したクラスを定義し、compareメソッドに並び順を決めるためのアルゴリズムを実装する。</p><p id="1abbdcb9-1261-4f44-beec-7867394c8a59" class="">Comparatorインタフェースに規定されているcomareメソッドは、<mark class="highlight-red">与えられた引数のうち、第１引数の順番を前にするなら-1を、第２引数の順番を前にするなら１を、２つの引数が同列で並び順を変更しないなら０を戻すと規定されている。</mark></p><p id="44eda4b2-4a90-4524-b746-a6277841a41f" class="">逆順にしたいのであれば、マイナス演算子をつければ良い。</p><pre id="64011354-b83a-4b5c-988c-e7b96cb270ce" class="code"><code>import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+	public static void main(String[] args){
+		List&lt;Integer&gt; list = Arrays.asList(new Integer[]{1,2,3});
+		list.sort((a,b) -&gt; -a.compareTo(b));
+		for(Integer num: list){
+			System.out.println(num);
+		}
+	}
+}</code></pre></details></li></ul><p id="66e7af5b-fe04-4c46-a921-63239e887137" class="">
+</p><ul id="cf7fb03d-fc62-4b91-b499-7b5aaec48f9b" class="toggle"><li><details open=""><summary>java.lang.comparableインタフェース</summary><p id="6f9df820-4181-465c-987e-a4945434c7ec" class="">並べ替えられる対象となるクラスが、java.lang.ComparableインタフェースのcompareToメソッドに並び順を決めるためのアルゴリズムを実装する。</p></details></li></ul><p id="59e9be83-d9be-49a5-b863-fec54d80ea1c" class="">
+</p><ul id="b9e9946a-2c96-46a8-93f4-dc465071b42b" class="toggle"><li><details open=""><summary>Characterクラス（ラッパークラス）</summary><p id="c62d0496-1880-4683-b1f3-4e02d7f550ca" class="">プリミティブ型に対応したクラスのことをラッパークラスと呼ぶ。</p><p id="b3cf0c1a-b5be-48ab-8b7b-126e88e6bc7b" class="">Characterクラスはchar型のラッパークラスであり、char型の値を扱うためのメソッドを数多く持っている。</p><table id="b1d3da5e-5750-44d2-aab3-8cf81e30f2c7" class="simple-table"><thead class="simple-table-header"><tr id="2e6af7b6-1e5b-4f90-b630-92c8e2181b55"><th id="?{@H" class="simple-table-header-color simple-table-header" style="width:187px">メソッド</th><th id="tP[O" class="simple-table-header-color simple-table-header" style="width:399px">説明</th></tr></thead><tbody><tr id="6219453b-8f04-461b-b304-e3f8f05d0b3f"><th id="?{@H" class="simple-table-header-color simple-table-header" style="width:187px">Character.isAlphabetic(x)</th><td id="tP[O" class="" style="width:399px">xがアルファベットならtrueを返す</td></tr><tr id="984d5dcb-9d72-4b6a-934b-67f25c091110"><th id="?{@H" class="simple-table-header-color simple-table-header" style="width:187px">Character.isDigit(x)</th><td id="tP[O" class="" style="width:399px">xが数字ならtrueを返す</td></tr><tr id="e7331b25-82ad-4512-baeb-b2542b25f094"><th id="?{@H" class="simple-table-header-color simple-table-header" style="width:187px">Character.isLowerCase(x)</th><td id="tP[O" class="" style="width:399px">xが小文字ならtrueを返す（アルファベットに限らない）</td></tr></tbody></table></details></li></ul><p id="90ae02a4-eb8e-4596-a1d1-4740976764cf" class="">
+</p><ul id="2fbd6a43-b4ae-4adf-a287-41f565d7c580" class="toggle"><li><details open=""><summary>java.time.LocalDate（Java SE 8からの新機能）</summary><p id="e52e79dd-c583-4446-a914-0eacd0a99331" class="">日付を扱うためのクラス。以下のような特徴がある。</p><ol type="1" id="34a587dc-bcfe-46a5-a043-9cbd6a45d658" class="numbered-list" start="1"><li>Calendarはmutableなオブジェクトであったが、LocalDateはimmutableなオブジェクトとなり、扱っているオブジェクトの値が変更されたかどうかを気にする必要が無くなった。</li></ol><ol type="1" id="c6aa2b9c-4787-4163-8721-c51e75e3f70a" class="numbered-list" start="2"><li>Calenderでは月は０から始まっていたが、LocalDateでは１から始まり、直感的に扱いやすくなった。</li></ol><ol type="1" id="4452c802-f809-47a5-b1bf-571be4da7e37" class="numbered-list" start="3"><li>日付を操作するための便利なメソッドが追加された。</li></ol><table id="c758732a-18c4-4898-a93d-75038888c581" class="simple-table"><thead class="simple-table-header"><tr id="53120081-8687-41fe-8ebf-b4a9fb18c48a"><th id="at=Y" class="simple-table-header-color simple-table-header" style="width:152px">メソッド</th><th id="u`L`" class="simple-table-header-color simple-table-header" style="width:418px">説明</th></tr></thead><tbody><tr id="f3ee6d9d-82b2-4cc1-aa08-37ddc56b367d"><th id="at=Y" class="simple-table-header-color simple-table-header" style="width:152px">LocalDate.of(y,m.d)</th><td id="u`L`" class="" style="width:418px">日付を指定してインスタンスを生成する</td></tr><tr id="185e5db8-3f9b-4cc9-aa98-848624605d58"><th id="at=Y" class="simple-table-header-color simple-table-header" style="width:152px">LocalDate.now()</th><td id="u`L`" class="" style="width:418px">現在の日付でインスタンスを生成する</td></tr><tr id="08ddab4b-3a9b-4037-8fab-941d831f80bf"><th id="at=Y" class="simple-table-header-color simple-table-header" style="width:152px">LocalDate.parse(x)</th><td id="u`L`" class="" style="width:418px">文字列xの日付をLocalDateクラスに変換する</td></tr></tbody></table></details></li></ul><p id="26e5d71f-28cf-4d56-99b7-0a9d2b5ce618" class="">
+</p><ul id="db75196d-ca38-4d7b-a6de-840e6a64dccc" class="toggle"><li><details open=""><summary>コレクション</summary><p id="d3873076-d369-4e05-a388-6fa581ef63b4" class="">javaでは何らかの集合のことをコレクションと呼ぶ。</p><p id="56ab6f46-4cd4-48d4-b1e3-788de7320fd5" class="">配列はコレクションを扱うクラスの１つであるが、次のような制約がある。</p><ol type="1" id="91b4cb35-855d-496d-95f0-fd08dd3dc767" class="numbered-list" start="1"><li>同じ型もしくは互換性のある型しか扱えない</li></ol><ol type="1" id="6876878e-2325-42da-a3ff-158b4b2a2292" class="numbered-list" start="2"><li>扱える要素数を最初に決定する必要がある</li></ol><ol type="1" id="b04b51b3-b1f5-4e80-b04b-9871ecbf3484" class="numbered-list" start="3"><li>要素アクセスには添字を使わなくてはいけない</li></ol><ol type="1" id="e24e1c52-50b4-4d1a-adb9-7884b7c9babc" class="numbered-list" start="4"><li>要素アクセスの際には、要素数を超えないよう配慮しなければならない</li></ol><p id="f876b2f9-f8df-4b4e-90d7-5b9fd4bfd8bd" class="">
+</p><p id="9ec754c4-5739-41d5-b85b-7470f866a754" class="">javaには、もっと簡単にコレクションを扱える機能が用意されており、それが<mark class="highlight-red">コレクションAPI</mark>や<mark class="highlight-red">コレクション・フレームワーク</mark>と呼ばれるものである。そのうちの１つが<mark class="highlight-red">java.util.ArrayListクラス</mark>である。<mark class="highlight-red">動的配列</mark>とも呼ばれる。特徴は以下の通り。</p><ol type="1" id="f105c36c-cb60-4602-a671-ad8026f6c5fa" class="numbered-list" start="1"><li>オブジェクトであればどのような型でも扱える</li></ol><ol type="1" id="d174d5f9-57dc-4120-b596-ed4e88f21af1" class="numbered-list" start="2"><li><mark class="highlight-red">必要に応じて要素数を自動的に増やす</mark></li></ol><ol type="1" id="63abbe81-9ec8-4302-b671-dc493c71fc12" class="numbered-list" start="3"><li>追加した順に並ぶ</li></ol><ol type="1" id="d18c12ef-3273-4e24-a97d-96438c1e2ecc" class="numbered-list" start="4"><li><mark class="highlight-red">nullも値として追加できる</mark></li></ol><ol type="1" id="0525d2fd-05c9-4f6a-a109-1be10d08277f" class="numbered-list" start="5"><li>重複した値も追加できる</li></ol><ol type="1" id="375a7d9f-8066-4cd4-8b4d-4acd8f68d003" class="numbered-list" start="6"><li>スレッドセーフではない</li></ol><p id="48f55f6b-6fab-4e45-ad66-108101640925" class=""><mark class="highlight-red">スレッドセーフとは並行処理を行った際に意図しない結果になることを防ぐための機能である。</mark></p><p id="ab92b640-f7cf-449c-8caa-c0e11134ce5e" class="">スレッドセーフなリストを扱いたい場合はjava.util.vectorを使用する。</p></details></li></ul><p id="75b444cc-8891-4ebd-8891-48c917b3bbba" class="">
+</p><ul id="1f9c6e28-3911-46e6-8368-8b574c24ca38" class="toggle"><li><details open=""><summary>ArrayListのaddメソッド</summary><pre id="f079aec5-37b7-4493-9f6e-d664b5b042ea" class="code"><code>// addメソッドを用いてリストへの追加の場所を指定
+list.add(2,&quot;B&quot;); // 存在しない場所に追加しようとすると実行でエラー（コンパイルエラーにはならない）</code></pre></details></li></ul><p id="91a0b080-f1fb-48b3-aca0-67e57c6d7b1b" class="">
+</p><ul id="d663567d-b69f-496e-b814-35af561532a2" class="toggle"><li><details open=""><summary>ArrayListのsetメソッド</summary><p id="cb0d1edd-3483-4820-8770-358c333980ba" class=""><mark class="highlight-red">setメソッドは置き換えをするためのメソッドである。</mark></p><pre id="8e3a0719-805f-4f72-adf2-d159b687857f" class="code"><code>list.set(0,&quot;B&quot;);</code></pre></details></li></ul><p id="070c587b-5440-4b09-9bdc-db6873b3afdc" class="">
+</p><ul id="f0b2cf19-850e-49bb-89fb-08d48d851f1f" class="toggle"><li><details open=""><summary>ArrayListのremoveメソッド</summary><p id="1be7e288-96b7-490c-9cc8-a1c8d19d7bfc" class="">removeメソッドは条件にあう<mark class="highlight-red">最初の要素</mark>を削除する。</p><pre id="95576207-b219-4526-97eb-ca4e4cebd8af" class="code"><code>list.remove(1); // 場所を指定して削除
+list.remove(&quot;B&quot;) // オブジェクトを指定して削除（同値であるものを削除）
+// equalsメソッドに従う</code></pre></details></li></ul><p id="5a45c454-1f1c-4bd2-af63-00962c9083cf" class="">
+</p><ul id="1af3253c-fd7c-48de-93bd-fff58125230c" class="toggle"><li><details open=""><summary>拡張for文とArrayList</summary><p id="c8511d65-5df4-4f63-a82a-7c8dfea48d38" class="">拡張for文では、どの位置を取り出したかを覚えており、removeメソッドなどで要素が繰り上がったりしてもその位置は変わらない。</p><pre id="e3bfc8b6-35b1-4cca-b8f1-4c6434009d34" class="code"><code>inport java.util.ArrayList;
+
+public class Main {
+	public static void main(String[] args) {
+		ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();
+		list.add(&quot;A&quot;);
+		list.add(&quot;B&quot;);
+		list.add(&quot;C&quot;);
+		for(String str: list){
+			if(&quot;B&quot;.equals(str)){
+				list.remove(str); // Bが削除されCが繰り上がる
+			}else{
+					System.out.println(str); // A
+			}
+		}
+	}
+}</code></pre></details></li></ul><p id="e80fd998-bf7a-4a5b-a9e3-f5fde882bc65" class="">
+</p><ul id="7b4aec09-e3f8-4d65-9a9c-2b0ea89f5cbf" class="toggle"><li><details open=""><summary>スレッドセーフでないArrayList</summary><p id="4b87ada1-35fd-4108-b408-53e8089355f4" class="">removeメソッドの実行後に読み出しを行うと、例外がスローされる。</p></details></li></ul><p id="2834b3e5-d472-4a7d-992e-516f82753eb5" class="">
+</p><ul id="61c0859a-5cf5-4a0c-ba17-ce1f993b0e86" class="toggle"><li><details open=""><summary><mark class="highlight-red">固定長リスト</mark></summary><p id="72a7244b-902a-44fc-adfb-ca6f72b0217b" class="">動的配列ではなく固定長配列としてリストを扱うには以下の方法がある。</p><ol type="1" id="cb26e35f-d325-4f80-b3ef-14463df5c726" class="numbered-list" start="1"><li><mark class="highlight-red">ArraysクラスのasListメソッドを使い、配列からリストのインスタンスを生成する</mark></li></ol><ol type="1" id="e12fd53f-b507-49fb-bf70-45c848e772c1" class="numbered-list" start="2"><li><mark class="highlight-red">Listインタフェースのofメソッドを使い、インスタンスを生成する</mark></li></ol><pre id="4524b1af-da07-41c9-8b1c-0281267cd547" class="code"><code>var list = List.of(1,2,3);
+var list = Arrays.asList(new Integer[] {1,2,2});</code></pre><p id="1146fc3b-3847-46bb-aa60-c171667457e7" class="block-color-red">これらの要素をclearメソッドなどを使用して削除したり、要素を追加することはできない。</p><p id="a6aacaa9-0fbe-4301-bbf4-043a27ca1843" class="">しようとすると<mark class="highlight-red">実行時エラー</mark>になる。</p><p id="3bc2e31b-84b5-46cb-962a-c6630ac07afa" class=""><mark class="highlight-red">特にofメソッドを使うコレクションは読み出し専用であると考えた方が良い。</mark></p><p id="7e6f0c1e-0f46-45ff-ae74-9e7d7f12dbfa" class=""><mark class="highlight-red">ただし！並び替えや値の更新などは実行可能である。</mark></p></details></li></ul><p id="3066336d-5fa1-497c-acb3-cab5cf28cfcb" class="">
+</p><ul id="5bfeb529-19d8-43f1-916d-53aafc39fed0" class="toggle"><li><details open=""><summary>java.util.Arraysのmismatchメソッド</summary><p id="f61c94bb-d8c4-4455-a451-5cd8ace32763" class="">mismatchメソッドは、引数で渡された２つの配列の要素を先頭から順番に比較し、一致しない要素の添字を返す。</p><pre id="313b608f-fb33-4a2c-8cd3-fc06c2fa6862" class="code"><code>// 例
+int[] a = {1,2,3};
+int[] b = {1,2,4};
+System.out.println(Arrays.mismatch(a,b)); // 3
+
+// 例２
+int[] a = {1,2,3};
+int[] b = {1};
+System.out.println(Arrays.mismatch(a,b)); // 1
+
+// 例３
+int[] a = {1,2,3};
+int[] b = {1,2,3};
+System.out.pirntln(Arrays.mismatch(a,b)); // -1</code></pre></details></li></ul><p id="47b99fa9-4aaf-403a-b0e2-130613d6d4eb" class="">
+</p><ul id="07187ad3-787b-499b-b6c7-7ddc3827bff5" class="toggle"><li><details open=""><summary>java.util.Arraysのcompareメソッド</summary><p id="e56ef2f9-a6e4-436a-a775-99c25acb66de" class="">java.util.Arraysのcompareメソッドは、<mark class="highlight-red">２つの配列を辞書順に並べたときの並び順を比較する。</mark></p><pre id="dd88f09e-fe94-44d6-850a-0c8a94dc3427" class="code"><code>// 例１
+String[] a = {&quot;apple&quot;};
+String[] b = {&quot;orange&quot;};
+System.out.println(Arrays.compare(a,b)); // -1
+
+// 例２
+String[] a = {&quot;B&quot;,&quot;A&quot;};
+String[] b = {&quot;A&quot;,&quot;B&quot;};
+System.out.pirntln(Arrays.compare(a,b)); // 1</code></pre></details></li></ul><p id="9db525be-879a-4bae-bd68-52fed7fae751" class="">
+</p><ul id="89d1ea54-cf34-4e4e-a0aa-620a6d2906ad" class="toggle"><li><details open=""><summary>removeIfメソッド</summary><p id="81b3fa75-425f-4c4a-972b-57f0bf47a3e1" class="">このメソッドは引数で渡されたラムダ式がtrueを返せば、コレクション内の要素を削除するように実装されている。</p><pre id="e2256fed-03aa-4dea-b54d-4396a1ee17cb" class="code"><code>import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+	public static void main(String[] args){
+		List&lt;String&gt; list = new ArrayList&lt;&gt;(
+				Arrays.asList(new String[]{&quot;A&quot;,&quot;B&quot;,&quot;C&quot;})
+		);
+		list.removeIf(
+			(String s) -&gt; {
+				return s.equals(&quot;B&quot;);
+			}
+		};
+		System.out.println(list);
+	}
+}</code></pre></details></li></ul><p id="4bc56e75-9dfb-419c-864a-df5da54bed44" class="">
+</p><ul id="5781cbc2-31bf-4465-b5f0-362b171fe2c6" class="toggle"><li><details open=""><summary>forEachメソッド</summary><p id="9d496aba-0646-4347-b6ee-b4e3fd0de8a8" class="">簡単な繰り返し処理の場合はforEachメソッドをを使用する。</p><p id="e1ecf88c-77ca-41dc-a047-bec2a2a31d26" class="">Listインタフェースのスーパーインタフェースであるjava.lang.Iterableインタフェースには、順番に要素を取り出して処理するforEachメソッドが定義されている。</p><p id="565941a1-6b9b-48b2-92f5-7de803175064" class=""><mark class="highlight-red">Consumer型の引数のみ受け取る。</mark></p></details></li></ul><p id="c965b878-8b7e-4c2e-abd4-22987175f0cd" class="">
+</p><ul id="b8d49011-bfbf-4463-85d2-1dfb992b74b2" class="toggle"><li><details open=""><summary>メソッド参照</summary><pre id="9c1b8fa3-875f-41d2-b2bf-13064acdff6e" class="code"><code>// クラスメソッドの参照
+クラス名::メソッド名
+
+// インスタンスメソッドの参照
+インスタンス名::メソッド名</code></pre></details></li></ul><p id="cbc519ca-68f3-4427-b5be-808099b6a61c" class="">
+</p><ul id="c27054bc-945f-4466-848d-5413b8651614" class="toggle"><li><details open=""><summary>Mapについて</summary><p id="44cd9fb1-0c20-4983-b7e4-9300530b6f91" class="">Mapはキーとバリューを組で管理するのが特徴である。</p><p id="7d551e43-94e9-4e7e-a925-cc4a8d2a17c4" class=""><mark class="highlight-red">バリューの重複は許容しますが、キーの重複は許容しない。</mark></p><p id="e6acac46-3f94-45da-a403-8ae1c27fc8e4" class=""><mark class="highlight-red">HashMapクラスでは、キーとバリューどちらもnullを許容する。</mark></p></details></li></ul><h1 id="a4aad990-cae1-4403-b490-e945221abe18" class="">例外処理</h1><ul id="ee497727-50df-4bef-b200-b71de0f55acb" class="toggle"><li><details open=""><summary>例外処理</summary><p id="3880685a-13dd-4d40-bef9-521da3269739" class="">例外が発生する可能性がある処理をtryブロックで括り、例が発生したときの処理をcatchブロックに記述する。</p><pre id="b0580f51-8f4c-4f9d-9500-c5aadc8aa415" class="code"><code>// 構文
+try {
+	// 例外が発生する可能性がある処理
+} catch (例外クラス型 変数) {
+	// 例外が発生したときの処理
+}</code></pre><p id="de1c9203-0bca-4016-966b-9e9e56be6cec" class="">例外が発生したら、tryブロック内の以降の処理はスキップされ、すぐに対応するcatchブロックに制御が移行する。</p><p id="1ca77a96-5593-4a5f-9141-f84123b946ef" class=""><mark class="highlight-red">キャッチされない例外はエラーメッセージとなって表示される。</mark></p></details></li></ul><p id="d4aca817-df07-451b-a10c-0e6bffb27c99" class="">
+</p><ul id="9b326942-8464-4509-98f0-c2a76a84f508" class="toggle"><li><details open=""><summary>try-catch-finally文</summary><p id="3c7d4808-c8b6-419e-aaf3-8063cb542dfd" class="">例外発生の有無にかかわらず必ず実行したい処理を記述するにはfinallyブロックを記述する。</p><p id="13eb9b04-fb56-428e-bbc1-2fb8fd59dcfa" class="">なおこの順番は変更できない上に、finallyブロックは複数記述できない。</p><p id="ffda64cd-2f33-4ca8-bff4-ea7c392f744b" class="">また、<mark class="highlight-red">catchブロックでreturn文が使用されても、finallyブロックは必ず実行される。</mark></p><p id="558be2fd-c3d4-43eb-ba09-a2308a47958e" class="">さらには、<mark class="highlight-red">catchブロックとfinallyブロックのどちらにもreturn文が記述されていた場合、finallyブロックのものが採用される。</mark></p><pre id="4196b7fa-2489-441e-b3c4-c5e2dcddba14" class="code"><code>// 構文
+try {
+	// 例外が発生する可能性がある処理
+} catch (例外クラス型 変数) {
+	// 例外が発生したときの処理
+} finally {
+	// 例外発生の有無にかかわらず実行したい処理
+}</code></pre><p id="215fce79-7a95-4849-a75e-ca6ad2f62690" class="">ちなみに、以下のような組み合わせが許可されている。</p><ol type="1" id="aba91fcb-e2f3-4723-a126-e1a41e7b234f" class="numbered-list" start="1"><li>try-catch-finally</li></ol><ol type="1" id="18c74f4f-a288-4c22-9d02-1747424bf843" class="numbered-list" start="2"><li>try-catch</li></ol><ol type="1" id="eb3a846d-3280-473c-ac29-a7105791487b" class="numbered-list" start="3"><li><mark class="highlight-red">try-finally</mark></li></ol></details></li></ul><p id="57f3c2ff-ec86-43e2-8ace-bad1f1251bad" class="">
+</p><ul id="514e866b-68c0-4b10-9181-132cdaa8338c" class="toggle"><li><details open=""><summary>例外クラスの型</summary><p id="f348ac8b-bbc0-47a9-8d1b-58095a50e68c" class="">例外クラスのインスタンスも、他のクラスと同様にポリモーフィズムを使うことが可能。</p><p id="a3a2212e-e3d3-425b-9e9b-33324a7ca998" class="">よって以下のような到達不可能なコードを記述するとコンパイルエラーが発生する。</p><pre id="d6163339-f971-457a-9eb6-267bec8ba6fa" class="code"><code>public class SampleException extecds Exception {}
+
+public class SubSampleException extends SampleException {}
+
+public class Main {
+	public static void main(String[] args) {
+		try {
+			sample();
+			sub();
+		} catch (SampleException e) { // SubSampleExceptionもここでキャッチされる
+			System.out.println(&quot;A&quot;);
+		} chach (SubSampleException e) { // ここには到達不可能（コンパイルエラー）
+			System.out.println(&quot;B&quot;);
+		}
+	}
+
+	private static void sample() throws SampleException {
+		throw new SampleException();
+	}
+
+	private static void sub() throws SubSampleException {
+		throw new SubSampleException();
+	}
+}</code></pre></details></li></ul><p id="b8aa7ee8-2d8a-4e4c-8825-0007aed6696d" class="">
+</p><ul id="b78a2cc8-e65a-4ee1-a95f-524dba8f726b" class="toggle"><li><details open=""><summary><mark class="highlight-red">try-catch-resources文</mark></summary><p id="0af1a638-812f-4a88-bbad-c14c03ef2d28" class=""><mark class="highlight-red">tryブロック内で宣言したリソースは、tryブロックから制御が遷移する際に自動的にクローズで解放される。</mark>例外が発生した場合は以下の順で処理される。</p><ol type="1" id="4c85c77c-e2e4-4288-a09a-6b7b4f57dfc1" class="numbered-list" start="1"><li><mark class="highlight-red">リソースの解放（closeメソッドを呼び出す）</mark></li></ol><ol type="1" id="24271ca0-eac8-4d92-b913-0b516cd8513c" class="numbered-list" start="2"><li>catchブロックの処理</li></ol><ol type="1" id="aadd4cac-a4f6-4726-b34e-afe758edf5fe" class="numbered-list" start="3"><li>finallyブロックの処理</li></ol><p id="b401914c-6f83-4de0-920b-0d5c796783aa" class=""><mark class="highlight-red">また、tryブロックで宣言した変数の有効範囲はtryブロック内だけである。</mark></p></details></li></ul><p id="d207ef16-531f-4533-9069-1d10017effcb" class="">
+</p><ul id="6327dc33-ac4e-44f6-b6c9-31f5f1d42c40" class="toggle"><li><details open=""><summary>エラーと例外の違い</summary><p id="2001135f-8ec5-452f-9646-0722d7cee97b" class="">エラーはプログラムでは対処のしようがない事態。実行環境のトラブルなど。<mark class="highlight-red">メモリ不足など。</mark></p><p id="0813607d-6ba1-427b-816b-076606f9bae2" class="">例外はプログラムが対処できる事態。例外はさらに検査例外と非検査例外に分かれる。</p><p id="ad8d016f-cac1-428c-8d00-81612825d875" class="">検査例外はtry-catch文を書くことを強制されるが、非検査例外が強制されない。</p></details></li></ul><p id="80335650-a814-45d0-996a-26c99ef14f59" class="">
+</p><ul id="2e6d5bb7-c53c-47e2-9e99-be54950a41fb" class="toggle"><li><details open=""><summary>エラーの特徴</summary><ol type="1" id="adea1f4d-0b83-4665-9879-cc9a673969d7" class="numbered-list" start="1"><li>必ずErrorクラスを継承している</li></ol><ol type="1" id="3f8f16a9-d894-4f36-a9c4-4d86288f65f5" class="numbered-list" start="2"><li>throws句に記述する必要は無い</li></ol><ol type="1" id="dc82fd56-e17d-4816-92a5-e48e84a5caa0" class="numbered-list" start="3"><li><mark class="highlight-red">エラーは例外処理を書くことができる</mark></li></ol><pre id="e1cad3f8-e210-47ec-be35-a286c4711086" class="code"><code>// エラーのキャッチと例外処理
+public class Main {
+	public static void main(String[] args){
+		try {
+			sample();
+		} catch (StackOverFlowError e){
+			// 何らかの例外処理
+		}
+		System.out.println(&quot;finish&quot;);
+	}
+	private static void sample(){
+		sample();
+	}
+}</code></pre><p id="52d18e02-75cd-48a2-a7b5-db816e2b0c4f" class="">また、<mark class="highlight-red">上記のような再帰呼び出しを無限に行うとスタック領域が足りなくなり、StackOverFlowErrorが起る。</mark></p></details></li></ul><p id="3d0e64be-57bb-4b48-ac87-056d078c57bf" class="">
+</p><ul id="23261a9a-ff87-4be5-b03f-1cf5159b433c" class="toggle"><li><details open=""><summary>例外の種類</summary><table id="39c15a25-1771-44f5-87c5-385b60a18998" class="simple-table"><thead class="simple-table-header"><tr id="86550921-d2ef-467e-b12f-4e58843d9125"><th id="H{gi" class="simple-table-header-color simple-table-header" style="width:253px">例外</th><th id="=&lt;^L" class="simple-table-header-color simple-table-header" style="width:570px">意味</th></tr></thead><tbody><tr id="8c03a990-80df-4258-a60b-b58ee9a88031"><th id="H{gi" class="simple-table-header-color simple-table-header" style="width:253px">IndexOutOfBoundsException</th><td id="=&lt;^L" class="" style="width:570px">配列やコレクションの存在しない要素を取り出そうとしている</td></tr><tr id="1c908f93-2454-46db-bc1a-d2430aa264e9"><th id="H{gi" class="simple-table-header-color simple-table-header" style="width:253px">ArrayIndexOutOfBounsException</th><td id="=&lt;^L" class="" style="width:570px">配列の要素外アクセス</td></tr><tr id="134cc411-0c9e-4eaf-89ba-e44afcfd9258"><th id="H{gi" class="simple-table-header-color simple-table-header" style="width:253px">StringIndexOutOfBoundsException</th><td id="=&lt;^L" class="" style="width:570px">文字列の範囲外アクセス</td></tr></tbody></table></details></li></ul><p id="7e8b7bfd-0e5e-43c5-b3e5-5e126a7d075b" class="">
+</p><ul id="9c067c64-24d7-42e6-84cd-12d681b0de92" class="toggle"><li><details open=""><summary><mark class="highlight-red">throws句を使用しているオーバーライドする際のルール</mark></summary><ol type="1" id="6f80460a-7529-483a-929f-b0c9b9fcfcd3" class="numbered-list" start="1"><li>サブクラスのメソッドがスローする例外は、スーパークラスのメソッドがスローする例外と同じか、その例外のサブクラスである必要がある（サブクラスで自由に追加できる訳ではない）</li></ol><ol type="1" id="595d6580-d65e-4c37-ab1c-fc32c63d25fa" class="numbered-list" start="2"><li>RuntimeExceptionクラスおよびRuntimeExceptionクラスとそのサブクラスの例外は、スーパークラスのメソッドがスローする例外に関係なくサブクラスでスローできる</li></ol><ol type="1" id="f6fb7106-ad73-4bd8-83f4-628734df1333" class="numbered-list" start="3"><li>スーパークラスのメソッドにthrows句があっても、サブクラス側でthrows句を必ずしも記述しなくてよい</li></ol></details></li></ul><p id="d64e4c8e-8baa-4e77-9739-4f31c8710ba9" class="">
+</p><ul id="29101266-ab6f-4be6-ac5c-d22ddd5cf987" class="toggle"><li><details open=""><summary>throws句とunchecked例外について</summary><p id="8d4841a9-1ecd-4cfc-a14e-0b2bb054b37b" class="">unchecked例外はthrows句を使わずとも転送が行われる。</p><p id="17f64217-2328-40e9-bb86-c2cd8112fc60" class="">また、throws句に記述されているからといって、転送先で例外処理をしなければならないというわけではない。</p></details></li></ul><p id="bcbeba2b-6bc7-4eda-b3da-d473c677f515" class="">
+</p><ul id="18e46b15-97e6-4783-9ac3-2030ac3b0ca7" class="toggle"><li><details open=""><summary>マルチキャッチ(Java SE 7からの新機能)</summary><p id="4e88b654-5617-4aaf-91d7-298830f8bb38" class="">複数の例外をまとめてキャッチする記述。具体的にはいかのコードのようにするが、<mark class="highlight-red">継承関係があるクラスを列挙することはできない。</mark></p><pre id="31e12b06-745d-4218-931b-ed3f45af4d74" class="code"><code>try{
+	System.out.println(10/0);
+	FileReader rf = new FileReader(&quot;a.txt&quot;);
+}catch(FileNotFoundException|ArithmeticException e){
+	System.out.println(e.getMessage());
+}</code></pre></details></li></ul><h1 id="d97c0d80-bfa4-45d0-b401-ace0d9ba654c" class="">モジュールシステム</h1><ul id="e9edba30-b607-404c-9240-cc39cd7c1193" class="toggle"><li><details open=""><summary>モジュールとは</summary><p id="00cf1885-8f3b-4e88-9698-d81a0e9f347c" class="">複数のパッケージを１つにまとめ、公開するパッケージと非公開にするパッケージを分けて管理する機能。</p><p id="3beb082c-15e7-4a76-ad9c-056df693f93f" class="">パッケージ単位の情報隠蔽が可能。</p><p id="de4ccb20-73d7-49d6-9c3e-7d1009505656" class="">モジュールを作成するには。</p><ol type="1" id="4b45466b-04d6-423e-963a-01e07e703ee5" class="numbered-list" start="1"><li>モジュール用のディレクトリを作成</li></ol><ol type="1" id="3ea0f1a4-70fa-4703-9018-d78332eae762" class="numbered-list" start="2"><li>そのディレクトリに<mark class="highlight-red">module-info.java</mark>ファイルを作成</li></ol><ol type="1" id="966cc3d7-bd52-4d29-b9e5-dfe8bddf858b" class="numbered-list" start="3"><li>その他のファイルと共にコンパイル</li></ol><p id="24fa2c5b-dcac-41ec-857c-d2adfcc984ce" class="">
+</p><p id="f7791b68-6cd5-4a44-bff8-a27ab9a2a1a1" class="">モジュールシステムにより、主に以下の恩恵を受けることができる。</p><ol type="1" id="5157ea97-06b5-48a9-be9e-0255f2b8ed99" class="numbered-list" start="1"><li>パッケージ単位での情報隠蔽</li></ol><ol type="1" id="fd00f875-0566-4fa2-84c6-fb5560a5bd5d" class="numbered-list" start="2"><li>アプリケーションモジュールとJDKのモジュールのリンクが容易になる</li></ol></details></li></ul><p id="cbd4eeeb-0fd9-4490-81ed-3ae4696d138b" class="">
+</p><ul id="b8955dde-6093-4d6e-b003-7d3a27b3644c" class="toggle"><li><details open=""><summary>module-info.javaファイルとは</summary><p id="cc175657-e775-43d7-b0ed-79addd9f11ee" class="">該当するモジュールがどのようなモジュールなのかを設定する。記述するのは以下の2点。</p><ol type="1" id="7459316d-d083-4870-a473-037872987021" class="numbered-list" start="1"><li>どのパッケージを公開するのか</li></ol><ol type="1" id="39be188c-0c2e-49ac-b175-82a69ed30bad" class="numbered-list" start="2"><li>他のどのモジュールを使用するのか</li></ol><pre id="12a8b3c8-7bcd-4b56-806a-a4a0820bd008" class="code"><code>ファイル階層
+1  src // ソースファイルのディレクトリ
+2   hello // モジュールのルートディレクトリ（この階層に作成）
+3    com // パッケージのルートディレクトリ
+4     sample 
+5      Main.java
+
+// module-info.javaファイル
+module hello {
+	exports com.test; // 公開するパッケージ名はexportsを記載
+	requires com.test; // 利用するモジュール名はrequiresを記載
+}</code></pre><p id="df1db860-ff6d-450e-be88-5929a1db0448" class="">コンパイルする際はjavacコマンドの-dオプションを使用する。</p><pre id="2b78992a-fda0-4d73-bcac-44095d90fdac" class="code"><code>favac -d クラスファイルの出力先ディレクトリ コンパイルするファイルのパス
+
+// 例
+&gt;javac -d mods/hello src/hello/module-info.java src/hello/com/sample/Main.java</code></pre></details></li></ul><p id="7df2f818-8a02-452b-81fe-6e35256ceeca" class="">
+</p><ul id="0d7b1778-4202-4fe0-a2ca-01ccbfc76b64" class="toggle"><li><details open=""><summary><mark class="highlight-red">モジュールの実行</mark></summary><p id="3d8479c5-8201-490e-af58-4e953a9006c4" class=""><mark class="highlight-red">コンパイル後にjavaコマンドでモジュールのクラスを実行するためには、javaコマンドの--module-pathオプションでモジュールを探すためのモジュールパスを指定し、-mオプションで実行したいモジュールのクラスを指定する。</mark></p><pre id="b62cc566-a26c-4ad5-a677-073bc4008bbc" class="code"><code>// 構文
+&gt;java --module-path モジュールのルートディレクトリ -m 実行したいモジュールのクラス</code></pre></details></li></ul><p id="a6f7bfd7-5746-4291-aa52-aac7b1eab0db" class="">
+</p><ul id="6a32e239-ab68-4c5c-9bb9-49473a3e1be9" class="toggle"><li><details open=""><summary>モジュールを1つにまとめる</summary><p id="1881d45b-9d47-4f35-abf5-caffaf73b9d3" class="">jarコマンドでモジュールを1つにまとめることができる。</p><pre id="c0262450-1537-4971-b464-50d9f77802ed" class="code"><code>// 構文
+&gt;jar --create --file=jarファイル名 --main-class=エントリーポイントを持つクラス -C jarファイルに含めるファイルがあるディレクトリ</code></pre></details></li></ul><p id="3657ccde-3cf2-4015-a64a-b11bd3daac73" class="">
+</p><ul id="fd5c8965-18bf-49d6-a788-18bb4882bdb5" class="toggle"><li><details open=""><summary>モジュールグラフ</summary><p id="b882d613-e80f-4182-833e-8f0fa7c6ba87" class="">モジュール間の依存関係を実現した図のこと。</p></details></li></ul><p id="04a99a5f-e4a9-4064-a2e3-d321eb0333de" class="">
+</p><ul id="069da4f1-dd64-4c16-99af-80b9248e17f8" class="toggle"><li><details open=""><summary>推移的な依存関係</summary><p id="c4f7364e-74ab-4189-a663-0b453006071d" class="">例えば、module1はmodule2に依存し、module2はmodule3に依存しているとすると、以下のように指定する。</p><pre id="78af97ee-7997-4a76-9f82-b84ba251ce82" class="code"><code>// module1のmodule-info.java
+module module1 {
+	requires module2;
+}
+
+// module2のmodule-info.java
+module module2 {
+	requires module3;
+}</code></pre><p id="53d14604-02d7-4646-ad15-ef5e441ac195" class="">このような指定をすると、module1はmodule3に属するクラスを使用することができない。</p><p id="3267988d-bfeb-46af-9763-5d56f167a672" class="">これを可能にするには以下のようにする。</p><pre id="cd940c88-20ca-4b91-acac-bfb3bd69d6ce" class="code"><code>// module2のmodule-info.java
+module module2 {
+	requires transitive module3;
+}</code></pre><p id="130e620e-1b9f-44c0-bd14-439e0a10a649" class="">こうすることで、module2を利用するmodule1はmolude3も利用することができる。なおこのような関係を推移的な依存関係と呼ぶ。</p></details></li></ul><p id="6a65ac94-7217-41c1-8189-42512fd4284e" class="">
+</p><ul id="e9fc2301-e88b-42c5-950f-58a35b563b40" class="toggle"><li><details open=""><summary>プラットフォームモジュール</summary><p id="aa7723c2-2a99-4849-9f8c-32bb96542d77" class="">標準クラスライブラリなどもモジュールとして提供されており、これらのことをプラットフォームモジュールと呼ぶ。</p><p id="0e3c42ed-c8c2-46f3-ae25-8248dddf8221" class="">java.lang、java.util、java.ioなどもまとめたものがjava.baseモジュールである。</p><p id="9eb8f7cb-6a6c-4360-95ea-dccf8094a41b" class="">java.baseモジュールは明示的にrequiresで宣言しなくても自動的に読み込まれる。</p></details></li></ul><p id="4e5afed2-a23b-4dfe-9d4f-93df9f48ddaf" class="">
+</p><ul id="49706c6a-7cc7-4111-8ffd-3e550850e939" class="toggle"><li><details open=""><summary>モジュールの情報を確認する方法</summary><p id="fc97f091-002d-4175-8a58-aa580dc2e439" class="">モジュールがどのようなパッケージを公開しているか、またどのようなパッケージに依存しているか、module-info.java以外で確認するには以下のような方法がある。</p><ol type="1" id="c29d85e6-9c35-4c38-8095-69119aadddf4" class="numbered-list" start="1"><li>javaコマンドの--describe-moduleオプションを使う</li></ol><ol type="1" id="cd15692d-0166-4e4d-871a-39df024d7865" class="numbered-list" start="2"><li>jmodコマンドのdescribeモードを使う</li></ol><pre id="566ed85d-d076-4d4e-bad7-b127d030858e" class="code"><code>// javaコマンドの--describe-moduleオプション
+&gt;java --module-path mods --describle-module foo
+foo file:///Users/shiga/Desktop/java/mods/foo/
+exports com.test
+requires java.base mandated
+
+// jmodコマンド
+&gt;jmod create --class-path mods/foo foo.jmod
+&gt;jmod describe foo.jmod
+foo
+exports com.test
+requires java.base mandated </code></pre><p id="3e8153a3-2e1d-492d-917b-9743700434c4" class="">そのほかにも以下のようなコマンドがある</p><pre id="b929e265-84be-40a5-a5c9-f3c354505f29" class="code"><code>// jdepsコマンド
+&gt;jdeps --list-deps hello.jar
+java.base
+// クラスやメソッド、jarファイル、モジュールの依存関係のみを調べることができる。</code></pre></details></li></ul><p id="a89a1aaa-3a04-420a-9628-84ec050713b9" class="">
+</p><ul id="a52dc3b9-d6a7-449f-a6b1-90c6513e36c1" class="toggle"><li><details open=""><summary>クラスやモジュールの依存関係を確認する方法</summary><p id="b912d0b2-83c0-46d4-af71-e7a8761b6537" class=""><mark class="highlight-red">クラスの依存関係を調べるにはjdepsコマンドを使用する。</mark></p><p id="71028bff-4d70-4a5b-9140-bfb85b4a7d4f" class="">モジュールの依存関係を調べるには</p><p id="34d026b2-bf30-4678-be65-7b7c5babbacf" class=""><mark class="highlight-red">javaコマンドの--show-module-resolutionオプションを使用する。</mark></p></details></li></ul><p id="8b24f7bd-a9e4-48d1-b412-9b0d947dc3a2" class="">
+</p><ul id="f859be38-bfe1-4305-b68d-9d8117c5aae2" class="toggle"><li><details open=""><summary>非公開パッケージの一時利用</summary><p id="5463c7f7-be0b-4266-bbe8-76423fcfdd98" class="">公開されていないパッケージを一時的に公開することができるコマンドがある。</p><p id="35484294-e387-4fd7-ab96-fb235e39deb5" class="">それは--add-exportsオプションである。<mark class="highlight-red">(ただし推奨されない)</mark></p><pre id="42fdf1de-ebfd-4f99-bc1c-623a07cbc336" class="code"><code>&gt;java -d mods/hello --module-path mods/ \
+&gt;--add-exports foo/com.test=hello \
+&gt;sec/hello/module-info.java src/hello/com/sample/Main.java</code></pre></details></li></ul><p id="61a10f55-bd79-4fd0-a560-1b5de07ca0c3" class="">
+</p><ul id="5d417934-da57-4b7e-8957-cdbd04e8544e" class="toggle"><li><details open=""><summary>javacコマンドについて</summary><p id="55c8324d-d8fb-4c73-9dbd-b410965a0b53" class="">javacコマンドでは、-dオプションを使って出力先を指定しない限り、ソースファイルと同じ場所にクラスファイルが出力される。</p><p id="971b5a60-d25d-4754-9b48-88edc04eb1a6" class=""><mark class="highlight-red">また、カレントディレクトリ以外のクラスファイルを実行するときは、-cpオプションを追加して、クラスパスを指定する。</mark></p><pre id="6766a6ff-320f-4a85-9199-7971ef66bef0" class="code"><code>// 例えば
+javac -d classes src¥com¥se¥Main.java
+java -cp classes com.se.Main</code></pre></details></li></ul><p id="50415790-2006-4341-93f3-69ee6c9c3bdb" class="">
+</p><ul id="0ca22cb2-10d8-4c77-a082-ccc5d29a8ee5" class="toggle"><li><details open=""><summary>無名モジュールについて</summary><p id="3a01f068-8298-4934-86ee-97df93d969b8" class="">Java9以前に作られたライブラリにはモジュール宣言が無く、それらは無名モジュールとして扱われる。</p><p id="84e78ffe-5820-4212-9dda-59854592208d" class="">無名モジュールには以下の特徴がある。</p><ul id="3576e899-20d4-4994-9d77-2425412d4040" class="bulleted-list"><li style="list-style-type:disc">モジュール定義(module-info.class）を持たない</li></ul><ul id="a0a02aed-1230-49cd-bbde-92dad9808489" class="bulleted-list"><li style="list-style-type:disc">全てのパッケージが公開される</li></ul><ul id="ccb91e5b-a64d-46d7-abbb-202f57fc9e12" class="bulleted-list"><li style="list-style-type:disc">モジュールグラフ内の全てのモジュールに依存する</li></ul></details></li></ul><p id="a8ecd6fa-ba44-48a4-be2c-82250e5fc57a" class="">
+</p><p id="6c89989d-75f6-4bf1-8c22-9a86b8e9b79e" class="">
+</p><p id="1b0b465d-bafc-46cf-87f9-fc8bbc125013" class="">
+</p><p id="0b415cbd-47c1-493d-bad9-fdc6c14758a9" class="">
+</p><p id="c97642cd-9fb4-4d50-aa14-d95477c0f49a" class="">
+</p></div></article></body></html>
